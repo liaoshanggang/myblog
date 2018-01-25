@@ -13,14 +13,16 @@ application.setAttribute("rootpath",basePath);
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <base href="${rootpath}">
 <link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="css/font-awesome/css/font-awesome.css" rel="stylesheet">
+<link href="font-awesome/css/font-awesome.css" rel="stylesheet">
 
 <link href="css/animate.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
 <title>登录</title>
 </head>
 <body style="background:#f3f3f4">
-<h1>路径：${rootpath }</h1>
+<h1>路径：${rootpath }</h1> 
+<h1><a href="empty_page.jsp">后台管理主页</a></h1>	
+<h1><a href="index.jsp">前台展示主页</a></h1>
 <div class="middle-box text-center loginscreen animated fadeInDown">
         <div>
             <div>
