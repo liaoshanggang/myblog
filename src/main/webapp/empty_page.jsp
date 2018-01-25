@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <base href="${rootpath}">
 
-<title>空白页</title>
+<title>后台主页</title>
 
 <%@include file="../../css-common.jsp"%>
 <%@include file="../../js-common.jsp"%>
@@ -54,7 +54,7 @@
 				</div>
 			</div>
 			<!-- ===================主要内容结束=================== -->
-			
+
 			<!-- 底部 -->
 			<%@include file="bottom.html"%>
 		</div>
