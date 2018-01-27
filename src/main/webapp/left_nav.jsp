@@ -30,15 +30,31 @@
 
 			<!-- 左下导航栏开始 -->
 			<!-- 一个列表项开始 -->
-			<li><a href="index.html"><i class="fa fa-th-large"></i> <span
-					class="nav-label">我的博客</span> <span class="fa arrow"></span></a>
-				<ul class="nav nav-second-level collapse">
-					<li><a href="index.html">博客列表</a></li>
-					<li><a href="dashboard_5.html">最新博客 <span
-							class="label label-primary pull-right">NEW</span></a></li>
-				</ul></li>
-			<!-- 一个列表项结束 -->
+			<li class="active"><a href="views/manage_article.jsp"><i
+					class="fa fa-diamond"></i> <span class="nav-label"><font
+						style="vertical-align: inherit;"><font
+							style="vertical-align: inherit;">文章管理</font></font></span></a></li>
 
+			<!-- 一个列表项结束 -->
+			<li class=""><a href="views/manage_category.jsp"><i
+					class="fa fa-diamond"></i> <span class="nav-label"><font
+						style="vertical-align: inherit;"><font
+							style="vertical-align: inherit;">类别管理</font></font></span></a></li>
+			<li class=""><a href="views/manage_comment.jsp"><i
+					class="fa fa-diamond"></i> <span class="nav-label"><font
+						style="vertical-align: inherit;"><font
+							style="vertical-align: inherit;">评论管理</font></font></span></a></li>
+			<li class=""><a href="views/manage_file.jsp"><i
+					class="fa fa-diamond"></i> <span class="nav-label"><font
+						style="vertical-align: inherit;"><font
+							style="vertical-align: inherit;">文件管理</font></font></span></a></li>
+
+			<li><a href="index.html"><i class="fa fa-th-large"></i> <span
+					class="nav-label">用户管理</span> <span class="fa arrow"></span></a>
+				<ul class="nav nav-second-level">
+					<li class="active"><a href="views/edit_profile.jsp">修改个人资料</a></li>
+					<li class="active"><a href="views/manage_users.jsp">批量操作用户</a></li>
+				</ul></li>
 			<!-- 左下导航栏结束 -->
 		</ul>
 
