@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!-- 头部开始 -->
@@ -85,11 +86,12 @@
 					</li>
 				</ul></li>
 
-
+			<li><a href="views/edit_article.jsp"><i class="fa fa-edit"></i><font
+					style="vertical-align: inherit;"><font
+						style="vertical-align: inherit;">Go!写博客</font></font></a></li>
 			<li><a href="login.html"> <i class="fa fa-sign-out"></i> 登出
 			</a></li>
 		</ul>
-
 	</nav>
 </div>
 <!-- 头部结束 -->
