@@ -9,8 +9,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <base href="${rootpath}">
 
-<title>后台管理主页</title>
-
 <%@include file="../../css-common.jsp"%>
 <link href="css/plugins/summernote/summernote.css" rel="stylesheet">
 <link href="css/plugins/summernote/summernote-bs3.css" rel="stylesheet">
@@ -20,8 +18,41 @@
 
 <!-- Sweet Alert -->
 <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+	<%@include file="../../js-common.jsp"%>
+<title>后台管理主页</title>
 </head>
+<script type="text/javascript">
+$(function() {
+	var markupStr = 'hello world';
+	$('.summernote').summernote('code', markupStr); 
 
+	$.get("article/loadCategory", function(data) {
+		var select = $("#category");
+		/* console.info(data); */
+		var opt = $("<option></option>").attr("value", "").html("--请选择类别--");
+		select.append(opt);
+		$.each(data, function(i, item) {
+			console.info(item.catgId+"=="+item.catgName);
+			var option = $("<option></option>").attr("value", item.catgId)
+					.html(item.catgName);
+			select.append(option);
+		});
+	}, "json");
+	/* $('.summernote').each(function() {
+        var $this = $(this);
+        var placeholder = $this.attr("placeholder") || '';
+        $this.summernote({
+            lang : 'zh-CN',
+            placeholder : placeholder,
+            tabsize : 2,
+			height : 300, // set editor height
+			minHeight : null, // set minimum height of editor
+			maxHeight : null, // set maximum height of editor
+        });	 */	
+})
+
+
+</script>
 <body class="">
 
 	<div id="wrapper">
@@ -61,17 +92,20 @@
 							<div class="panel-body">
 								<!-- pre-scrollable -->
 								<div class="col-lg-2 ">
-									<select class="form-control" id="catagory" name="techCateId">
-										<option selected="selected">请选择类别</option>
+									<select class="form-control" id="category" name="catgId">
+										<!-- <option selected="selected">请选择类别</option> -->
 									</select>
 								</div>
 								<div class="col-lg-10 ">
-									<input type="text" class="form-control" placeholder="请输入文章标题">
+								<%-- <c:forEach var="category" items="${artiCategory }" varStatus="status">
+								
+								${category.catgId }
+								</c:forEach> --%>
+										<%-- <input type="text" name="catgId" value="${catgId }"/> --%>
+									<input id="artiTitle" type="text" class="form-control" placeholder="请输入文章标题" name="artiTitle">
 								</div>
-								<div class="col-lg-12" style="border-color: black;border-width: 10px;">
-									<div class="summernote">
-										<h1>文章内容</h1>
-									</div>
+								<div class="col-lg-12">
+									<div class="summernote"></div>
 								</div>
 
 								<div class="col-lg-8 ">
@@ -107,7 +141,7 @@
 	</div>
 
 
-	<%@include file="../../js-common.jsp"%>
+
 	<!-- SUMMERNOTE -->
 	<script src="js/plugins/summernote/summernote.min.js"></script>
 	<!-- Toastr script -->
@@ -118,23 +152,25 @@
 		$(document).ready(function() {
 
 			$('.summernote').summernote({
-				placeholder : '请输入文章内容',
+				placeholder:"请对项目进行详细的描述，使更多的人了解你的",
 				tabsize : 2,
 				height : 300, // set editor height
 				minHeight : null, // set minimum height of editor
 				maxHeight : null, // set maximum height of editor
+				focus: true 
 			});
+			/* $('.summernote').summernote('focus');
+			// @param {String} color
+			$('.summernote').summernote('backColor', 'red');
 
+			// @param {String} color
+			$('.summernote').summernote('foreColor', 'blue'); */
+			var markupStr1 = $('.summernote').summernote('code');
+			console.info(markupStr1+"222222222222");
+/* 			$('.summernote').summernote('editor.insertText', 'hello world'); */
+			var markupStr = 'hello world';
+			$('.summernote').summernote('code', markupStr); 
 		});
-		var edit = function() {
-			$('.click2edit').summernote({
-				focus : true
-			});
-		};
-		var save = function() {
-			var aHTML = $('.click2edit').code(); //save HTML If you need(aHTML: array).
-			$('.click2edit').destroy();
-		};
 
 		$(function() {
 			var getMessage = function() {
@@ -178,7 +214,33 @@
 		})
 
 		$('.publishBlog').click(function() {
-			swal({
+			var sHTML = $('.summernote').code();
+			var category = $("#category option:selected").val();
+			var title = $("#artiTitle").val();
+			console.info(sHTML+"00000000"+category+""+title);
+			var json = {artiContent:sHTML,artiCatgId:category,artiTitle:title};
+            //alert($("#category option:selected").val());//方法一：获取select标签选中的option中的value的值。  
+            //alert($("#category").find("option:selected").val());//方法二：获取select标签选中的option中的value的值。 
+            $.ajax({
+				url: "article/save",
+				type: "post",
+				data: json,
+				success: function(result) {
+					console.info(result);
+					/* // if (status == "success") {
+					alert("单选题加入试卷成功");
+					//alert("单选题加入试卷成功");
+					//}
+					location = location; */
+
+				},
+				error: function() {
+
+				}
+			}); 
+            
+            
+            swal({
 				title : "发表成功",
 				text : "",
 				type : "success",

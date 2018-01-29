@@ -1,25 +1,34 @@
 package com.blog.vo;
 
-import java.math.BigDecimal;
-
 public class ArtiCategory {
-    private BigDecimal catgId;
+	private Integer catgId;
 
-    private String catgName;
+	private String catgName;
 
-    public BigDecimal getCatgId() {
-        return catgId;
-    }
+	public Integer getCatgId() {
+		return catgId;
+	}
 
-    public void setCatgId(BigDecimal catgId) {
-        this.catgId = catgId;
-    }
+	public void setCatgId(Integer catgId) {
+		this.catgId = catgId;
+	}
 
-    public String getCatgName() {
-        return catgName;
-    }
+	public String getCatgName() {
+		return catgName;
+	}
 
-    public void setCatgName(String catgName) {
-        this.catgName = catgName == null ? null : catgName.trim();
-    }
+	public void setCatgName(String catgName) {
+		this.catgName = catgName == null ? null : catgName.trim();
+	}
+
+	public ArtiCategory() {
+		super();
+	}
+
+	public ArtiCategory(Integer catgId, String catgName) {
+		super();
+		this.catgId = catgId;
+		this.catgName = catgName;
+	}
+
 }

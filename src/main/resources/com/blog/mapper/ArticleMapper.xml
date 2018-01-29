@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blog.mapper.ArticleMapper">
-  
+	<!-- <resultMap id="BaseResultMap" type="com.blog.vo.Article">
+		<id column="ARTI_ID" jdbcType="Integer" property="artiId" />
+		<result column="ARTI_TITLE" jdbcType="VARCHAR" property="artiTitle" />
+		<result column="ARTI_CATG_ID" jdbcType="Integer" property="artiCatgId" />
+		<result column="ARTI_USER_ID" jdbcType="Integer" property="artiUserId" />
+		<result column="ARTI_TIME" jdbcType="DATE" property="artiTime" />
+		<result column="ARTI_COMT_NUMBER" jdbcType="Integer" property="artiComtNumber" />
+		<result column="ARTI_PAGE_VIEW" jdbcType="Integer" property="artiPageView" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="com.blog.vo.Article">
+		<result column="ARTI_CONTENT" jdbcType="CLOB" property="artiContent" />
+	</resultMap>
+ -->
+	<insert id="addArticle" parameterType="article">
+		insert into ARTICLE (ARTI_ID, ARTI_TITLE, ARTI_CATG_ID,
+		ARTI_USER_ID, ARTI_TIME, ARTI_COMT_NUMBER,
+		ARTI_PAGE_VIEW, ARTI_CONTENT)
+		values (article_seq.nextval, #{artiTitle,jdbcType=VARCHAR},
+		#{artiCatgId,jdbcType=INTEGER},
+		#{artiUserId,jdbcType=INTEGER}, sysdate, #{artiComtNumber,jdbcType=INTEGER},
+		#{artiPageView,jdbcType=INTEGER}, #{artiContent,jdbcType=CLOB})
+	</insert>
+
 </mapper>

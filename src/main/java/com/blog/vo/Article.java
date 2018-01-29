@@ -1,30 +1,29 @@
 package com.blog.vo;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class Article {
-    private BigDecimal artiId;
+    private Integer artiId;
 
     private String artiTitle;
 
-    private BigDecimal artiCatgId;
+    private Integer artiCatgId;
 
-    private BigDecimal artiUserId;
+    private Integer artiUserId;
 
     private Date artiTime;
 
-    private BigDecimal artiComtNumber;
+    private Integer artiComtNumber;
 
-    private BigDecimal artiPageView;
+    private Integer artiPageView;
 
     private String artiContent;
 
-    public BigDecimal getArtiId() {
+    public Integer getArtiId() {
         return artiId;
     }
 
-    public void setArtiId(BigDecimal artiId) {
+    public void setArtiId(Integer artiId) {
         this.artiId = artiId;
     }
 
@@ -36,19 +35,19 @@ public class Article {
         this.artiTitle = artiTitle == null ? null : artiTitle.trim();
     }
 
-    public BigDecimal getArtiCatgId() {
+    public Integer getArtiCatgId() {
         return artiCatgId;
     }
 
-    public void setArtiCatgId(BigDecimal artiCatgId) {
+    public void setArtiCatgId(Integer artiCatgId) {
         this.artiCatgId = artiCatgId;
     }
 
-    public BigDecimal getArtiUserId() {
+    public Integer getArtiUserId() {
         return artiUserId;
     }
 
-    public void setArtiUserId(BigDecimal artiUserId) {
+    public void setArtiUserId(Integer artiUserId) {
         this.artiUserId = artiUserId;
     }
 
@@ -60,19 +59,19 @@ public class Article {
         this.artiTime = artiTime;
     }
 
-    public BigDecimal getArtiComtNumber() {
+    public Integer getArtiComtNumber() {
         return artiComtNumber;
     }
 
-    public void setArtiComtNumber(BigDecimal artiComtNumber) {
+    public void setArtiComtNumber(Integer artiComtNumber) {
         this.artiComtNumber = artiComtNumber;
     }
 
-    public BigDecimal getArtiPageView() {
+    public Integer getArtiPageView() {
         return artiPageView;
     }
 
-    public void setArtiPageView(BigDecimal artiPageView) {
+    public void setArtiPageView(Integer artiPageView) {
         this.artiPageView = artiPageView;
     }
 
@@ -83,4 +82,25 @@ public class Article {
     public void setArtiContent(String artiContent) {
         this.artiContent = artiContent == null ? null : artiContent.trim();
     }
+
+    public Article() {
+    	super();
+    }
+    
+	public Article(Integer artiId, String artiTitle, Integer artiCatgId,
+			Integer artiUserId, Date artiTime, Integer artiComtNumber,
+			Integer artiPageView, String artiContent) {
+		super();
+		this.artiId = artiId;
+		this.artiTitle = artiTitle;
+		this.artiCatgId = artiCatgId;
+		this.artiUserId = artiUserId;
+		this.artiTime = artiTime;
+		this.artiComtNumber = artiComtNumber;
+		this.artiPageView = artiPageView;
+		this.artiContent = artiContent;
+	}
+
+    
+    
 }
