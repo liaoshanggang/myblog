@@ -1,5 +1,8 @@
 package com.blog.service;
 
-public interface IArticleService {
+import com.blog.vo.Article;
 
+public interface IArticleService {
+	
+	public void addArticle(Article article);
 }

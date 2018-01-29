@@ -1,5 +1,9 @@
 package com.blog.service;
 
-public interface IArtiCategoryService {
+import java.util.List;
 
+import com.blog.vo.ArtiCategory;
+
+public interface IArtiCategoryService {
+	public List<ArtiCategory> selectAllCategory();
 }

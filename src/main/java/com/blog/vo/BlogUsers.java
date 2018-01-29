@@ -1,10 +1,9 @@
 package com.blog.vo;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class BlogUsers {
-    private BigDecimal userId;
+    private Integer userId;
 
     private String userName;
 
@@ -24,17 +23,17 @@ public class BlogUsers {
 
     private String userProfile;
 
-    private BigDecimal userType;
+    private Integer userType;
 
     private String userImageUrl;
 
     private String eduBackground;
 
-    public BigDecimal getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(BigDecimal userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -110,11 +109,11 @@ public class BlogUsers {
         this.userProfile = userProfile == null ? null : userProfile.trim();
     }
 
-    public BigDecimal getUserType() {
+    public Integer getUserType() {
         return userType;
     }
 
-    public void setUserType(BigDecimal userType) {
+    public void setUserType(Integer userType) {
         this.userType = userType;
     }
 
