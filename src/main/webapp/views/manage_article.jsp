@@ -117,7 +117,7 @@ $(function() {
 								<div class="ibox">
 									<div class="ibox-content">
 										<h2>
-											<a href="views/article_detail.jsp" class="btn-link">${article.artiTitle } </a>
+											<a href="article/queryById?artiId=${article.artiId }" class="btn-link">${article.artiTitle } </a>
 										</h2>
 										<div class="row">
 											<div class="col-md-3 small m-b-xs">
@@ -136,7 +136,7 @@ $(function() {
 											</div>
 											<div class="col-md-6 text-right">
 												<button class="btn btn-success btn-outline btn-xs" type="button">编辑</button>
-												<button class="btn btn-danger btn-outline btn-xs" type="button">删除</button>
+												<a href="article/delete?artiId=${article.artiId }"><button class="btn btn-danger btn-outline btn-xs" type="button">删除</button></a>
 											</div>
 
 										</div>

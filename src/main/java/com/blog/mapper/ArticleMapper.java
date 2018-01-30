@@ -23,4 +23,9 @@ public interface ArticleMapper {
 	 * @return
 	 */
 	public int countForSelective(Page<Article> articles);
+
+	public void deleteArticleById(Integer artiId);
+
+	public Article selectArticleById(Integer integer);
+
 }

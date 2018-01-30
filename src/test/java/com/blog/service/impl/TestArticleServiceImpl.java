@@ -19,6 +19,21 @@ public class TestArticleServiceImpl {
 	static Logger logger = Logger.getLogger(TestArticleServiceImpl.class);
 	@Resource
 	IArticleService ias;
+	
+	@Test
+	public void testSelectArticleById(){
+		Article article = new Article();
+		article.setArtiId(15);
+		Article article2 = ias.selectArticleById(article);
+		logger.info(article2.getArtiTitle()+""+article2.getArtiContent());
+	}
+	
+	@Test
+	public void testDeleteArticleById() {
+		Article article = new Article();
+		article.setArtiId(3);
+		ias.deleteArticleById(article);
+	}
 	@Test
 	public void testAddArticle() {
 		String artiTitle = "标题11";

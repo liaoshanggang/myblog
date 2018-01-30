@@ -22,4 +22,8 @@ public interface IArticleService {
 	 * @return
 	 */
 	public int countForSelective(Page<Article> articles);
+
+	public void deleteArticleById(Article smdQuestions);
+	
+	public Article selectArticleById(Article article);
 }
