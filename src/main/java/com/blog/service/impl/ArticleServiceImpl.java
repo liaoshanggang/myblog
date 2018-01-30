@@ -33,5 +33,15 @@ public class ArticleServiceImpl implements IArticleService {
 		return articleMapper.countForSelective(articles);
 	}
 
+	@Override
+	public void deleteArticleById(Article article) {
+		articleMapper.deleteArticleById(article.getArtiId());
+	}
+
+	@Override
+	public Article selectArticleById(Article article) {
+		return articleMapper.selectArticleById(article.getArtiId());
+	}
+
 	
 }

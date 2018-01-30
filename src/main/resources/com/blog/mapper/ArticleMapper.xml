@@ -11,16 +11,17 @@
 		<result column="ARTI_TIME" jdbcType="TIMESTAMP" property="artiTime" />
 		<result column="ARTI_COMT_NUMBER" jdbcType="INTEGER" property="artiComtNumber" />
 		<result column="ARTI_PAGE_VIEW" jdbcType="INTEGER" property="artiPageView" />
+		<result column="ARTI_CONTENT" jdbcType="CLOB" property="artiContent" />
 		<association property="category" javaType="artiCategory"
 		column="CATG_ID" columnPrefix="so_">
 			<id column="CATG_ID" jdbcType="INTEGER" property="catgId" />
 			<result column="CATG_NAME" jdbcType="VARCHAR" property="catgName" />
 		</association>
 	</resultMap>
-	<resultMap extends="baseResultMap" id="ResultMapWithBLOBs"
+	<!-- <resultMap extends="baseResultMap" id="ResultMapWithBLOBs"
 		type="com.blog.vo.Article">
 		<result column="ARTI_CONTENT" jdbcType="CLOB" property="artiContent" />
-	</resultMap>
+	</resultMap> -->
 
 	<!-- 根据文章类别 ，标题，内容，日期查询 -->
 	<sql id="where_selective">
@@ -93,5 +94,14 @@
 		sysdate, #{artiComtNumber,jdbcType=INTEGER},
 		#{artiPageView,jdbcType=INTEGER}, #{artiContent,jdbcType=CLOB})
 	</insert>
-
+	
+	<delete id="deleteArticleById" parameterType="int">
+		delete
+		ARTICLE
+		where ARTI_ID=#{artiId}
+	</delete>
+	
+	<select id="selectArticleById" parameterType="int" resultMap="baseResultMap">
+		select * from ARTICLE where ARTI_ID = #{artiId}
+	</select>
 </mapper>

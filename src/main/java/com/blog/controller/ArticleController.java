@@ -45,14 +45,28 @@ public class ArticleController {
 		return "success";
 	}
 	
+	@RequestMapping("/delete")
+	public String delRadio(Article article){
+		iArticleService.deleteArticleById(article);
+		return "forward:/article/query";
+	}
+	
+	@RequestMapping("/queryById")
+	public String queryById(Article article,ModelMap modelMap,HttpSession session){
+		logger.info(article);
+		Article article2 = iArticleService.selectArticleById(article);
+		modelMap.addAttribute("article", article2);
+		return "/article_detail";
+	}
+	
 	@RequestMapping("/query")
-	public String selRadio(Article article,Integer pageNo,ModelMap modelMap,HttpSession session){
+	public String queryArticle(Article article,Integer pageNo,ModelMap modelMap,HttpSession session){
 		logger.info(article);
 		Page<Article> page = (Page<Article>) session.getAttribute("artiPage");
 		if(page==null || pageNo== null){
 			page = new Page<Article>(article);
 			page.setPageNo(1);
-			page.setPageSize(3);
+			page.setPageSize(10);
 			int totalRow = iArticleService.countForSelective(page);
 			page.setTotalRow(totalRow);
 		}else {
@@ -63,8 +77,6 @@ public class ArticleController {
 		modelMap.addAttribute("articleList", list);
 
 		session.setAttribute("artiPage", page);
-		//iArticleService.selectSelective(page);
-		//views/manage_article.jsp
 		return "/manage_article";
 	}
 }
