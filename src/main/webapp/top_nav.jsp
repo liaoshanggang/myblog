@@ -1,6 +1,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@page import="com.blog.vo.BlogUsers"%>
 <!-- 头部开始 -->
 <div class="row border-bottom">
 	<nav class="navbar navbar-static-top  " role="navigation"
@@ -85,12 +86,19 @@
 						</div>
 					</li>
 				</ul></li>
-
+			<%
+			BlogUsers user = (BlogUsers)session.getAttribute("logUser");
+			if(user!=null){
+				%>
 			<li><a href="views/edit_article.jsp"><i class="fa fa-edit"></i><font
 					style="vertical-align: inherit;"><font
 						style="vertical-align: inherit;">Go!写博客</font></font></a></li>
-			<li><a href="login.html"> <i class="fa fa-sign-out"></i> 登出
+			<li><a href="login.jsp"> <i class="fa fa-sign-out"></i> 注销
 			</a></li>
+			<%} else{
+			%>
+			<li><a href="login.jsp"> <i class="fa fa-sign-out"></i> 去登陆
+			</a></li><%} %>
 		</ul>
 	</nav>
 </div>

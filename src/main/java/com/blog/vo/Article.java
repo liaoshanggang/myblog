@@ -100,7 +100,61 @@ public class Article {
 		this.artiPageView = artiPageView;
 		this.artiContent = artiContent;
 	}
+	
+    private ArtiCategory category;
 
-    
-    
+	public ArtiCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(ArtiCategory category) {
+		this.category = category;
+	}
+	
+	private String beginDate;
+	private String endDate;
+
+	public String getBeginDate() {
+		return beginDate;
+	}
+
+	public void setBeginDate(String beginDate) {
+		this.beginDate = beginDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public Article(Integer artiId, String artiTitle, Integer artiCatgId,
+			Integer artiUserId, Date artiTime, Integer artiComtNumber,
+			Integer artiPageView, String artiContent,
+			String beginDate, String endDate) {
+		super();
+		this.artiId = artiId;
+		this.artiTitle = artiTitle;
+		this.artiCatgId = artiCatgId;
+		this.artiUserId = artiUserId;
+		this.artiTime = artiTime;
+		this.artiComtNumber = artiComtNumber;
+		this.artiPageView = artiPageView;
+		this.artiContent = artiContent;
+		this.beginDate = beginDate;
+		this.endDate = endDate;
+	}
+
+	@Override
+	public String toString() {
+		return "Article [artiId=" + artiId + ", artiTitle=" + artiTitle
+				+ ", artiCatgId=" + artiCatgId + ", artiUserId=" + artiUserId
+				+ ", artiTime=" + artiTime + ", artiComtNumber="
+				+ artiComtNumber + ", artiPageView=" + artiPageView
+				+ ", artiContent=" + artiContent + ", category=" + category
+				+ ", beginDate=" + beginDate + ", endDate=" + endDate + "]";
+	}
+	
 }

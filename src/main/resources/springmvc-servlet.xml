@@ -25,13 +25,23 @@
 	<!-- 将所静态资源的请求交给web服务器默认的Servlet来处理，而不是让springmvc的核心控制器：DispatcherServlet 
 		对于不同的web服务器的默认Servlet名称是不同，tomcat的默认Servlet名称为"default" -->
 	<mvc:default-servlet-handler />
-
+	
+	<!-- <mvc:interceptors> -->
+		<!-- 全局拦截器 -->
+		<!-- <bean class="com.blog.controller.MyHandlerInterceptor"/> -->
+		<!-- <mvc:interceptor>
+		<mvc:mapping path="/**"/>
+		<mvc:exclude-mapping path="/user"/>
+			<bean class="com.blog.controller.SecureInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors> -->
+	<!-- <mvc:resources location="/WEB-INF/views/commons/error/" mapping="/error/**"></mvc:resources> -->
 	<!-- 配置试图解析器：把请求处理类的返回值，加工成最终的视图路径 -->
 	<!--对模型视图名称的解析，即在模型视图名称添加前后缀 p:prefix="/views/" p:suffix=".jsp" 视图解析器，其作用会Controller方法返回的字符串解析为对应的视图名:prefix 
 		+ string + suffix 例如Controller方法返回的字符串为"success": /views/success.jsp -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/" />
+		<property name="prefix" value="/views/" />
 		<property name="suffix" value=".jsp" />
 		<!-- 如果使用jstl的话，配置下面的属性 -->
 		<property name="viewClass"

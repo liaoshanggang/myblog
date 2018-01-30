@@ -12,8 +12,28 @@
 <title>后台管理主页</title>
 
 <%@include file="../../css-common.jsp"%>
-</head>
 
+
+	<%@include file="../../js-common.jsp"%>
+<script type="text/javascript">
+$(function() {
+	$.get("article/loadCategory", function(data) {
+		var select = $("#category");
+		/* console.info(data); */
+		var opt = $("<option></option>").attr("value", "").html("--请选择类别--");
+		select.append(opt);
+		$.each(data, function(i, item) {
+			console.info(item.catgId+"=="+item.catgName);
+			var option = $("<option></option>").attr("value", item.catgId)
+					.html(item.catgName);
+			select.append(option);
+		});
+	}, "json");
+})
+
+
+</script>
+</head>
 <body class="">
 
 	<div id="wrapper">
@@ -50,23 +70,67 @@
 						<div class="panel panel-default">
 <!-- pre-scrollable -->
 							<div class="panel-body scroll_content">
+							<div class="ibox">
+									<div class="ibox-content">
+							<form action="article/query" method="post"
+									class="form-horizontal">
+									<div class="form-group">
+										<label class="col-sm-2 control-label">文章类别</label>
+
+										<div class="col-sm-2">
+											<select class="form-control" id="category" name="category.catgId">
+									</select>
+										</div>
+										<label class="col-sm-1 control-label">标题</label>
+										<div class="col-sm-3">
+											<input name="artiTitle" type="text" class="form-control"
+												placeholder="请输入标题" value="标题">
+										</div>
+										<label class="col-sm-1 control-label">内容</label>
+										<div class="col-sm-3">
+											<input name="artiContent" type="text" class="form-control"
+												placeholder="请输入内容" value="内容">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">创建日期</label>
+										<div class="col-sm-3"><!-- datetime-local -->
+											 <input name="beginDate" type="date" class="form-control"
+												placeholder="2018-01-01">
+												
+										</div>
+										<!-- <label class="col-sm-1 control-label">—</label> -->
+										<div class="col-sm-3">
+										<input name="endDate" type="date" class="form-control"
+												placeholder="2018-01-30">
+										</div>
+										
+										<div class="col-sm-1">
+											<button class="btn btn-primary" type="submit">查询</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							</div>
+							<c:forEach var="article" items="${articleList}" varStatus="status">
 								<!-- 博客列表开始 -->
 								<div class="ibox">
 									<div class="ibox-content">
 										<h2>
-											<a href="views/article_detail.jsp" class="btn-link"> One
-												morning, when Gregor Samsa </a>
+											<a href="views/article_detail.jsp" class="btn-link">${article.artiTitle } </a>
 										</h2>
 										<div class="row">
 											<div class="col-md-3 small m-b-xs">
-												<strong>类别</strong> <span class="text-muted"><i
-													class="fa fa-clock-o"></i> 28th Oct 2015</span>
+												<strong>${article.category.catgName }</strong> <span class="text-muted"><i
+													class="fa fa-clock-o"></i> 
+													<fmt:formatDate value='${article.artiTime}' pattern='yyyy-MM-dd HH:mm:ss'/>
+													</span>
 											</div>
 											<div class="col-md-3">
 												<div class="small">
 													<div>
-														<i class="fa fa-comments-o"> </i> 56 评论 <i
-															class="fa fa-eye"> </i> 144 浏览
+														<i class="fa fa-comments-o"> </i> ${article.artiComtNumber } 评论 <i
+															class="fa fa-eye"> </i> ${article.artiPageView }浏览
 													</div>
 												</div>
 											</div>
@@ -79,11 +143,46 @@
 									</div>
 								</div>
 								<!-- 博客列表结束 -->
+								</c:forEach>
 							</div>
 							<div class="panel-heading panel-default ">
-								<hr>
-								<h3>分页链接</h3>
-								<div class="hr-line-dashed"></div>
+								<!-- 分页链拉 -->
+			<div>
+				<div>
+					<c:if test="${not empty artiPage}">
+						<ul class="pagination">
+							<li><a href="article/query?pageNo=1">«</a></li>
+							<c:if test="${artiPage.pageNo gt 3}">
+								<li><a href="javascript:void(0)">....</a></li>
+							</c:if>
+							<c:if test="${artiPage.pageNo-2 ge 1}">
+								<li><a href="article/query?pageNo=${artiPage.pageNo-2}">${artiPage.pageNo-2}</a>
+								</li>
+							</c:if>
+							<c:if test="${artiPage.pageNo-1 ge 1}">
+								<li><a href="article/query?pageNo=${artiPage.pageNo-1}">${artiPage.pageNo-1}</a>
+								</li>
+							</c:if>
+							<li class="active"><a
+								href="article/query?pageNo=${artiPage.pageNo}">${artiPage.pageNo}</a>
+							</li>
+							<c:if test="${artiPage.pageNo+1 le artiPage.totalPage}">
+								<li><a href="article/query?pageNo=${artiPage.pageNo+1}">${artiPage.pageNo+1}</a>
+								</li>
+							</c:if>
+							<c:if test="${artiPage.pageNo+2 le artiPage.totalPage}">
+								<li><a href="article/query?pageNo=${artiPage.pageNo+2}">${artiPage.pageNo+2}</a>
+								</li>
+							</c:if>
+							<c:if test="${artiPage.pageNo+2 lt artiPage.totalPage}">
+								<li><a href="javascript:void(0)">....</a></li>
+							</c:if>
+							<li><a href="article/query?pageNo=${artiPage.totalPage}">»</a>
+							</li>
+						</ul>
+					</c:if>
+				</div>
+			</div>
 							</div>
 						</div>
 					</div>
@@ -106,8 +205,6 @@
 		</div>
 	</div>
 
-
-	<%@include file="../../js-common.jsp"%>
 </body>
 
 </html>
