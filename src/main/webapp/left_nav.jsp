@@ -30,7 +30,7 @@
 
 			<!-- 左下导航栏开始 -->
 			<!-- 一个列表项开始 -->
-			<li class="active"><a href="views/manage_article.jsp"><i
+			<li class="active"><a href="article/query"><i
 					class="fa fa-diamond"></i> <span class="nav-label"><font
 						style="vertical-align: inherit;"><font
 							style="vertical-align: inherit;">文章管理</font></font></span></a></li>

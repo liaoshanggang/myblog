@@ -217,7 +217,7 @@ $(function() {
 			var sHTML = $('.summernote').code();
 			var category = $("#category option:selected").val();
 			var title = $("#artiTitle").val();
-			console.info(sHTML+"00000000"+category+""+title);
+			//console.info(sHTML+"00000000"+category+""+title);
 			var json = {artiContent:sHTML,artiCatgId:category,artiTitle:title};
             //alert($("#category option:selected").val());//方法一：获取select标签选中的option中的value的值。  
             //alert($("#category").find("option:selected").val());//方法二：获取select标签选中的option中的value的值。 
@@ -227,12 +227,15 @@ $(function() {
 				data: json,
 				success: function(result) {
 					console.info(result);
-					/* // if (status == "success") {
-					alert("单选题加入试卷成功");
-					//alert("单选题加入试卷成功");
-					//}
-					location = location; */
-
+					if(result == "success"){
+			            swal({
+							title : "发表成功",
+							text : "",
+							type : "success",
+							allowOutsideClick : true
+						});
+					}
+					//location = location; 
 				},
 				error: function() {
 
@@ -240,12 +243,6 @@ $(function() {
 			}); 
             
             
-            swal({
-				title : "发表成功",
-				text : "",
-				type : "success",
-				allowOutsideClick : true
-			});
 		});
 
 		$('.leave').click(function() {
