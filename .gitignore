@@ -1,5 +1,5 @@
 # Compiled class file
-*.class  # ºöÂÔclsssÎÄ¼þ
+*.class  # å¿½ç•¥clsssæ–‡ä»¶
 
 # Log file
 *.log
@@ -10,8 +10,10 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+.idea/workspace.xml
+
 # Package Files #
-*.jar   #ºöÂÔjar°ü
+*.jar   #å¿½ç•¥jaråŒ…
 *.war
 *.ear
 *.zip
@@ -26,3 +28,14 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 /target/
+
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+# Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
+!/.mvn/wrapper/maven-wrapper.jar
