@@ -20,9 +20,7 @@ application.setAttribute("rootpath",basePath);
 <title>登录</title>
 </head>
 <body style="background:#f3f3f4">
-<h1>路径：${rootpath }</h1> 
-<h1><a href="views/bgmgr.jsp">后台管理主页</a></h1>	
-<h1><a href="index.jsp">前台展示主页</a></h1>
+<h1>路径：${rootpath }</h1>
 <div class="middle-box text-center loginscreen animated fadeInDown">
         <div>
             <div>

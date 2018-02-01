@@ -3,11 +3,14 @@ package com.blog.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,6 +24,9 @@ import com.blog.vo.Page;
 @RequestMapping("/article")
 public class ArticleController {
 	static Logger logger = Logger.getLogger(ArticleController.class);
+	@Autowired
+	private HttpServletRequest request;
+
 	@Resource
 	IArtiCategoryService iArtiCategoryService;
 	@Resource
@@ -51,13 +57,13 @@ public class ArticleController {
 		return "forward:/article/query";
 	}
 	
-	@RequestMapping("/queryById")
+	/*@RequestMapping("/queryById")
 	public String queryById(Article article,ModelMap modelMap,HttpSession session){
 		logger.info(article);
 		Article article2 = iArticleService.selectArticleById(article);
 		modelMap.addAttribute("article", article2);
 		return "/article_detail";
-	}
+	}*/
 	
 	@RequestMapping("/query")
 	public String queryArticle(Article article,Integer pageNo,ModelMap modelMap,HttpSession session){
@@ -78,5 +84,38 @@ public class ArticleController {
 
 		session.setAttribute("artiPage", page);
 		return "/manage_article";
+	}
+
+	@RequestMapping("/queryById/{artiId}/{moudule}")
+	public String queryById(@PathVariable Integer artiId,@PathVariable String moudule, ModelMap modelMap){
+		//int id = Integer.valueOf(artiId);
+
+		Article article = new Article();
+		article.setArtiId(artiId);
+		Article article1 = iArticleService.selectArticleById(article);
+		modelMap.addAttribute("article", article1);
+		/*String url = "";
+		url = request.getScheme() +"://" + request.getServerName()+ ":" +request.getServerPort()+ request.getServletPath();
+		if (request.getQueryString() != null) {
+			url += "?" + request.getQueryString();
+		}*/
+		//return "";
+		logger.info(article1);
+		if(moudule.equals("modify")){
+			logger.info(moudule);
+			return "modify_article";
+		}else{
+			return "/article_detail";
+		}
+	}
+
+	@RequestMapping("/modify")
+	public @ResponseBody String modifyArticle(Article article) {
+		//logger.info(article.getArtiTitle()+"=="+article.getArtiCatgId()+"=="+article.getArtiContent());
+		//article.setArtiUserId(1);
+		logger.info(article	);
+		iArticleService.updateArticleById(article);
+		//如果第二次插入的
+		return "success";
 	}
 }

@@ -104,4 +104,14 @@
 	<select id="selectArticleById" parameterType="int" resultMap="baseResultMap">
 		select * from ARTICLE where ARTI_ID = #{artiId}
 	</select>
+
+	<update id="updateArticleById" parameterType="article">
+		update ARTICLE
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="artiTitle != null">ARTI_TITLE=#{artiTitle},</if>
+			<if test="artiCatgId != null">ARTI_CATG_ID=#{artiCatgId},</if>
+			<if test="artiContent != null">ARTI_CONTENT=#{artiContent},</if>
+		</trim>
+		where ARTI_ID=#{artiId}
+	</update>
 </mapper>

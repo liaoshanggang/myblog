@@ -42,6 +42,9 @@ public class ArticleServiceImpl implements IArticleService {
 	public Article selectArticleById(Article article) {
 		return articleMapper.selectArticleById(article.getArtiId());
 	}
-
+	@Override
+	public void updateArticleById(Article article){
+		articleMapper.updateArticleById(article);
+	}
 	
 }

@@ -19,7 +19,17 @@ public class TestArticleServiceImpl {
 	static Logger logger = Logger.getLogger(TestArticleServiceImpl.class);
 	@Resource
 	IArticleService ias;
-	
+
+	@Test
+	public void testUpdateArticleById(){
+		Article article = new Article();
+		article.setArtiCatgId(2);
+		article.setArtiTitle("可以了更新");
+		article.setArtiContent("跟新啦啦啦");
+		article.setArtiId(5);
+		ias.updateArticleById(article);
+	}
+
 	@Test
 	public void testSelectArticleById(){
 		Article article = new Article();

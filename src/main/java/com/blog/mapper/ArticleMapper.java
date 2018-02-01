@@ -28,4 +28,5 @@ public interface ArticleMapper {
 
 	public Article selectArticleById(Integer integer);
 
+	public void updateArticleById(Article article);
 }

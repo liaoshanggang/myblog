@@ -39,7 +39,12 @@ div img
 	      }
 	(this));
 	}
-	
+#title{
+	width: 98%;  /*必须设置宽度*/
+	overflow: hidden;  /*溢出隐藏*/
+	text-overflow: ellipsis; /*以省略号...显示*/
+	white-space: nowrap;  /*强制不换行*/
+}
 </style>
 </head>
 <body id="" class="gray-bg" style="background-color:;">
@@ -83,7 +88,7 @@ div img
 										<span class="text-muted"><i class="fa fa-clock-o"></i><font
 											style="vertical-align: inherit;"><font
 												style="vertical-align: inherit;"> <fmt:formatDate value='${article.artiTime}' pattern='yyyy-MM-dd HH:mm:ss'/></font></font></span>
-										<h1>
+										<h1 id="title">
 											<font style="vertical-align: inherit;"><font
 												style="vertical-align: inherit;"> ${article.artiTitle }</font></font>
 										</h1>

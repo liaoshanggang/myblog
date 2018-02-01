@@ -26,4 +26,6 @@ public interface IArticleService {
 	public void deleteArticleById(Article smdQuestions);
 	
 	public Article selectArticleById(Article article);
+
+	public void updateArticleById(Article article);
 }

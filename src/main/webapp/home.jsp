@@ -72,7 +72,7 @@ div img
 								<div class="ibox-content">
 									<!-- <h2 style="overflow: hidden"> -->
 									<h1 id="title">
-										<a href="article/queryById?artiId=${article.artiId }" class="btn-link">${article.artiTitle }</a>
+										<a href="article/queryById/${article.artiId }/detail" class="btn-link">${article.artiTitle }</a>
 									</h1>
 									<div class="small m-b-xs">
 										<strong>${article.category.catgName }</strong> <span class="text-muted"><i
