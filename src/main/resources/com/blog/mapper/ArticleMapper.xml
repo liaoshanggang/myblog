@@ -114,4 +114,12 @@
 		</trim>
 		where ARTI_ID=#{artiId}
 	</update>
+
+	<!--根据文章类别id更新-->
+	<update id="updateById" parameterType="int">
+		update ARTICLE
+		<trim prefix="SET" suffixOverrides=",">ARTI_CATG_ID= ,
+		</trim>
+		where ARTI_CATG_ID=#{artiCatgId}
+	</update>
 </mapper>

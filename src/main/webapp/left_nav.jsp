@@ -36,7 +36,7 @@
 							style="vertical-align: inherit;">文章管理</font></font></span></a></li>
 
 			<!-- 一个列表项结束 -->
-			<li class=""><a href="views/manage_category.jsp"><i
+			<li class=""><a href="category/query"><i
 					class="fa fa-diamond"></i> <span class="nav-label"><font
 						style="vertical-align: inherit;"><font
 							style="vertical-align: inherit;">类别管理</font></font></span></a></li>
