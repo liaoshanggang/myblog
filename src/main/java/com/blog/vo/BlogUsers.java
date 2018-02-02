@@ -132,4 +132,23 @@ public class BlogUsers {
     public void setEduBackground(String eduBackground) {
         this.eduBackground = eduBackground == null ? null : eduBackground.trim();
     }
+
+    @Override
+    public String toString() {
+        return "BlogUsers{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", userNickname='" + userNickname + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", userMobile='" + userMobile + '\'' +
+                ", userSex='" + userSex + '\'' +
+                ", userBirthday=" + userBirthday +
+                ", userAddress='" + userAddress + '\'' +
+                ", userProfile='" + userProfile + '\'' +
+                ", userType=" + userType +
+                ", userImageUrl='" + userImageUrl + '\'' +
+                ", eduBackground='" + eduBackground + '\'' +
+                '}';
+    }
 }

@@ -89,11 +89,14 @@
 			<%
 			BlogUsers user = (BlogUsers)session.getAttribute("logUser");
 			if(user!=null){
-				%>
+			    if(user.getUserType()==1){
+			%>
 			<li><a href="views/edit_article.jsp"><i class="fa fa-edit"></i><font
-					style="vertical-align: inherit;"><font
-						style="vertical-align: inherit;">Go!写博客</font></font></a></li>
-			<li><a href="login.jsp"> <i class="fa fa-sign-out"></i> 注销
+							style="vertical-align: inherit;"><font
+							style="vertical-align: inherit;">Go!写博客</font></font></a></li>
+				<%}
+			%>
+			<li><a href="user/logOff"> <i class="fa fa-sign-out"></i> 注销
 			</a></li>
 			<%} else{
 			%>

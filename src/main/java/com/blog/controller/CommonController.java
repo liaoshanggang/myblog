@@ -22,7 +22,7 @@ public class CommonController {
 	@Resource
 	IArticleService iArticleService;
 	
-	@RequestMapping("/showHome")
+	@RequestMapping("showHome")
 	public String queryArticle(Article article,Integer pageNo,ModelMap modelMap,HttpSession session){
 		logger.info(article);
 		Page<Article> page = (Page<Article>) session.getAttribute("artiPage");

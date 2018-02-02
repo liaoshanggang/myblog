@@ -19,18 +19,24 @@ public class BlogUsersController {
 	@Resource
 	IBlogUsersService iBlogUsersService;
 
-	@RequestMapping(value = { "/login" }, method = { RequestMethod.POST })
+	@RequestMapping(value = { "/login" }, method = { RequestMethod.POST ,RequestMethod.GET})
 	public String login(BlogUsers blogUsers, ModelMap modelMap,
 			HttpSession session) {
-//		logger.info(blogUsers.getUserId() + "用户名" + blogUsers.getUserName()
-//				+ "密码" + blogUsers.getUserPassword() + "类型"
-//				+ blogUsers.getUserType());
+		logger.info(blogUsers);
 		BlogUsers user = iBlogUsersService.selectForLogin(blogUsers);
 		if (user != null) {
 			session.setAttribute("logUser", user);
 			return "redirect:/index.jsp";
 		}
 		return "redirect:/login.jsp";
+	}
+
+	@RequestMapping(value = { "/logOff" }, method = { RequestMethod.POST ,RequestMethod.GET})
+	public String logOff(ModelMap modelMap,
+						HttpSession session) {
+		String contextPath = session.getServletContext().getContextPath();
+		session.setAttribute("logUser",null);
+		return "redirect:/showHome";
 	}
 
 }

@@ -2,9 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blog.mapper.BlogUsersMapper">
 	<resultMap id="baseResultMap" type="blogUsers">
-		<id property="userId" column="USER_ID" />
-		<result property="userName" column="USER_NAME" />
-		<result property="userPassword" column="USER_PASSWORD" />	
+		<id property="userId" column="USER_ID" jdbcType="INTEGER" />
+		<result property="userName" column="USER_NAME" jdbcType="VARCHAR" />
+		<result column="USER_NICKNAME" jdbcType="VARCHAR" property="userNickname" />
+		<result column="USER_PASSWORD" jdbcType="VARCHAR" property="userPassword" />
+		<result column="USER_EMAIL" jdbcType="VARCHAR" property="userEmail" />
+		<result column="USER_MOBILE" jdbcType="VARCHAR" property="userMobile" />
+		<result column="USER_SEX" jdbcType="VARCHAR" property="userSex" />
+		<result column="USER_BIRTHDAY" jdbcType="DATE" property="userBirthday" />
+		<result column="USER_ADDRESS" jdbcType="VARCHAR" property="userAddress" />
+		<result column="USER_PROFILE" jdbcType="VARCHAR" property="userProfile" />
+		<result column="USER_TYPE" jdbcType="INTEGER" property="userType" />
+		<result column="USER_IMAGE_URL" jdbcType="VARCHAR" property="userImageUrl" />
+		<result column="EDU_BACKGROUND" jdbcType="VARCHAR" property="eduBackground" />
 	</resultMap>
 
 	<select id="login" parameterType="blogUsers" resultMap="baseResultMap">
