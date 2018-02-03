@@ -11,8 +11,8 @@
 
 <title>后台主页</title>
 
-<%@include file="../../css-common.jsp"%>
-<%@include file="../../js-common.jsp"%>
+<%@include file="css-common.jsp"%>
+<%@include file="js-common.jsp"%>
 </head>
 
 <body class="">

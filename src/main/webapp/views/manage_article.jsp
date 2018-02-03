@@ -11,8 +11,8 @@
 
     <title>后台管理主页</title>
 
-    <%@include file="../../css-common.jsp" %>
-    <%@include file="../../js-common.jsp" %>
+    <%@include file="../css-common.jsp" %>
+    <%@include file="../js-common.jsp" %>
     <script type="text/javascript">
         $(function () {
             $.get("article/loadCategory", function (data) {
@@ -141,8 +141,8 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6 text-right">
-                                               <%-- <c:set var="tablename" value="${article.artiId}/modify"></c:set>
-                                                    ${tablename}--%>
+                                                    <%-- <c:set var="tablename" value="${article.artiId}/modify"></c:set>
+                                                         ${tablename}--%>
                                                 <a href="article/queryById/${article.artiId}/modify">
                                                     <button id="myModel3"
                                                             class="btn btn-success btn-outline btn-xs" type="button">修改
@@ -232,5 +232,4 @@
     });
 </script>--%>
 </body>
-
 </html>

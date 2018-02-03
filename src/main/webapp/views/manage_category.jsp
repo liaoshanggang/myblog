@@ -18,76 +18,18 @@
 
     <title>后台管理主页</title>
 
-    <%@include file="../../css-common.jsp" %>
-    <%@include file="../../js-common.jsp" %>
-    <script>
-        function update(cur, id) {
-            console.info("我 来了");
-            console.info($(cur).parent().parent());
-            var firstTD = $(cur).parent().parent();
-            var name = $(cur).prev().val();
-            var json = {catgName: name, catgId: id};
-            console.info(json);
-            $.ajax({
-                url: "category/modify",
-                type: "post",
-                data: json,
-                success: function (result) {
-                    console.info(result);
-                    if (result == "success") {
-                        console.info(firstTD);
-                        firstTD.text(name);
-                    }
-                },
-                error: function () {
-                }
-            });
-        }
-        function cancel(cur,catgName){
-            //$(cur).parent().remove();
-            console.info(catgName);
-            $(cur).parent().parent().text(catgName);
-        }
-        $(document).ready(function () {
-            $(".updateCatg").click(function () {
-                //console.info($(this).parent());//td
-
-                    var firstTD = $(this).parent().prev().prev().prev();
-                    var catgName = firstTD.attr("value");//解决第二次问题
-                    console.info(typeof (catgName));
-                    var catgId = $(this).attr("value");
-                    console.info(catgId + "==" + catgName);
-                    console.info(firstTD.html("<div><input type='text'value='" + catgName + "'>" +
-                        "<input type='button' value='保存' onclick='update(this," + catgId + ")'/>" +
-                        "<input type='button' value='取消' onclick='cancel(this,\""+catgName+"\" )'/></div>"));
-                //console.info(firstTD.html("<div><input type='text'value='" + catgName + "'>" +
-                 //   "<input type='button' value='保存' onclick='update(this," + catgId + ")'/>" +
-                  //  "<input type='button' value='取消' onclick='cancel(this,\""+catgName+"\" )'/></div>"));
-            })
-            $(".delCatg").click(function () {
-                var curTr = $(this).parent().prev().prev().prev().parent();
-                var id = $(this).attr("value");
-                var json = {catgId: id};
-                $.ajax({
-                    url: "category/del",
-                    type: "post",
-                    data: json,
-                    success: function (result) {
-                        console.info(result);
-                        if (result == "success") {
-                            console.info(curTr);
-                            curTr.remove();
-                        }
-                    },
-                    error: function () {
-                    }
-                });
-            })
-        });
-    </script>
+    <%@include file="../css-common.jsp" %>
+    <%@include file="../js-common.jsp" %>
+    <!-- Toastr style -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <style>
-        .updateCatg {}
-        .delCatg{}
+        .updateCatg {
+        }
+
+        .delCatg {
+        }
     </style>
 </head>
 <body class="">
@@ -106,7 +48,7 @@
             <div class="col-sm-4">
                 <h2>主标题</h2>
                 <ol class="breadcrumb">
-                    <li><a href="index.jsp">前台展示页</a></li>
+                    <li><a href="../index.jsp">前台展示页</a></li>
                     <li class="active"><strong>本页</strong></li>
                 </ol>
             </div>
@@ -128,11 +70,11 @@
                         <div class="panel-body scroll_content">
                             <div class="ibox">
                                 <div class="ibox-content">
-                                    <form method="get" action="category/add" class="col-lg-4 pull-left">
+                                    <form id="addForm" method="get" action="category/add" class="col-lg-4 pull-left">
                                         <div class="input-group">
                                             <input type="text" class="form-control col-lg-2"
                                                    name="catgName" placeholder="请输入新类别">
-                                            <div class="input-group-btn">
+                                            <div id="addCatg" class="input-group-btn">
                                                 <button type="submit" class="btn btn-outline btn-primary">新增类别
                                                 </button>
                                             </div>
@@ -159,15 +101,15 @@
                                 <tbody>
                                 <c:forEach var="category" items="${categoryList}" varStatus="status">
                                     <tr>
-                                        <td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" value="${category.catgName}">${category.catgName}</td>
+                                        <td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"
+                                            value="${category.catgName}">${category.catgName}</td>
                                         <td class="">
                                             <fmt:formatDate value='${category.catgTime}'
                                                             pattern='yyyy-MM-dd HH:mm:ss'/>
                                         </td>
                                         <td class="">Mark</td>
                                         <td class="">
-                                            <button
-                                                    class="btn btn-success btn-outline btn-xs updateCatg" type="button"
+                                            <button class="btn btn-success btn-outline btn-xs updateCatg" type="button"
                                                     value="${category.catgId}">
                                                 编辑
                                             </button>
@@ -231,7 +173,6 @@
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-content"></div>
-
                     </div>
                 </div>
             </div>
@@ -243,6 +184,129 @@
         <%@include file="../bottom.html" %>
     </div>
 </div>
-</body>
+<!-- Toastr script -->
+<script src="js/plugins/toastr/toastr.min.js"></script>
+<!-- Sweet alert -->
+<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+<script>
+    function success(msg) {
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "progressBar": false,
+            "preventDuplicates": true,
+            "positionClass": "toast-bottom-center",
+            "showDuration": "1500",
+            "hideDuration": "1500",
+            "timeOut": "1500",
+            "extendedTimeOut": "1500",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ($('#addBehaviorOnToastClick').prop(
+                'checked')) {
+            toastr.options.onclick = function () {
+                alert('You can perform some custom action after a toast goes away');
+            };
+        }
+        toastr.info(msg);
+    }
 
+    function update(cur, id) {
+        console.info("我 来了");
+        console.info($(cur).parent().parent());
+        var firstTD = $(cur).parent().parent();
+        var name = $(cur).prev().val();
+        var json = {catgName: name, catgId: id};
+        console.info(json);
+        $.ajax({
+            url: "category/modify",
+            type: "post",
+            data: json,
+            success: function (result) {
+                console.info(result);
+                if (result == "success") {
+                    console.info(firstTD);
+                    firstTD.text(name);
+                    success("保存成功！");
+                }
+            },
+            error: function () {
+            }
+        });
+    }
+
+    function cancel(cur, catgName) {
+        //$(cur).parent().remove();
+        console.info(catgName);
+        $(cur).parent().parent().text(catgName);
+    }
+
+    $(document).ready(function () {
+        $(".updateCatg").click(function () {
+            //console.info($(this).parent());//td
+
+            var firstTD = $(this).parent().prev().prev().prev();
+            var catgName = firstTD.attr("value");//解决第二次问题
+            console.info(typeof (catgName));
+            var catgId = $(this).attr("value");
+            console.info(catgId + "==" + catgName);
+            console.info(firstTD.html("<div><input type='text'value='" + catgName + "'>" +
+                "<input type='button' value='保存' onclick='update(this," + catgId + ")'/>" +
+                "<input type='button' value='取消' onclick='cancel(this,\"" + catgName + "\" )'/></div>"));
+            //console.info(firstTD.html("<div><input type='text'value='" + catgName + "'>" +
+            //   "<input type='button' value='保存' onclick='update(this," + catgId + ")'/>" +
+            //  "<input type='button' value='取消' onclick='cancel(this,\""+catgName+"\" )'/></div>"));
+        })
+        $(".delCatg").click(function () {
+            var cur = $(this);
+            swal({
+                title: "你确定要删除吗？",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#ED5565",//DD6B55
+                confirmButtonText: "是的，删除它！",
+                cancelButtonText: "不，取消！",
+                allowOutsideClick: true,
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    //swal("删除!", "你的虚构文件已被删除.", "success");
+                    var curTr = $(cur).parent().prev().prev().prev().parent();
+                    var id = $(cur).attr("value");
+                    var json = {catgId: id};
+                    $.ajax({
+                        url: "category/del",
+                        type: "post",
+                        data: json,
+                        success: function (result) {
+                            console.info(result);
+                            if (result == "success") {
+                                //swal("删除!", "改类别已被删除.", "success");
+                                console.info(curTr);
+                                curTr.remove();
+                                success("删除成功！");
+                            }
+                        },
+                        error: function () {
+                        }
+                    });
+                } else {
+                    //swal("取消", "该类别未删除！:):):)", "error");
+                }
+            });
+
+
+        })
+
+        $("#addCatg").click(function () {
+            success();
+        })
+    });
+</script>
+</body>
 </html>
