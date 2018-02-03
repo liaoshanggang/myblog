@@ -4,6 +4,7 @@ import com.blog.mapper.ArtiCategoryMapper;
 import com.blog.mapper.ArticleMapper;
 import com.blog.service.IArtiCategoryService;
 import com.blog.vo.ArtiCategory;
+import com.blog.vo.Article;
 import com.blog.vo.Page;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,6 @@ import java.util.List;
 public class ArtiCategoryServiceImpl implements IArtiCategoryService {
 	@Resource
 	ArtiCategoryMapper artiCategoryMapper;
-	@Resource
-	ArticleMapper articleMapper;
 	@Override
 	public List<ArtiCategory> selectAllCategory() {
 		return artiCategoryMapper.selectAllCategory();
@@ -44,7 +43,6 @@ public class ArtiCategoryServiceImpl implements IArtiCategoryService {
 
 	@Override
 	public void deleteArtiCategoryById(ArtiCategory category) {
-		articleMapper.updateById(category.getCatgId());
 		artiCategoryMapper.deleteArtiCategoryById(category);
 	}
 

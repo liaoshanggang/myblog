@@ -60,12 +60,30 @@
                     "<button onclick='update(this," + catgId + ")'>保存" +
                     "</button><button onclick='cancel(this,\""+catgName+"\" )'>取消</button></div>"));
             })
+            $(".delCatg").click(function () {
+                var curTr = $(this).parent().prev().prev().prev().parent();
+                var id = $(this).attr("value");
+                var json = {catgId: id};
+                $.ajax({
+                    url: "category/del",
+                    type: "post",
+                    data: json,
+                    success: function (result) {
+                        console.info(result);
+                        if (result == "success") {
+                            console.info(curTr);
+                            curTr.remove();
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            })
         });
     </script>
     <style>
-        .updateCatg {
-
-        }
+        .updateCatg {}
+        .delCatg{}
     </style>
 </head>
 <body class="">
@@ -149,8 +167,8 @@
                                                     value="${category.catgId}">
                                                 编辑
                                             </button>
-                                            <button class="btn btn-danger btn-outline btn-xs"
-                                                    type="button">删除
+                                            <button class="btn btn-danger btn-outline btn-xs delCatg"
+                                                    type="button" value="${category.catgId}">删除
                                             </button>
                                         </td>
                                     </tr>

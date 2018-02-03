@@ -1,6 +1,7 @@
 package com.blog.service.impl;
 
 import com.blog.service.IArtiCategoryService;
+import com.blog.service.IArticleService;
 import com.blog.vo.ArtiCategory;
 import com.blog.vo.Article;
 import com.blog.vo.Page;
@@ -19,12 +20,17 @@ public class TestArtiCategoryServiceImpl {
 	static Logger logger = Logger.getLogger(TestArtiCategoryServiceImpl.class);
 	@Resource
 	IArtiCategoryService iacs;
-
+    @Resource
+    IArticleService iac;
     @Test
     public void testDeleteArtiCategoryById() {
-        /*删除17的同时更新文章类别id*/
+        /*删除20的同时更新文章类别id*/
         ArtiCategory category = new ArtiCategory();
-        category.setCatgId(17);
+        category.setCatgId(15);
+        Article article = new Article();
+        article.setArtiId(1);
+        article.setArtiCatgId(category.getCatgId());
+        iac.updateById(article);
         iacs.deleteArtiCategoryById(category);
     }
     @Test

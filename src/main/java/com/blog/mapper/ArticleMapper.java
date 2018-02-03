@@ -30,5 +30,5 @@ public interface ArticleMapper {
 
 	public void updateArticleById(Article article);
 
-    void updateById(Integer integer);
+    void updateById(Article article);
 }

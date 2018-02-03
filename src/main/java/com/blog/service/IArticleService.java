@@ -28,4 +28,6 @@ public interface IArticleService {
 	public Article selectArticleById(Article article);
 
 	public void updateArticleById(Article article);
+
+	void updateById(Article article);
 }

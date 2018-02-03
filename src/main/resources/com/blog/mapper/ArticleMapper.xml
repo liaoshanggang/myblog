@@ -116,9 +116,9 @@
 	</update>
 
 	<!--根据文章类别id更新-->
-	<update id="updateById" parameterType="int">
+	<update id="updateById" parameterType="article">
 		update ARTICLE
-		<trim prefix="SET" suffixOverrides=",">ARTI_CATG_ID= ,
+		<trim prefix="SET" suffixOverrides=",">ARTI_CATG_ID=#{artiId,jdbcType=INTEGER},
 		</trim>
 		where ARTI_CATG_ID=#{artiCatgId}
 	</update>
