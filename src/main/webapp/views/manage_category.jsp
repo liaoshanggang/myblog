@@ -51,14 +51,18 @@
         $(document).ready(function () {
             $(".updateCatg").click(function () {
                 //console.info($(this).parent());//td
-                var firstTD = $(this).parent().prev().prev().prev();
-                var catgName = firstTD.text();
-                console.info(typeof (catgName));
-                var catgId = $(this).attr("value");
-                console.info(catgId + "==" + catgName);
-                console.info(firstTD.html("<div><input type='text'value='" + catgName + "'>" +
-                    "<button onclick='update(this," + catgId + ")'>保存" +
-                    "</button><button onclick='cancel(this,\""+catgName+"\" )'>取消</button></div>"));
+
+                    var firstTD = $(this).parent().prev().prev().prev();
+                    var catgName = firstTD.attr("value");//解决第二次问题
+                    console.info(typeof (catgName));
+                    var catgId = $(this).attr("value");
+                    console.info(catgId + "==" + catgName);
+                    console.info(firstTD.html("<div><input type='text'value='" + catgName + "'>" +
+                        "<input type='button' value='保存' onclick='update(this," + catgId + ")'/>" +
+                        "<input type='button' value='取消' onclick='cancel(this,\""+catgName+"\" )'/></div>"));
+                //console.info(firstTD.html("<div><input type='text'value='" + catgName + "'>" +
+                 //   "<input type='button' value='保存' onclick='update(this," + catgId + ")'/>" +
+                  //  "<input type='button' value='取消' onclick='cancel(this,\""+catgName+"\" )'/></div>"));
             })
             $(".delCatg").click(function () {
                 var curTr = $(this).parent().prev().prev().prev().parent();
@@ -155,7 +159,7 @@
                                 <tbody>
                                 <c:forEach var="category" items="${categoryList}" varStatus="status">
                                     <tr>
-                                        <td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">${category.catgName}</td>
+                                        <td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" value="${category.catgName}">${category.catgName}</td>
                                         <td class="">
                                             <fmt:formatDate value='${category.catgTime}'
                                                             pattern='yyyy-MM-dd HH:mm:ss'/>
