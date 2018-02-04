@@ -1,0 +1,197 @@
+<!-- 登陆模态框 -->
+<div class="modal inmodal" id="myModel3" tabindex="-1"
+     role="dialog" aria-hidden="true">
+    <div class="modal-dialog"><%-- modal-sm--%> <%--style="width:500px;"--%>
+        <div class="modal-content animated fadeIn">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">请填写登陆信息</h4>
+            </div>
+            <div class="modal-body" id="modalBody3">
+
+                <form class="m-t" action="user/login" method="post">
+                    <div class="form-group">
+                        <div class="input-group m-b"><span class="input-group-addon">&nbsp;<span
+                                class="glyphicon glyphicon-user"></span>&nbsp;</span>
+                            <input value="admin" type="text" class="form-control" name="userName" placeholder="请输入用户名" required="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group m-b"><span class="input-group-addon">&nbsp;<span
+                                class="glyphicon glyphicon-lock"></span>&nbsp;</span>
+                            <input value="admin" type="password" class="form-control" name="userPassword" placeholder="请输入密码"
+                                   required=""></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <h3><img alt="" src="user/code" class="pull-left" onclick="changeImge(this)">
+                            <a>看不清？点图片换一个</a></h3>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+									  <span class="input-group-addon" id="basic-addon1">
+									  	&nbsp;<span class="glyphicon glyphicon-picture"></span>&nbsp;
+									  </span>
+                            <input type="text" class="form-control" name="submitCode" maxlength="5" placeholder="请输入验证码"
+                                   aria-describedby="basic-addon1" required="">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary block full-width m-b">登录</button>
+                    <a href="#">
+                        <small>忘记密码？</small>
+                    </a>
+                    <p class="text-muted text-center">
+                        <small>还没有账号？</small>
+                    </p>
+                    <a class="btn btn-sm btn-white btn-block" data-dismiss="modal" data-toggle="modal"
+                       data-target="#regModel">创建一个账户</a>
+
+                </form>
+            </div>
+            <!--<div class="modal-footer">
+            <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+            <input type="submit" class="btn btn-primary" value="确认登录"
+                   onclick="change(this)">
+        </div>-->
+        </div>
+    </div>
+</div>
+<!-- 注册模态框 -->
+<div class="modal inmodal" id="regModel" tabindex="-1"
+     role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated fadeIn">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">请填写注册信息</h4>
+            </div>
+            <form action="" method="post">
+                <div class="modal-body" id="regModalBody">
+                    <div class="form-group">
+                        <div class="input-group m-b"><span class="input-group-addon">用&nbsp;&nbsp;户&nbsp;&nbsp;名</span>
+                            <input id="userName" type="text" class="form-control" name="userName" placeholder="请输入用户名" required="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group m-b"><span class="input-group-addon">设置密码</span>
+                            <input id="userPassword" type="password" class="form-control" name="userPassword" placeholder="请输入密码"
+                                   required=""></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group m-b"><span class="input-group-addon">确认密码</span>
+                            <input id="rePassword" type="password" class="form-control" name="rePassword" placeholder="请再次输入密码"
+                                   required=""></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox i-checks"><label> <input type="checkbox"><i></i>同意条款和政策</label></div>
+                    </div>
+                    <button id="reg" type="button" class="btn btn-primary block full-width m-b">注册</button>
+
+                    <p class="text-muted text-center">
+                        <small>已经有一个帐户？</small>
+                    </p>
+                    <a class="btn btn-sm btn-white btn-block" data-dismiss="modal" data-toggle="modal"
+                       data-target="#myModel3">请登陆</a>
+                </div>
+                <!--<div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                <input type="submit" class="btn btn-primary" value="确认注册"
+                       onclick="change(this)">
+            </div>-->
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Toastr script -->
+<script src="js/plugins/toastr/toastr.min.js"></script>
+<script>
+    $('#myModel3').on('shown.bs.modal', function (e) {
+// 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+        $(this).css('display', 'block');
+        var modalHeight = $(window).height() / 2 - $('#myModel3 .modal-dialog').height() / 2;
+        $(this).find('.modal-dialog').css({
+            'margin-top': modalHeight
+        });
+    });
+    $('#regModel').on('shown.bs.modal', function (e) {
+// 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+        $(this).css('display', 'block');
+        var modalHeight = $(window).height() / 2 - $('#regModel .modal-dialog').height() / 2;
+        $(this).find('.modal-dialog').css({
+            'margin-top': modalHeight
+        });
+    });
+    function changeImge(img){
+        console.log(0000);
+        console.info(img);
+        img.src="user/code?r="+new Date().getTime();
+    }
+    $('#reg').click(function () {
+        var rePassword = $("#rePassword").val();
+        var userName = $("#userName").val();
+        var userPassword = $("#userPassword").val();
+        if(rePassword!=userPassword){
+            success("两次密码不一样,请重新输入");
+        }else{
+// 执行一些动作...
+            //console.log("模态框%o","关闭");
+            console.log("表单数据：%o",{"userName": userName, "userPassword":userPassword});
+            //var data = $('#regModel').serialize(); //name=value&p2=v2&....
+            //console.log("序列化"+data);
+            var json = {userName: userName, userPassword: userPassword};
+            $.ajax({
+                url: "user/reg",
+                type: "post",
+                data: json,
+                success: function (result) {
+                    console.info(result);
+                    if (result == "success") {
+                        $('#regModel').modal('hide')
+                        success("注册成功！");
+                    }
+                },
+                error: function () {
+                }
+            });
+
+        }
+
+    });
+    function success(msg) {
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "progressBar": false,
+            "preventDuplicates": true,
+            "positionClass": "toast-bottom-center",
+            "showDuration": "1500",
+            "hideDuration": "1500",
+            "timeOut": "1500",
+            "extendedTimeOut": "1500",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ($('#addBehaviorOnToastClick').prop(
+                'checked')) {
+            toastr.options.onclick = function () {
+                alert('You can perform some custom action after a toast goes away');
+            };
+        }
+        toastr.info(msg);
+    }
+</script>
+<script>
+    $(document).ready(function(){
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+    });
+</script>

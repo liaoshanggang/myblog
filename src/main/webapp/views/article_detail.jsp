@@ -145,27 +145,101 @@
                                         <div class="social-feed-box">
                                             <div class="social-avatar">
                                                 <a href="" class="pull-left"> <img alt="图片"
-                                                                                   src="img/a1.jpg">
+                                                                                   class="img-circle" src="img/a1.jpg">
                                                 </a>
                                                 <div class="media-body">
                                                     <a href="#"><font style="vertical-align: inherit;"><font
                                                             style="vertical-align: inherit;">
-                                                        安德鲁·威廉姆斯 </font></font></a>
+                                                        ${logUser.userName} </font></font></a>
                                                     <small
                                                             class="text-muted"><font
                                                             style="vertical-align: inherit;"><font
                                                             style="vertical-align: inherit;">今天下午4:21 -
                                                         12.06.2014</font></font></small>
+                                                    <p class="">
+                                                        <font style="vertical-align: inherit;"><font
+                                                                style="vertical-align: inherit;">
+                                                            现在，许多桌面出版软件包和网页编辑器都使用Lorem Ipsum作为默认模型文本，搜索“lorem
+                                                            ipsum”将会发现许多仍然是默认模型文本的网站。 </font></font>
+                                                    </p>
+                                                    <%--回复开始--%>
+                                                    <div class="social-avatar">
+                                                        <a href="" class="pull-left"> <img alt="图片"
+                                                                                           class="img-circle" src="img/a1.jpg">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <a href="#"><font style="vertical-align: inherit;"><font
+                                                                    style="vertical-align: inherit;">
+                                                                安德鲁·威廉姆斯 </font></font> </a>
+                                                            <small
+                                                                    class="text-muted"><font
+                                                                    style="vertical-align: inherit;"><font
+                                                                    style="vertical-align: inherit;">今天下午4:21 -
+                                                                12.06.2014 回复：</font></font></small>
+                                                            <p class="">
+                                                                <font style="vertical-align: inherit;"><font
+                                                                        style="vertical-align: inherit;">
+                                                                    现在，许多桌面出版软件包和网页编辑器都使用Lorem Ipsum作为默认模型文本，搜索“lorem
+                                                                    ipsum”将会发现许多仍然是默认模型文本的网站。 </font></font>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="social-avatar">
+                                                        <a href="" class="pull-left"> <img alt="图片"
+                                                                                           class="img-circle" src="img/a1.jpg">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <a href="#"><font style="vertical-align: inherit;"><font
+                                                                    style="vertical-align: inherit;">
+                                                                安德鲁·威廉姆斯 </font></font></a>
+                                                            <small
+                                                                    class="text-muted"><font
+                                                                    style="vertical-align: inherit;"><font
+                                                                    style="vertical-align: inherit;">今天下午4:21 -
+                                                                12.06.2014 回复：</font></font></small>
+                                                            <p class="">
+                                                                <font style="vertical-align: inherit;"><font
+                                                                        style="vertical-align: inherit;">
+                                                                    现在，许多桌面出版软件包和网页编辑器都使用Lorem Ipsum作为默认模型文本，搜索“lorem
+                                                                    ipsum”将会发现许多仍然是默认模型文本的网站。 </font></font>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="social-avatar">
+                                                        <a href="" class="pull-left"> <img alt="图片"
+                                                                                           class="img-circle" src="img/a1.jpg">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <a href="#"><font style="vertical-align: inherit;"><font
+                                                                    style="vertical-align: inherit;">
+                                                                安德鲁·威廉姆斯 </font></font></a>
+                                                            <small
+                                                                    class="text-muted"><font
+                                                                    style="vertical-align: inherit;"><font
+                                                                    style="vertical-align: inherit;">今天下午4:21 -
+                                                                12.06.2014 回复：</font></font></small>
+                                                            <p class="">
+                                                                <font style="vertical-align: inherit;"><font
+                                                                        style="vertical-align: inherit;">
+                                                                    现在，许多桌面出版软件包和网页编辑器都使用Lorem Ipsum作为默认模型文本，搜索“lorem
+                                                                    ipsum”将会发现许多仍然是默认模型文本的网站。 </font></font>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <%--回复结束--%>
+                                                    <div class="pull-right">
+                                                        <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> Like </a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="social-body">
-                                                <p>
+                                            <%--<div class="social-body">
+                                                <p class="well">
                                                     <font style="vertical-align: inherit;"><font
                                                             style="vertical-align: inherit;">
                                                         现在，许多桌面出版软件包和网页编辑器都使用Lorem Ipsum作为默认模型文本，搜索“lorem
                                                         ipsum”将会发现许多仍然是默认模型文本的网站。 </font></font>
                                                 </p>
-                                            </div>
+                                            </div>--%>
                                         </div>
 
                                     </div>

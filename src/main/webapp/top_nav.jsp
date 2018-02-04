@@ -112,10 +112,17 @@
             <%
             } else {
             %>
-            <li><a href="login.jsp"> <i class="fa fa-sign-out"></i> 去登陆
+            <li><a data-toggle="modal" data-target="#myModel3"> <i class="fa fa-sign-out"></i> 去登陆
             </a></li>
             <%} %>
         </ul>
     </nav>
 </div>
 <!-- 头部结束 -->
+
+<div id="modal"></div>
+<script>
+    $(function () {
+        $('#modal').load('loginRegister.html');
+    })
+</script>

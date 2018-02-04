@@ -25,5 +25,10 @@ public class BlogUsersServiceImpl implements IBlogUsersService {
 			return blogUsersMapper.login(user);
 		}
 
-	
+	@Override
+	public void addBlogUser(BlogUsers user) {
+		blogUsersMapper.addBlogUser(user);
+	}
+
+
 }

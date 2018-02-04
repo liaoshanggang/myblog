@@ -21,7 +21,12 @@
     <meta name="author" content="">
     <base href="${rootpath}">
     <%@include file="css-common.jsp" %>
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <!-- Toastr style -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
     <%@include file="js-common.jsp" %>
+    <!-- iCheck -->
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
     <title>前台主页</title>
     <style type="text/css">
         div img {
@@ -110,33 +115,33 @@
                         <div>
                             <c:if test="${not empty artiPage}">
                                 <ul class="pagination">
-                                    <li><a href="article/query?pageNo=1">«</a></li>
+                                    <li><a href="showHome?pageNo=1">«</a></li>
                                     <c:if test="${artiPage.pageNo gt 3}">
                                         <li><a href="javascript:void(0)">....</a></li>
                                     </c:if>
                                     <c:if test="${artiPage.pageNo-2 ge 1}">
-                                        <li><a href="article/query?pageNo=${artiPage.pageNo-2}">${artiPage.pageNo-2}</a>
+                                        <li><a href="showHome?pageNo=${artiPage.pageNo-2}">${artiPage.pageNo-2}</a>
                                         </li>
                                     </c:if>
                                     <c:if test="${artiPage.pageNo-1 ge 1}">
-                                        <li><a href="article/query?pageNo=${artiPage.pageNo-1}">${artiPage.pageNo-1}</a>
+                                        <li><a href="showHome?pageNo=${artiPage.pageNo-1}">${artiPage.pageNo-1}</a>
                                         </li>
                                     </c:if>
                                     <li class="active"><a
-                                            href="article/query?pageNo=${artiPage.pageNo}">${artiPage.pageNo}</a>
+                                            href="showHome?pageNo=${artiPage.pageNo}">${artiPage.pageNo}</a>
                                     </li>
                                     <c:if test="${artiPage.pageNo+1 le artiPage.totalPage}">
-                                        <li><a href="article/query?pageNo=${artiPage.pageNo+1}">${artiPage.pageNo+1}</a>
+                                        <li><a href="showHome?pageNo=${artiPage.pageNo+1}">${artiPage.pageNo+1}</a>
                                         </li>
                                     </c:if>
                                     <c:if test="${artiPage.pageNo+2 le artiPage.totalPage}">
-                                        <li><a href="article/query?pageNo=${artiPage.pageNo+2}">${artiPage.pageNo+2}</a>
+                                        <li><a href="showHome?pageNo=${artiPage.pageNo+2}">${artiPage.pageNo+2}</a>
                                         </li>
                                     </c:if>
                                     <c:if test="${artiPage.pageNo+2 lt artiPage.totalPage}">
                                         <li><a href="javascript:void(0)">....</a></li>
                                     </c:if>
-                                    <li><a href="article/query?pageNo=${artiPage.totalPage}">»</a>
+                                    <li><a href="showHome?pageNo=${artiPage.totalPage}">»</a>
                                     </li>
                                 </ul>
                             </c:if>

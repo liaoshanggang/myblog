@@ -13,4 +13,6 @@ public interface BlogUsersMapper {
 	 * @return
 	 */
 	public BlogUsers login(BlogUsers user);
+
+	void addBlogUser(BlogUsers user);
 }

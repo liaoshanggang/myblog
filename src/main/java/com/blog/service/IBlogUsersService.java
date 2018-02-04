@@ -9,6 +9,6 @@ public interface IBlogUsersService {
 	 * @return
 	 */
 	BlogUsers selectForLogin(BlogUsers user);
-	
 
+	void addBlogUser (BlogUsers user);
 }

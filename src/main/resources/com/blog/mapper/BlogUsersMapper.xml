@@ -22,4 +22,18 @@
 		from blog_users where USER_NAME=#{userName} and
 		USER_PASSWORD=#{userPassword}
 	</select>
+
+	<insert id="addBlogUser" parameterType="blogUsers">
+		insert into blog_users
+		(USER_ID, USER_NAME, USER_NICKNAME,
+		USER_PASSWORD, USER_EMAIL,
+		USER_MOBILE,
+		USER_SEX, USER_BIRTHDAY,USER_ADDRESS,USER_PROFILE,USER_TYPE,USER_IMAGE_URL,EDU_BACKGROUND)
+		values
+		(BLOG_USERS_SEQ.nextval, #{userName,jdbcType=VARCHAR}, #{userNickname,jdbcType=VARCHAR},
+      #{userPassword,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, #{userMobile,jdbcType=VARCHAR},
+      #{userSex,jdbcType=VARCHAR}, #{userBirthday,jdbcType=DATE}, #{userAddress,jdbcType=VARCHAR},
+      #{userProfile,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, #{userImageUrl,jdbcType=VARCHAR},
+      #{eduBackground,jdbcType=VARCHAR})
+	</insert>
 </mapper>
