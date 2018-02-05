@@ -53,7 +53,7 @@
                     class="nav-label">用户管理</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li class="active"><a href="views/edit_profile.jsp">修改个人资料</a></li>
-                    <li class="active"><a href="views/manage_users.jsp">批量操作用户</a></li>
+                    <li class="active"><a href="user/queryAll">批量操作用户</a></li>
                 </ul>
             </li>
             <!-- 左下导航栏结束 -->

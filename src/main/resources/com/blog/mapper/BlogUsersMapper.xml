@@ -1,29 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blog.mapper.BlogUsersMapper">
-	<resultMap id="baseResultMap" type="blogUsers">
-		<id property="userId" column="USER_ID" jdbcType="INTEGER" />
-		<result property="userName" column="USER_NAME" jdbcType="VARCHAR" />
-		<result column="USER_NICKNAME" jdbcType="VARCHAR" property="userNickname" />
-		<result column="USER_PASSWORD" jdbcType="VARCHAR" property="userPassword" />
-		<result column="USER_EMAIL" jdbcType="VARCHAR" property="userEmail" />
-		<result column="USER_MOBILE" jdbcType="VARCHAR" property="userMobile" />
-		<result column="USER_SEX" jdbcType="VARCHAR" property="userSex" />
-		<result column="USER_BIRTHDAY" jdbcType="DATE" property="userBirthday" />
-		<result column="USER_ADDRESS" jdbcType="VARCHAR" property="userAddress" />
-		<result column="USER_PROFILE" jdbcType="VARCHAR" property="userProfile" />
-		<result column="USER_TYPE" jdbcType="INTEGER" property="userType" />
-		<result column="USER_IMAGE_URL" jdbcType="VARCHAR" property="userImageUrl" />
-		<result column="EDU_BACKGROUND" jdbcType="VARCHAR" property="eduBackground" />
-	</resultMap>
+    <resultMap id="baseResultMap" type="blogUsers">
+        <id property="userId" column="USER_ID" jdbcType="INTEGER"/>
+        <result property="userName" column="USER_NAME" jdbcType="VARCHAR"/>
+        <result column="USER_NICKNAME" jdbcType="VARCHAR" property="userNickname"/>
+        <result column="USER_PASSWORD" jdbcType="VARCHAR" property="userPassword"/>
+        <result column="USER_EMAIL" jdbcType="VARCHAR" property="userEmail"/>
+        <result column="USER_MOBILE" jdbcType="VARCHAR" property="userMobile"/>
+        <result column="USER_SEX" jdbcType="VARCHAR" property="userSex"/>
+        <result column="USER_BIRTHDAY" jdbcType="DATE" property="userBirthday"/>
+        <result column="USER_ADDRESS" jdbcType="VARCHAR" property="userAddress"/>
+        <result column="USER_PROFILE" jdbcType="VARCHAR" property="userProfile"/>
+        <result column="USER_TYPE" jdbcType="INTEGER" property="userType"/>
+        <result column="USER_IMAGE_URL" jdbcType="VARCHAR" property="userImageUrl"/>
+        <result column="EDU_BACKGROUND" jdbcType="VARCHAR" property="eduBackground"/>
+    </resultMap>
 
-	<select id="login" parameterType="blogUsers" resultMap="baseResultMap">
+    <!-- 根据用户名，昵称，邮箱，手机号模糊查询 -->
+    <sql id="where_selective">
+        <where>
+            <if
+                    test="queryObject.userName !=null and queryObject.userName.trim().length>0">
+                <bind name="pattern1" value="'%'+ queryObject.userName+'%'"/>
+                and USER_NAME like #{pattern1}
+            </if>
+            <if
+                    test="queryObject.userNickname !=null and queryObject.userNickname.trim().length>0">
+                <bind name="pattern2" value="'%'+ queryObject.userNickname+'%'"/>
+                and USER_NICKNAME like #{pattern2}
+            </if>
+            <if
+                    test="queryObject.userEmail !=null and queryObject.userEmail.trim().length>0">
+                <bind name="pattern3" value="'%'+ queryObject.userEmail+'%'"/>
+                and USER_EMAIL like #{pattern3}
+            </if>
+            <if
+                    test="queryObject.userMobile !=null and queryObject.userMobile.trim().length>0">
+                <bind name="pattern4" value="'%'+ queryObject.userMobile+'%'"/>
+                and USER_MOBILE like #{pattern4}
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectSelective" parameterType="page" resultMap="baseResultMap">
+        select * from (
+        select a.*,rownum rn from (
+        select q.*
+        from blog_users q
+        <include refid="where_selective"/>
+        ) a where <![CDATA[rownum<=#{lastIndex}]]>
+        ) where rn>=#{firstIndex}
+    </select>
+    <!-- 根据服务搜索信息查找服务信息记录数 -->
+    <select id="countForSelective" parameterType="page" resultType="int">
+        select count(q.USER_ID) from blog_users q
+        <include refid="where_selective"/>
+    </select>
+
+    <select id="login" parameterType="blogUsers" resultMap="baseResultMap">
 		select *
 		from blog_users where USER_NAME=#{userName} and
 		USER_PASSWORD=#{userPassword}
 	</select>
 
-	<insert id="addBlogUser" parameterType="blogUsers">
+    <insert id="addBlogUser" parameterType="blogUsers">
 		insert into blog_users
 		(USER_ID, USER_NAME, USER_NICKNAME,
 		USER_PASSWORD, USER_EMAIL,
@@ -36,4 +77,65 @@
       #{userProfile,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, #{userImageUrl,jdbcType=VARCHAR},
       #{eduBackground,jdbcType=VARCHAR})
 	</insert>
+
+    <!-- 根据客观题试题Id更新选项 -->
+    <update id="updateUser" parameterType="blogUsers">
+        update blog_users
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userName != null">
+                USER_NAME = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userNickname != null">
+                USER_NICKNAME = #{userNickname,jdbcType=VARCHAR},
+            </if>
+            <if test="userPassword != null">
+                USER_PASSWORD = #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userEmail != null">
+                USER_EMAIL = #{userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="userMobile != null">
+                USER_MOBILE = #{userMobile,jdbcType=VARCHAR},
+            </if>
+            <if test="userSex != null">
+                USER_SEX = #{userSex,jdbcType=VARCHAR},
+            </if>
+            <if test="userBirthday != null">
+                USER_BIRTHDAY = #{userBirthday,jdbcType=DATE},
+            </if>
+            <if test="userAddress != null">
+                USER_ADDRESS = #{userAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="userProfile != null">
+                USER_PROFILE = #{userProfile,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                USER_TYPE = #{userType,jdbcType=INTEGER},
+            </if>
+            <if test="userImageUrl != null">
+                USER_IMAGE_URL = #{userImageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="eduBackground != null">
+                EDU_BACKGROUND = #{eduBackground,jdbcType=VARCHAR},
+            </if>
+        </trim>
+        where USER_ID = #{userId,jdbcType=INTEGER}
+    </update>
+    <delete id="deleteUserById" parameterType="int">
+		delete from blog_users where USER_ID = #{id}
+	</delete>
+
+    <delete id="batchDelUser" parameterType="java.lang.Integer">
+        delete from blog_users where USER_ID in
+        <foreach item="delID" index="index" collection="array" open="(" separator="," close=")">
+            #{delID}
+        </foreach>
+    </delete>
+
+    <select id="selectUserById" parameterType="int" resultMap="baseResultMap">
+		select *
+		from blog_users
+		where blog_users.USER_ID=#{id}
+	</select>
+
 </mapper>

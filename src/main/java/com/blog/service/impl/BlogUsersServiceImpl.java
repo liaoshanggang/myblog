@@ -2,11 +2,14 @@ package com.blog.service.impl;
 
 import javax.annotation.Resource;
 
+import com.blog.vo.Page;
 import org.springframework.stereotype.Service;
 
 import com.blog.mapper.BlogUsersMapper;
 import com.blog.service.IBlogUsersService;
 import com.blog.vo.BlogUsers;
+
+import java.util.List;
 
 @Service("blogUsersService")
 public class BlogUsersServiceImpl implements IBlogUsersService {
@@ -28,6 +31,36 @@ public class BlogUsersServiceImpl implements IBlogUsersService {
 	@Override
 	public void addBlogUser(BlogUsers user) {
 		blogUsersMapper.addBlogUser(user);
+	}
+
+	@Override
+	public int countForSelective(Page<BlogUsers> page) {
+		return blogUsersMapper.countForSelective(page);
+	}
+
+	@Override
+	public List<BlogUsers> selectSelective(Page<BlogUsers> page) {
+		return blogUsersMapper.selectSelective(page);
+	}
+
+	@Override
+	public void deleteUserById(Integer id) {
+		blogUsersMapper.deleteUserById(id);
+	}
+
+	@Override
+	public void batchDelUser(int[] delID) {
+		blogUsersMapper.batchDelUser(delID);
+	}
+
+	@Override
+	public BlogUsers selectUserById(int id) {
+		return blogUsersMapper.selectUserById(id);
+	}
+
+	@Override
+	public void updateUser(BlogUsers user) {
+		this.blogUsersMapper.updateUser(user);
 	}
 
 
