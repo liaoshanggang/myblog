@@ -21,12 +21,9 @@
     <meta name="author" content="">
     <base href="${rootpath}">
     <%@include file="css-common.jsp" %>
-    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
     <!-- Toastr style -->
     <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
     <%@include file="js-common.jsp" %>
-    <!-- iCheck -->
-    <script src="js/plugins/iCheck/icheck.min.js"></script>
     <title>前台主页</title>
     <style type="text/css">
         div img {

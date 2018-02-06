@@ -230,6 +230,7 @@
                 if (result == "success") {
                     console.info(firstTD);
                     firstTD.text(name);
+                    firstTD.attr("value",name);//解决第二次点编辑不是新数据
                     success("保存成功！");
                 }
             },
@@ -249,7 +250,7 @@
             //console.info($(this).parent());//td
 
             var firstTD = $(this).parent().prev().prev().prev();
-            var catgName = firstTD.attr("value");//解决第二次问题
+            var catgName = firstTD.attr("value");//解决第二次输入框不是原数据的问题
             console.info(typeof (catgName));
             var catgId = $(this).attr("value");
             console.info(catgId + "==" + catgName);

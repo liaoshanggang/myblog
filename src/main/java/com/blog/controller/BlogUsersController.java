@@ -17,7 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -140,9 +142,18 @@ public class BlogUsersController {
 
     @RequestMapping("/updateUser")
     public @ResponseBody
-    String updateUser(BlogUsers user) {
+    Map<String , Object> updateUser(BlogUsers user) {
+        //判断用户名不能相同
         this.iBlogUsersService.updateUser(user);
         //如果第二次插入的
-        return "success";
+        Map<String , Object> map = new HashMap<String ,Object>();
+        map.put("userId",user.getUserId());
+        map.put("userName",user.getUserName());
+        map.put("userNickname", user.getUserNickname());
+        map.put("userEmail", user.getUserEmail());
+        map.put("userMobile", user.getUserMobile());
+        map.put("eduBackground", user.getEduBackground());
+        map.put("userProfile", user.getUserProfile());
+        return map;
     }
 }

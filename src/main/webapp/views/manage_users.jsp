@@ -99,8 +99,8 @@
                                             value="${user.userName}">${user.userName}</td>
                                         <td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"
                                             value="${user.userNickname}">${user.userNickname}</td>
-                                        <td class="">${user.userEmail}</td>
-                                        <td class=""> ${user.userMobile}</td>
+                                        <td class="" value="">${user.userEmail}</td>
+                                        <td class="" value=""> ${user.userMobile}</td>
                                         <td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"
                                             value="${user.eduBackground}">${user.eduBackground}</td>
                                         <td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"
@@ -217,7 +217,8 @@
                 closeOnCancel: true
             }, function (isConfirm) {
                 if (isConfirm) {
-                    //var curTr = $(cur).parent().prev().prev().prev().parent();
+                    var curTr = $(cur).parent().parent();
+                    console.info(curTr);
                     var id = $(cur).attr("value");
                     var json = {userId: id};
                     $.ajax({
@@ -227,9 +228,8 @@
                         success: function (result) {
                             console.info(result);
                             if (result == "success") {
-                                //console.info(curTr);
-                                //curTr.remove();
-                                location = location;
+                                curTr.remove();
+                                //location = location;
                                 success("删除成功！");
                             }
                         },
@@ -287,8 +287,16 @@
             type: "post",
             data: "delId=" + delId,
             success: function (result) {
+                for (var i = 0; i < cks.length; i++) {
+                    if (cks[i].checked) {
+                        console.info($(cks[i]).parent().parent().parent().remove());
+                    }
+                }
                 success("批量删除成功！");
-                location = location;
+                //if(window.reload){success("批量删除成功！");}
+                /*setTimeout(function(){
+                    success("批量删除成功！");
+                },2000);*/
             },
             error: function () {
 
@@ -345,9 +353,11 @@
 </div>
 
 <script type="text/javascript">
+    var cur;
     $('#showUser').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // Button that triggered the modal
         var userId = button.attr("value");
+        cur = $(event.relatedTarget);
         $('#updateUser').load("user/selectUserById/" + userId);
     });
     $('#uptUser').click(function () {
@@ -355,18 +365,45 @@
         // var userName = $("#userName").val();
         //var userPassword = $("#userPassword").val();
         var data = $('#uptUserForm').serialize(); //name=value&p2=v2&....
+        /*var jsonData = $("#uptUserForm").serializeArray();
+        jsonData.forEach(function(value,key,json){
+            console.info(value+""+key+""+json);
+        })*/
         console.log("序列化" + data);
         $.ajax({
             url: "user/updateUser",
             type: "post",
             data: data,
+            dataType: "json",
             success: function (result) {
-                console.info(result);
-                if (result == "success") {
-                    $('#showUser').modal('hide');
-                    location = location;
-                    success("更新成功！");
+                $('#showUser').modal('hide');
+                var userId = cur.attr("value");
+                var tr = cur.parent().parent();
+                var up = cur.parent();
+                for(var i=0;i<6;i++){
+                    up.prev().remove();
                 }
+                var text = "<td style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;'";
+                //解决乱序问题"<td><input type='checkbox' value='" + result.userId + "' name='CheckBox'></td>"
+                $(up).before(text +
+                    "value='" + result.userName + "'>" + result.userName + "</td>" +
+                    text +
+                    "value='" + result.userNickname + "'>" + result.userNickname + "</td>" +
+                    "<td>" + result.userEmail + "</td><td>" + result.userMobile + "</td>" +
+                    text +
+                    "value='" + result.eduBackground + "'>" + result.eduBackground + "</td>" +
+                    text +
+                    "value='" + result.userProfile + "'>" + result.userProfile + "</td>");
+                /*var tds = cur.parent().parent().children();
+                var i = 1;
+                for (var x in result) {
+                    console.info("===" + result[x]);
+                    console.info($(tds[i]).text());
+                    $(tds[i]).text(result[x]);
+                    $(tds[i]).attr("value", result[x]);
+                    i++;
+                }*/
+                success("更新成功！");
             },
             error: function () {
             }

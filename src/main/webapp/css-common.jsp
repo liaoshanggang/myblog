@@ -10,3 +10,5 @@
 
 <!-- Custom styles for this template -->
 <link href="css/style.css" rel="stylesheet">
+
+<link href="css/plugins/iCheck/custom.css" rel="stylesheet">
