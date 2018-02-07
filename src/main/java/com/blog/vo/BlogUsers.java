@@ -1,5 +1,7 @@
 package com.blog.vo;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class BlogUsers {
@@ -16,7 +18,7 @@ public class BlogUsers {
     private String userMobile;
 
     private String userSex;
-
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date userBirthday;
 
     private String userAddress;

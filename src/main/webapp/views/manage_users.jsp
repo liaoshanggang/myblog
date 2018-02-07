@@ -358,7 +358,7 @@
         var button = $(event.relatedTarget); // Button that triggered the modal
         var userId = button.attr("value");
         cur = $(event.relatedTarget);
-        $('#updateUser').load("user/selectUserById/" + userId);
+        $('#updateUser').load("user/selectUserById/" + userId+"/showUser");
     });
     $('#uptUser').click(function () {
         // var rePassword = $("input[name='']").val();

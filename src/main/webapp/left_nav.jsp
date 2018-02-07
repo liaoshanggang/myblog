@@ -52,7 +52,7 @@
             <li><a href="index.html"><i class="fa fa-th-large"></i> <span
                     class="nav-label">用户管理</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li class="active"><a href="views/edit_profile.jsp">修改个人资料</a></li>
+                    <li class="active"><a href="user/showMe">修改个人资料</a></li>
                     <li class="active"><a href="user/queryAll">批量操作用户</a></li>
                 </ul>
             </li>

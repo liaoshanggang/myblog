@@ -7,10 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -126,8 +123,8 @@ public class BlogUsersController {
 
     }
 
-    @RequestMapping("/selectUserById/{userId}")
-    public String selectUserById(@PathVariable String userId, ModelMap modelMap) {
+    @RequestMapping("/selectUserById/{userId}/{moudule}")
+    public String selectUserById(@PathVariable String userId,@PathVariable String moudule, ModelMap modelMap) {
 
         int id = Integer.valueOf(userId);
 
@@ -137,13 +134,35 @@ public class BlogUsersController {
         BlogUsers user = iBlogUsersService.selectUserById(id);
 
         modelMap.addAttribute("user", user);
+        if(moudule.equals("showMe")){
+            return "model2";
+        }
         return "model";
     }
-
     @RequestMapping("/updateUser")
-    public @ResponseBody
-    Map<String , Object> updateUser(BlogUsers user) {
+    public @ResponseBody Map<String , Object> updateUser(BlogUsers user) {
         //判断用户名不能相同
+        return getStringObjectMap(user,"updateUser");
+    }
+
+    @RequestMapping(value = {"/showMe"}, method = {RequestMethod.POST, RequestMethod.GET})
+    public String showMe(ModelMap modelMap,
+                         HttpSession session) {
+        BlogUsers user = (BlogUsers) session.getAttribute("logUser");
+        if(user!=null){
+            BlogUsers curUser = iBlogUsersService.selectUserById(user.getUserId());
+            modelMap.addAttribute("curUser",curUser);
+        }
+        return "edit_profile";
+    }
+
+    @RequestMapping("/uptMyInfo")
+    public @ResponseBody Map<String , Object> uptMyInfo(BlogUsers user) {
+        //判断用户名不能相同
+        return getStringObjectMap(user,"uptMyInfo");
+    }
+
+    public Map<String, Object> getStringObjectMap(BlogUsers user, String moudule) {
         this.iBlogUsersService.updateUser(user);
         //如果第二次插入的
         Map<String , Object> map = new HashMap<String ,Object>();
@@ -154,6 +173,11 @@ public class BlogUsersController {
         map.put("userMobile", user.getUserMobile());
         map.put("eduBackground", user.getEduBackground());
         map.put("userProfile", user.getUserProfile());
+        if(moudule.equals("uptMyInfo")){
+            map.put("userSex",user.getUserSex());
+            map.put("userBirthday",user.getUserBirthday());
+            map.put("userAddress",user.getUserAddress());
+        }
         return map;
     }
 }

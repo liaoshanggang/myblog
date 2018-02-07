@@ -1,7 +1,6 @@
 package com.blog.service.impl;
 
 import com.blog.service.IBlogUsersService;
-import com.blog.vo.Article;
 import com.blog.vo.BlogUsers;
 import com.blog.vo.Page;
 import org.apache.log4j.Logger;
@@ -12,7 +11,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Random;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:applicationContext.xml"})
