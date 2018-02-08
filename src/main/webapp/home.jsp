@@ -155,7 +155,7 @@
                             <i class="fa fa-info-circle"></i><font
                                 style="vertical-align: inherit;"><font
                                 style="vertical-align: inherit;"> <a
-                                href="views/bgmgr_index.jsp">后台管理主页</a>
+                                href="views/templet.jsp">后台管理主页</a>
                         </font></font>
                         </h1>
                     </div>

@@ -42,4 +42,8 @@ public class CommonController {
 		session.setAttribute("artiPage", page);
 		return "../home";
 	}
+	@RequestMapping("showFile")
+	public String showFile(ModelMap modelMap,HttpSession session){
+		return "upload/upload";
+	}
 }

@@ -64,6 +64,9 @@
 
                                     <div class="profile-image">
                                         <img src="img/a4.jpg" class="img-circle circle-border m-b-md" alt="profile">
+                                        <a href="#" class="btn" data-toggle="modal" data-target="#showMe" value="${curUser.userId}">
+                                            <span class="glyphicon glyphicon-edit"></span>修改头像
+                                        </a>
                                     </div>
                                     <div class="profile-info">
                                         <div class="">
