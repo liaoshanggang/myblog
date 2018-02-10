@@ -125,7 +125,9 @@ public class BlogUsersController {
 
     @RequestMapping("/selectUserById/{userId}/{moudule}")
     public String selectUserById(@PathVariable String userId,@PathVariable String moudule, ModelMap modelMap) {
-
+        if(userId==null){
+            return "/home";
+        }
         int id = Integer.valueOf(userId);
 
         System.out.println(id);
@@ -136,8 +138,11 @@ public class BlogUsersController {
         modelMap.addAttribute("user", user);
         if(moudule.equals("showMe")){
             return "model2";
+        }else if(moudule.equals("showUser")){
+            return "model";
+        }else{
+            return "model3";
         }
-        return "model";
     }
     @RequestMapping("/updateUser")
     public @ResponseBody Map<String , Object> updateUser(BlogUsers user) {

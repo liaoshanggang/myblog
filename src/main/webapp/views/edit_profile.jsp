@@ -16,8 +16,9 @@
     <%@include file="../css-common.jsp" %>
     <!-- Toastr style -->
     <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="css/plugins/cropper/cropper.min.css" rel="stylesheet">
     <%@include file="../js-common.jsp" %>
-    <style>
+    <style type="text/css">
     </style>
 </head>
 
@@ -60,77 +61,79 @@
                             <div class="row m-b-lg m-t-lg">
 
                                 <c:if test="${not empty curUser}">
-                                <div class="col-md-5">
+                                    <div class="col-md-5">
 
-                                    <div class="profile-image">
-                                        <img src="img/a4.jpg" class="img-circle circle-border m-b-md" alt="profile">
-                                        <a href="#" class="btn" data-toggle="modal" data-target="#showMe" value="${curUser.userId}">
-                                            <span class="glyphicon glyphicon-edit"></span>修改头像
-                                        </a>
-                                    </div>
-                                    <div class="profile-info">
-                                        <div class="">
-                                            <div>
-                                                <h1 class="no-margins">
+                                        <div class="profile-image">
+                                            <img id="myHead" src="../${curUser.userImageUrl}" class="img-circle circle-border m-b-md" alt="profile">
+                                            <a id="uptHead" href="#" class="btn" data-toggle="modal"
+                                               data-target="#uptPic" value="${curUser.userId}">
+                                                <span class="glyphicon glyphicon-edit"></span>修改头像
+                                            </a>
+                                        </div>
+                                        <div class="profile-info">
+                                            <div class="">
+                                                <div>
+                                                    <h1 class="no-margins">
                                                     <span id="userNickname">
-                                                    ${curUser.userNickname}
+                                                            ${curUser.userNickname}
                                                     </span>
-                                                </h1>
-                                                <small>
+                                                    </h1>
+                                                    <small>
                                                     <span id="userProfile">
-                                                    ${curUser.userProfile}
+                                                            ${curUser.userProfile}
                                                     </span>
-                                                </small>
+                                                    </small>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <table class="table small m-b-xs">
-                                        <tbody>
-                                        <tr>
-                                            <td>
-                                                <strong>性别</strong>
-                                                <span id="userSex">${curUser.userSex}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <strong>出生日期</strong>
-                                                <span id="userBirthday">
+                                    <div class="col-md-4">
+                                        <table class="table small m-b-xs">
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <strong>性别</strong>
+                                                    <span id="userSex">${curUser.userSex}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <strong>出生日期</strong>
+                                                    <span id="userBirthday">
                                                 <fmt:formatDate value='${curUser.userBirthday }'
-                                                                pattern='yyyy-MM-dd' />
+                                                                pattern='yyyy-MM-dd'/>
                                                 </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <strong>邮箱</strong>
-                                                <span id="userEmail">${curUser.userEmail}</span>
-                                            </td>
-                                            <td>
-                                                <strong>手机号</strong>
-                                                <span id="userMobile">${curUser.userMobile}</span>
-                                            </td>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>邮箱</strong>
+                                                    <span id="userEmail">${curUser.userEmail}</span>
+                                                </td>
+                                                <td>
+                                                    <strong>手机号</strong>
+                                                    <span id="userMobile">${curUser.userMobile}</span>
+                                                </td>
 
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <strong>地址</strong>
-                                                <span id="userAddress">${curUser.userAddress}</span>
-                                            </td>
-                                            <td>
-                                                <strong>学历</strong>
-                                                <span id="eduBackground">${curUser.eduBackground}</span>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="col-md-3">
-                                    <a href="#" class="btn" data-toggle="modal" data-target="#showMe" value="${curUser.userId}">
-                                        <span class="glyphicon glyphicon-edit"></span>修改个人资料
-                                    </a>
-                                </div>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>地址</strong>
+                                                    <span id="userAddress">${curUser.userAddress}</span>
+                                                </td>
+                                                <td>
+                                                    <strong>学历</strong>
+                                                    <span id="eduBackground">${curUser.eduBackground}</span>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <a href="#" class="btn" data-toggle="modal" data-target="#showMe"
+                                           value="${curUser.userId}">
+                                            <span class="glyphicon glyphicon-edit"></span>修改个人资料
+                                        </a>
+                                    </div>
 
                                 </c:if>
                             </div>
@@ -141,16 +144,23 @@
                                         <div class="panel-heading">
                                             <div class="panel-options">
                                                 <ul class="nav nav-tabs">
-                                                    <li class="active" style="width: 33.33%"><a class="" href="#tab-1" data-toggle="tab">站长博客</a></li>
-                                                    <li class="" style="width: 33.33%"><a class="" href="#tab-2" data-toggle="tab">我的收藏</a></li>
-                                                    <li class="" style="width: 33.33%"><a class="" href="#tab-2" data-toggle="tab">我的往来</a></li>
+                                                    <li class="active" style="width: 33.33%"><a class="" href="#tab-1"
+                                                                                                data-toggle="tab">站长博客</a>
+                                                    </li>
+                                                    <li class="" style="width: 33.33%"><a class="" href="#tab-2"
+                                                                                          data-toggle="tab">我的收藏</a>
+                                                    </li>
+                                                    <li class="" style="width: 33.33%"><a class="" href="#tab-2"
+                                                                                          data-toggle="tab">我的往来</a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="panel-body">
 
                                             <div class="tab-content">
-                                                <div class="tab-pane active" id="tab-1"></div>
+                                                <div class="tab-pane active" id="tab-1">
+                                                </div>
                                                 <div class="tab-pane" id="tab-2"></div>
                                                 <div class="tab-pane" id="tab-3"></div>
                                             </div>
@@ -192,7 +202,7 @@
                     <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
                     <input id="uptMyInfo" type="button" class="btn btn-primary" value="确认修改">
                 </div>
-               <%-- </c:if>--%>
+                <%-- </c:if>--%>
             </form>
         </div>
     </div>
@@ -202,7 +212,7 @@
         var button = $(event.relatedTarget); // Button that triggered the modal
         var userId = button.attr("value");
         cur = $(event.relatedTarget);
-        $('#updateMe').load("user/selectUserById/" + userId+"/showMe");
+        $('#updateMe').load("user/selectUserById/" + userId + "/showMe");
     });
     /*$('body.canvas-menu .sidebar-collapse').slimScroll({
         height: '100%',
@@ -223,7 +233,7 @@
                 data: data,
                 dataType: "json",
                 success: function (result) {
-                    var b =(new Date(result.userBirthday)).Format("yyyy-MM-dd");
+                    var b = (new Date(result.userBirthday)).Format("yyyy-MM-dd");
                     $('#showMe').modal('hide');
                     $('#userNickname').text(result.userNickname);
                     $('#userSex').text(result.userSex);
@@ -243,6 +253,7 @@
         });
 
     });
+
     function success(msg) {
         toastr.options = {
             "closeButton": false,
@@ -274,27 +285,31 @@
     // 例子：
     // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
     // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
-    Date.prototype.Format = function(fmt)
-    { //author: meizz
+    Date.prototype.Format = function (fmt) { //author: meizz
         var o = {
-            "M+" : this.getMonth()+1,                 //月份
-            "d+" : this.getDate(),                    //日
-            "h+" : this.getHours(),                   //小时
-            "m+" : this.getMinutes(),                 //分
-            "s+" : this.getSeconds(),                 //秒
-            "q+" : Math.floor((this.getMonth()+3)/3), //季度
-            "S"  : this.getMilliseconds()             //毫秒
+            "M+": this.getMonth() + 1,                 //月份
+            "d+": this.getDate(),                    //日
+            "h+": this.getHours(),                   //小时
+            "m+": this.getMinutes(),                 //分
+            "s+": this.getSeconds(),                 //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds()             //毫秒
         };
-        if(/(y+)/.test(fmt))
-            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
-        for(var k in o)
-            if(new RegExp("("+ k +")").test(fmt))
-                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+        if (/(y+)/.test(fmt))
+            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt))
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
         return fmt;
     }
 </script>
-
-
+<div id="uptPic2"></div>
+<script>
+    $(function () {
+        var userId = $('#uptHead').attr("value");
+        $('#uptPic2').load("user/selectUserById/" + userId + "/uptPic");
+    })
+</script>
 </body>
 
 </html>

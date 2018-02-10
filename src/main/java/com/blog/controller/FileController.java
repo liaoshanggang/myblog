@@ -1,22 +1,24 @@
 package com.blog.controller;
 
+import com.blog.service.IBlogUsersService;
+import com.blog.vo.BlogUsers;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.ServletContextAware;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,84 +27,111 @@ import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/file")
-public class FileController implements ServletContextAware {
+public class FileController implements ServletContextAware {//1、
     static Logger logger = Logger.getLogger(BlogUsersController.class);
+    @Resource
+    IBlogUsersService iBlogUsersService;
+    //2、
     @Autowired
     private HttpServletRequest request;
     private ServletContext servletContext;
 
     private static SimpleDateFormat sdf =
             new SimpleDateFormat("yyyyMMdd-HHmmss");
+    //存放在项目下路径
+    //private final String projectPath = "D:\\ws\\myblog\\src\\main\\webapp\\blog";
+    //虚拟目录，存放在服务器磁盘上，存储路径与tomcat路径的分离
+    private final String realPath = "E:\\user\\img";
+    private final String accessPath = "user/img/";
 
-    /**
-     * 通过参数@RequestParam("file") MultipartFile file获取到前端传来的File对象，
-     * 并通过file.getInputStream()得到File对象的输入流，
-     * 之后再通过输出流将文件写入到D盘，即实现文件上传功能。
-     *
-     * @param desc
-     * @param file
-     * @return
-     * @throws IOException
-     */
-    @RequestMapping("/testFileUpload")
-    public String testFileUpload(@RequestParam("desc") String desc, @RequestParam("file") MultipartFile file)
-            throws IOException {
-        //http://localhost:8901/file/testFileUpload
-        //此方法获取到工程webapp文件夹下
-        //D:\ws\myblog\target\myblog-1.0\
-        String contexPath = request.getSession().getServletContext().getRealPath("/");
+    //临时目录
+    //private final String tempPath  = "D:\\ws\\myblog\\target\\myblog-1.0\\";
+    public String getContextPath() {//临时目录
+        return this.servletContext.getRealPath("/blog/");
+    }
+
+    public String getWebappPath() {
+        //此方法获取到工程webapp文件夹下 //D:\ws\myblog\target\myblog-1.0\
+        return request.getSession().getServletContext().getRealPath("/");
+    }
+
+    public String getUrl() {
+        //http://localhost:8901/file/testFileUpload1;到控制器方法前
         String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getServletPath();
         if (request.getQueryString() != null) {
             url += "?" + request.getQueryString();
         }
-        String fileName = file.getOriginalFilename();
-        logger.info("desc: " + desc);
-        logger.info("OriginalFilename: " + fileName);
-        logger.info("InputStream: " + file.getInputStream());
-        InputStream input = file.getInputStream();
-        logger.info("D:" + File.separator + fileName);
+        return url;
+    }
 
-        String path = "D:\\ws\\myblog\\src\\main\\webapp\\blog";
-        OutputStream out = new FileOutputStream(path + File.separator + fileName);
+    public void copyPic(MultipartFile file, String path) throws IOException {
+        InputStream input = file.getInputStream();
+        OutputStream out = new FileOutputStream(path);
         byte[] b = new byte[1024];
         while ((input.read(b)) != -1) {
             out.write(b);
         }
         input.close();
         out.close();
-        return "upload/upload_ok";
     }
 
+    private String getNewFileName(String originalName) {
+        //a.jpg ----> a-20180208-153233.jpg
+        int dotIndex = originalName.lastIndexOf(".");
+        //生成上传文件的目标名称
+        String uploadFileName =
+                originalName.substring(0, dotIndex) + "-"
+                        + sdf.format(new Date())
+                        + originalName.substring(dotIndex);
+        return uploadFileName;
+    }
+
+    /**
+     * 通过参数@RequestParam("file") MultipartFile file获取到前端传来的File对象，
+     * 并通过file.getInputStream()得到File对象的输入流，
+     * 之后再通过输出流将文件写入到e:/user/img/盘，即实现文件上传功能。通过虚拟目录来访问。
+     *
+     * @param file
+     * @return
+     * @throws IOException
+     */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public String handleUploadData(String name,
-                                   @RequestParam("file") CommonsMultipartFile file) {
+    public @ResponseBody
+    String upload(@RequestParam("file") MultipartFile file, HttpSession session)
+            throws IOException {
         if (!file.isEmpty()) {
-            //D:\ws\myblog\target\myblog-1.0\blog\
-            String path = this.servletContext.getRealPath("/blog/");  //获取本地存储路径
-            System.out.println(path);
-            String fileName = file.getOriginalFilename();
-            String fileType = fileName.substring(fileName.lastIndexOf("."));
-            System.out.println(fileType);
-            File file2 = new File(path, new Date().getTime() + fileType); //新建一个文件
-            try {
-                file.getFileItem().write(file2); //将上传的文件写入新建的文件中
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return "upload/upload_ok";
+            String originalName = file.getOriginalFilename();//获取原文件名带后缀
+            String newFileName = getNewFileName(originalName);
+
+            //把路径插入到数据库user/img/abc.jpg，并存放到服务器硬盘上
+            copyPic(file, realPath + File.separator + newFileName);
+            BlogUsers user = (BlogUsers) session.getAttribute("logUser");
+            BlogUsers user2 = new BlogUsers();
+            user2.setUserId(user.getUserId());
+            user2.setUserImageUrl(accessPath + newFileName);
+            iBlogUsersService.updateUser(user2);
+
+            //临时存放
+            String path = getContextPath() + File.separator + newFileName;
+            copyPic(file, path);
+            //"blog/" + newFileName
+            return accessPath + newFileName;
         } else {
-            return "upload/upload_error";
+            return "该文件为空";//加/在webapp下，不加在views
         }
     }
 
-    //案例1    必须使用@RequestParam注解指定参数
+    /**
+     * 上传单个文件   必须使用@RequestParam注解指定参数
+     */
     @RequestMapping(value = "/upload1", method = RequestMethod.POST)
     public String upload(ModelMap modelMap,
                          @RequestParam("file") CommonsMultipartFile file) {
         if (!file.isEmpty()) {
+            //D:\ws\myblog\target\myblog-1.0\blog\
             //得到应用程序所在tomcat的一个绝对路径
             String uploadDirectory =
-                    this.servletContext.getRealPath("/blog/");
+                    this.servletContext.getRealPath("/blog/");//获取本地存储路径
             //得到上传文件的原始文件名
             String originalName = file.getOriginalFilename();
 
@@ -114,21 +143,22 @@ public class FileController implements ServletContextAware {
                             + sdf.format(new Date())
                             + originalName.substring(dotIndex);
             try {
-                File destFile = new File(uploadDirectory, uploadFileName);
+                File destFile = new File(uploadDirectory, uploadFileName);//新建一个文件
                 file.getFileItem().write(destFile);//得到一项写到目标文件
                 //file.transferTo(destFile);
                 modelMap.addAttribute("uploadFile", file);//在成功页面显示上传信息
-                modelMap.addAttribute("uploadFileName",uploadFileName);
+                modelMap.addAttribute("uploadFileName", uploadFileName);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            // return "upload/upload_ok";
         } else {
             return "upload/upload_error";//加/在webapp下，不加在views
         }
         return "upload/upload_ok";
     }
 
-    //案例2
+    //上传多个文件
     @RequestMapping(value = "/upload2", method = RequestMethod.POST)
     public String upload2(String name, MultipartHttpServletRequest multipartRequest,
                           ModelMap modelMap) {
@@ -168,12 +198,17 @@ public class FileController implements ServletContextAware {
         return "upload/upload_ok";
     }
 
-
+    /**
+     * 下载
+     *
+     * @param servletResponse
+     * @param fileName
+     */
     @RequestMapping("/download")
     public void download(HttpServletResponse servletResponse,
                          @RequestParam("filename") String fileName) {
         fileName = "/2-20180208-174231.jpg";
-        String downloadFile = servletContext.getRealPath("/blog")+ fileName;// /  File.separator + fileName;
+        String downloadFile = servletContext.getRealPath("/blog") + fileName;// /  File.separator + fileName;
         ServletOutputStream sos = null;
         try {
             servletResponse.reset();

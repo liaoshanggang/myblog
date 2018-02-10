@@ -1,11 +1,11 @@
-package com.blog.util;
+package com.blog.vo;
 
 import java.io.File;
 
 /**
  * 文件上传包装类
  */
-public class UploadFile {
+public class FileInfo {
 
     /**文件*/
     public File file;
@@ -26,7 +26,7 @@ public class UploadFile {
         return file;
     }
 
-    public UploadFile setFile(File file) {
+    public FileInfo setFile(File file) {
         this.file = file;return this;
     }
 
@@ -34,7 +34,7 @@ public class UploadFile {
         return fileSize;
     }
 
-    public UploadFile setFileSize(String fileSize) {
+    public FileInfo setFileSize(String fileSize) {
         this.fileSize = fileSize;return this;
     }
 
@@ -42,7 +42,7 @@ public class UploadFile {
         return fileMD5;
     }
 
-    public UploadFile setFileMD5(String fileMD5) {
+    public FileInfo setFileMD5(String fileMD5) {
         this.fileMD5 = fileMD5;return this;
     }
 
@@ -50,7 +50,7 @@ public class UploadFile {
         return originalFileName;
     }
 
-    public UploadFile setOriginalFileName(String originalFileName) {
+    public FileInfo setOriginalFileName(String originalFileName) {
         this.originalFileName = originalFileName;return this;
     }
 
@@ -58,7 +58,7 @@ public class UploadFile {
         return fileName;
     }
 
-    public UploadFile setFileName(String fileName) {
+    public FileInfo setFileName(String fileName) {
         this.fileName = fileName;return this;
     }
 
@@ -66,7 +66,7 @@ public class UploadFile {
         return suffixName;
     }
 
-    public UploadFile setSuffixName(String suffixName) {
+    public FileInfo setSuffixName(String suffixName) {
         this.suffixName = suffixName;return this;
     }
 
@@ -74,7 +74,7 @@ public class UploadFile {
         return fullFileName;
     }
 
-    public UploadFile setFullFileName(String fullFileName) {
+    public FileInfo setFullFileName(String fullFileName) {
         this.fullFileName = fullFileName;return this;
     }
 
