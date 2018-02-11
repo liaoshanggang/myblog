@@ -15,6 +15,13 @@
             + path + "/";
 %>--%>
 <!-- 修改用户信息模态框 -->
+<link href="css/plugins/cropper/cropper.min.css" rel="stylesheet">
+<style type="text/css">
+    .cropper-view-box,
+    .cropper-face {
+        border-radius: 50%;
+    }
+</style>
 <div class="modal inmodal fade" id="uptPic" tabindex="-1"
      role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -75,7 +82,7 @@
     var $image = $(".image-crop > img");
     $($image).cropper({
         //viewMode : 3,
-        aspectRatio: 1.618,//类型：Number，默认值NaN。设置剪裁容器的比例。
+        aspectRatio: 1,//类型：Number，默认值NaN。设置剪裁容器的比例。
         preview: ".img-preview",//类型：String(jQuery选择器)，默认值”。添加额外的元素（容器）的预览。
         done: function (data) {//类型：Function，默认值null。当改变剪裁容器或图片时的事件函数。
             // Output the result data for cropping image.

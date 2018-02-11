@@ -16,10 +16,8 @@
     <%@include file="../css-common.jsp" %>
     <!-- Toastr style -->
     <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
-    <link href="css/plugins/cropper/cropper.min.css" rel="stylesheet">
     <%@include file="../js-common.jsp" %>
-    <style type="text/css">
-    </style>
+
 </head>
 
 
@@ -307,7 +305,8 @@
 <script>
     $(function () {
         var userId = $('#uptHead').attr("value");
-        $('#uptPic2').load("user/selectUserById/" + userId + "/uptPic");
+        //$('#uptPic2').load("user/selectUserById/" + userId + "/uptPic");
+        $('#uptPic2').load("user/selectUserById/" + userId + "/uptPic2");
     })
 </script>
 </body>

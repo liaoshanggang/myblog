@@ -140,8 +140,10 @@ public class BlogUsersController {
             return "model2";
         }else if(moudule.equals("showUser")){
             return "model";
-        }else{
+        }else if(moudule.equals("uptPic")){
             return "model3";
+        }else {
+            return "model4";
         }
     }
     @RequestMapping("/updateUser")
