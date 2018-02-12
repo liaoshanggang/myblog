@@ -1,32 +1,32 @@
 package com.blog.vo;
 
-import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class Comment {
-    private BigDecimal comtId;
+    private Integer comtId;
 
-    private BigDecimal comtArtiId;
+    private Integer comtArtiId;
 
     private String comtContent;
 
-    private BigDecimal comtUserId;
+    private Integer comtUserId;
 
     private Date comtTime;
 
-    public BigDecimal getComtId() {
+    public Integer getComtId() {
         return comtId;
     }
 
-    public void setComtId(BigDecimal comtId) {
+    public void setComtId(Integer comtId) {
         this.comtId = comtId;
     }
 
-    public BigDecimal getComtArtiId() {
+    public Integer getComtArtiId() {
         return comtArtiId;
     }
 
-    public void setComtArtiId(BigDecimal comtArtiId) {
+    public void setComtArtiId(Integer comtArtiId) {
         this.comtArtiId = comtArtiId;
     }
 
@@ -38,11 +38,11 @@ public class Comment {
         this.comtContent = comtContent == null ? null : comtContent.trim();
     }
 
-    public BigDecimal getComtUserId() {
+    public Integer getComtUserId() {
         return comtUserId;
     }
 
-    public void setComtUserId(BigDecimal comtUserId) {
+    public void setComtUserId(Integer comtUserId) {
         this.comtUserId = comtUserId;
     }
 
@@ -52,5 +52,48 @@ public class Comment {
 
     public void setComtTime(Date comtTime) {
         this.comtTime = comtTime;
+    }
+
+    public Comment() {
+        super();
+    }
+
+    public Comment(Integer comtId, Integer comtArtiId, String comtContent, Integer comtUserId, Date comtTime) {
+        this.comtId = comtId;
+        this.comtArtiId = comtArtiId;
+        this.comtContent = comtContent;
+        this.comtUserId = comtUserId;
+        this.comtTime = comtTime;
+    }
+
+    public Comment(Integer comtId, Integer comtArtiId, String comtContent, Integer comtUserId, Date comtTime, List<Reply> replies) {
+        this.comtId = comtId;
+        this.comtArtiId = comtArtiId;
+        this.comtContent = comtContent;
+        this.comtUserId = comtUserId;
+        this.comtTime = comtTime;
+        this.replies = replies;
+    }
+
+    private List<Reply> replies;
+
+    public List<Reply> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<Reply> replies) {
+        this.replies = replies;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "comtId=" + comtId +
+                ", comtArtiId=" + comtArtiId +
+                ", comtContent='" + comtContent + '\'' +
+                ", comtUserId=" + comtUserId +
+                ", comtTime=" + comtTime +
+                ", replies=" + replies +
+                '}';
     }
 }

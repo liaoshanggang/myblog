@@ -7,18 +7,15 @@
             + request.getServerName() + ":" + request.getServerPort()
             + path + "/";
     application.setAttribute("rootpath", basePath);
-
-    /* response.sendRedirect("login.jsp"); */
 %>
 <!DOCTYPE>
-<!-- <html lang="en"> -->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <%--<meta http-equiv="X-UA-Compatible" content="IE=edge">--%>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <%--<meta name="description" content="">
+    <meta name="author" content="">--%>
     <base href="${rootpath}">
     <%@include file="../css-common.jsp" %>
     <%@include file="../js-common.jsp" %>
@@ -71,28 +68,18 @@
                         <div class="ibox col-md-12">
                             <div class="ibox-content col-md-12">
                                 <div class="pull-right">
-                                    <button class="btn btn-white btn-xs" type="button">
-                                        <font style="vertical-align: inherit;"><font
-                                                style="vertical-align: inherit;">模型</font></font>
+                                    <button class="btn btn-white btn-xs" type="button">模型
                                     </button>
-                                    <button class="btn btn-white btn-xs" type="button">
-                                        <font style="vertical-align: inherit;"><font
-                                                style="vertical-align: inherit;">出版</font></font>
+                                    <button class="btn btn-white btn-xs" type="button">出版
                                     </button>
-                                    <button class="btn btn-white btn-xs" type="button">
-                                        <font style="vertical-align: inherit;"><font
-                                                style="vertical-align: inherit;">现代</font></font>
+                                    <button class="btn btn-white btn-xs" type="button">现代
                                     </button>
                                 </div>
                                 <div class="text-center article-title" style="width:100%;word-wrap: break-word">
-										<span class="text-muted"><i class="fa fa-clock-o"></i><font
-                                                style="vertical-align: inherit;"><font
-                                                style="vertical-align: inherit;"> <fmt:formatDate
+										<span class="text-muted"><i class="fa fa-clock-o"></i><fmt:formatDate
                                                 value='${article.artiTime}'
-                                                pattern='yyyy-MM-dd HH:mm:ss'/></font></font></span>
-                                    <h1 id="title">
-                                        <font style="vertical-align: inherit;"><font
-                                                style="vertical-align: inherit;"> ${article.artiTitle }</font></font>
+                                                pattern='yyyy-MM-dd HH:mm:ss'/></span>
+                                    <h1 id="title"> ${article.artiTitle }
                                     </h1>
                                 </div>
                                 <!-- <div style="overflow:auto"> -->
@@ -102,149 +89,139 @@
                                 <hr>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h5>
-                                            <font style="vertical-align: inherit;"><font
-                                                    style="vertical-align: inherit;">标签：</font></font>
+                                        <h5>标签：
                                         </h5>
-                                        <button class="btn btn-primary btn-xs" type="button">
-                                            <font style="vertical-align: inherit;"><font
-                                                    style="vertical-align: inherit;">模型</font></font>
+                                        <button class="btn btn-primary btn-xs" type="button">模型
                                         </button>
-                                        <button class="btn btn-white btn-xs" type="button">
-                                            <font style="vertical-align: inherit;"><font
-                                                    style="vertical-align: inherit;">出版</font></font>
+                                        <button class="btn btn-white btn-xs" type="button">出版
                                         </button>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="small text-right">
-                                            <h5>
-                                                <font style="vertical-align: inherit;"><font
-                                                        style="vertical-align: inherit;">统计：</font></font>
+                                            <h5>统计：
                                             </h5>
                                             <div>
-                                                <i class="fa fa-comments-o"> </i><font
-                                                    style="vertical-align: inherit;"><font
-                                                    style="vertical-align: inherit;">
-                                                ${article.artiComtNumber }评论 </font></font>
+                                                <i class="fa fa-comments-o"> </i>
+                                                ${article.artiComtNumber }评论
                                             </div>
-                                            <i class="fa fa-eye"> </i><font
-                                                style="vertical-align: inherit;"><font
-                                                style="vertical-align: inherit;">
-                                            ${article.artiPageView }意见 </font></font>
+                                            <i class="fa fa-eye"> </i>
+                                            ${article.artiPageView }意见
                                         </div>
                                     </div>
                                 </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="social-avatar" style="background-color: #F7F7F7;">
+                                        <h3>
+                                            <a href="#">
+                                                ${logUser.userName}
+                                            </a><span>发表我的评论</span></h3>
+                                    </div>
+                                    <div class="social-body">
+                                        <form action="javascript:void(0);" id="commentForm">
+                                            <input type="hidden" class="form-control" name="comtArtiId"
+                                                   value="${article.artiId}"/>
+                                            <textarea class="form-control" name="comtContent" placeholder="写点什么..."
+                                                      required></textarea>
+                                            <button id="addComment" class="form-control btn btn-white"
+                                                    style="background-color: #F8F8F8;">提交评论
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                网友最新评论 (${commentPage.getTotalRow()})
+                                <hr>
                                 <!-- 评论开始 -->
                                 <div class="row">
                                     <div class="col-lg-12">
-
-                                        <h2>
-                                            <font style="vertical-align: inherit;"><font
-                                                    style="vertical-align: inherit;">注释：</font></font>
-                                        </h2>
-                                        <div class="social-feed-box">
-                                            <div class="social-avatar">
-                                                <a href="" class="pull-left"> <img alt="图片"
-                                                                                   class="img-circle" src="img/a1.jpg">
-                                                </a>
-                                                <div class="media-body">
-                                                    <a href="#"><font style="vertical-align: inherit;"><font
-                                                            style="vertical-align: inherit;">
-                                                        ${logUser.userName} </font></font></a>
-                                                    <small
-                                                            class="text-muted"><font
-                                                            style="vertical-align: inherit;"><font
-                                                            style="vertical-align: inherit;">今天下午4:21 -
-                                                        12.06.2014</font></font></small>
-                                                    <p class="">
-                                                        <font style="vertical-align: inherit;"><font
-                                                                style="vertical-align: inherit;">
-                                                            现在，许多桌面出版软件包和网页编辑器都使用Lorem Ipsum作为默认模型文本，搜索“lorem
-                                                            ipsum”将会发现许多仍然是默认模型文本的网站。 </font></font>
-                                                    </p>
-                                                    <%--回复开始--%>
-                                                    <div class="social-avatar">
-                                                        <a href="" class="pull-left"> <img alt="图片"
-                                                                                           class="img-circle" src="img/a1.jpg">
-                                                        </a>
-                                                        <div class="media-body">
-                                                            <a href="#"><font style="vertical-align: inherit;"><font
-                                                                    style="vertical-align: inherit;">
-                                                                安德鲁·威廉姆斯 </font></font> </a>
-                                                            <small
-                                                                    class="text-muted"><font
-                                                                    style="vertical-align: inherit;"><font
-                                                                    style="vertical-align: inherit;">今天下午4:21 -
-                                                                12.06.2014 回复：</font></font></small>
-                                                            <p class="">
-                                                                <font style="vertical-align: inherit;"><font
-                                                                        style="vertical-align: inherit;">
-                                                                    现在，许多桌面出版软件包和网页编辑器都使用Lorem Ipsum作为默认模型文本，搜索“lorem
-                                                                    ipsum”将会发现许多仍然是默认模型文本的网站。 </font></font>
-                                                            </p>
+                                        <!-- 一条评论开始 -->
+                                        <c:forEach var="comment" items="${commentList}" varStatus="status">
+                                            <div class="social-feed-box">
+                                                <div class="social-avatar">
+                                                    <a href="" class="pull-left">
+                                                        <img alt="图片" class="img-circle" src="img/a1.jpg">
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <a href="#">${comment.comtUserId}</a>
+                                                        <small class="text-muted">
+                                                            <fmt:formatDate value='${comment.comtTime}'
+                                                                            pattern='yyyy-MM-dd HH:mm:ss'/> 评论：
+                                                        </small>
+                                                        <p class="">${comment.comtContent}</p>
+                                                            <%--回复开始--%>
+                                                        <c:forEach var="reply" items="${comment.replies}"
+                                                                   varStatus="status1">
+                                                            <div class="social-avatar">
+                                                                <a href="" class="pull-left">
+                                                                    <img alt="图片" class="img-circle" src="img/a1.jpg">
+                                                                </a>
+                                                                <div class="media-body">
+                                                                    <a href="#">安德鲁·威廉姆斯</a>
+                                                                    <small class="text-muted"><fmt:formatDate
+                                                                            value='${reply.replyTime}'
+                                                                            pattern='yyyy-MM-dd HH:mm:ss'/> 回复：
+                                                                    </small>
+                                                                    <p class="">${reply.replyContent}</p>
+                                                                </div>
+                                                            </div>
+                                                        </c:forEach>
+                                                            <%--回复结束--%>
+                                                        <div class="pull-right">
+                                                            <a class="btn btn-xs btn-white">
+                                                                <i class="fa fa-thumbs-up"></i>Like
+                                                            </a>
                                                         </div>
-                                                    </div>
-                                                    <div class="social-avatar">
-                                                        <a href="" class="pull-left"> <img alt="图片"
-                                                                                           class="img-circle" src="img/a1.jpg">
-                                                        </a>
-                                                        <div class="media-body">
-                                                            <a href="#"><font style="vertical-align: inherit;"><font
-                                                                    style="vertical-align: inherit;">
-                                                                安德鲁·威廉姆斯 </font></font></a>
-                                                            <small
-                                                                    class="text-muted"><font
-                                                                    style="vertical-align: inherit;"><font
-                                                                    style="vertical-align: inherit;">今天下午4:21 -
-                                                                12.06.2014 回复：</font></font></small>
-                                                            <p class="">
-                                                                <font style="vertical-align: inherit;"><font
-                                                                        style="vertical-align: inherit;">
-                                                                    现在，许多桌面出版软件包和网页编辑器都使用Lorem Ipsum作为默认模型文本，搜索“lorem
-                                                                    ipsum”将会发现许多仍然是默认模型文本的网站。 </font></font>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="social-avatar">
-                                                        <a href="" class="pull-left"> <img alt="图片"
-                                                                                           class="img-circle" src="img/a1.jpg">
-                                                        </a>
-                                                        <div class="media-body">
-                                                            <a href="#"><font style="vertical-align: inherit;"><font
-                                                                    style="vertical-align: inherit;">
-                                                                安德鲁·威廉姆斯 </font></font></a>
-                                                            <small
-                                                                    class="text-muted"><font
-                                                                    style="vertical-align: inherit;"><font
-                                                                    style="vertical-align: inherit;">今天下午4:21 -
-                                                                12.06.2014 回复：</font></font></small>
-                                                            <p class="">
-                                                                <font style="vertical-align: inherit;"><font
-                                                                        style="vertical-align: inherit;">
-                                                                    现在，许多桌面出版软件包和网页编辑器都使用Lorem Ipsum作为默认模型文本，搜索“lorem
-                                                                    ipsum”将会发现许多仍然是默认模型文本的网站。 </font></font>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <%--回复结束--%>
-                                                    <div class="pull-right">
-                                                        <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> Like </a>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <%--<div class="social-body">
-                                                <p class="well">
-                                                    <font style="vertical-align: inherit;"><font
-                                                            style="vertical-align: inherit;">
-                                                        现在，许多桌面出版软件包和网页编辑器都使用Lorem Ipsum作为默认模型文本，搜索“lorem
-                                                        ipsum”将会发现许多仍然是默认模型文本的网站。 </font></font>
-                                                </p>
-                                            </div>--%>
-                                        </div>
-
+                                        </c:forEach>
+                                        <!-- 一条评论结束 -->
                                     </div>
                                 </div>
                                 <!-- 评论结束 -->
+                                <!-- 分页链拉开始 -->
+                                <div class="row" style="width: 50px">
+                                    <div class="col-lg-12">
+                                        <c:if test="${not empty commentPage}">
+                                            <ul class="pagination">
+                                                    <%--article/queryById/${article.artiId }/detail--%>
+                                                <li><a href="article/queryById/${article.artiId }/detail?pageNo=1">«</a></li>
+                                                <c:if test="${commentPage.pageNo gt 3}">
+                                                    <li><a href="javascript:void(0)">....</a></li>
+                                                </c:if>
+                                                <c:if test="${commentPage.pageNo-2 ge 1}">
+                                                    <li>
+                                                        <a href="article/queryById/${article.artiId }/detail?pageNo=${commentPage.pageNo-2}">${commentPage.pageNo-2}</a>
+                                                    </li>
+                                                </c:if>
+                                                <c:if test="${commentPage.pageNo-1 ge 1}">
+                                                    <li>
+                                                        <a href="article/queryById/${article.artiId }/detail?pageNo=${commentPage.pageNo-1}">${commentPage.pageNo-1}</a>
+                                                    </li>
+                                                </c:if>
+                                                <li class="active"><a
+                                                        href="article/queryById/${article.artiId }/detail?pageNo=${commentPage.pageNo}">${commentPage.pageNo}</a>
+                                                </li>
+                                                <c:if test="${commentPage.pageNo+1 le commentPage.totalPage}">
+                                                    <li>
+                                                        <a href="article/queryById/${article.artiId }/detail?pageNo=${commentPage.pageNo+1}">${commentPage.pageNo+1}</a>
+                                                    </li>
+                                                </c:if>
+                                                <c:if test="${commentPage.pageNo+2 le commentPage.totalPage}">
+                                                    <li>
+                                                        <a href="article/queryById/${article.artiId }/detail?pageNo=${commentPage.pageNo+2}">${commentPage.pageNo+2}</a>
+                                                    </li>
+                                                </c:if>
+                                                <c:if test="${commentPage.pageNo+2 lt commentPage.totalPage}">
+                                                    <li><a href="javascript:void(0)">....</a></li>
+                                                </c:if>
+                                                <li><a href="article/queryById/${article.artiId }/detail?pageNo=${commentPage.totalPage}">»</a>
+                                                </li>
+                                            </ul>
+                                        </c:if>
+                                    </div>
+                                </div>
+                                <!-- 分页链拉结束 -->
                             </div>
                         </div>
                         <!-- 博客全文结束 -->
@@ -256,16 +233,11 @@
             <div class="col-md-3">
                 <div class="panel">
                     <div class="panel-heading">
-                        <i class="fa fa-info-circle"></i><font
-                            style="vertical-align: inherit;"><font
-                            style="vertical-align: inherit;"> 5555信息面板 </font></font>
+                        <i class="fa fa-info-circle"></i> 5555信息面板
                     </div>
                     <div class="panel-body">
-                        <p>
-                            <font style="vertical-align: inherit;"><font
-                                    style="vertical-align: inherit;">Lorem存有悲坐阿梅德，consectetur
-                                adipiscing ELIT。</font><font style="vertical-align: inherit;">前庭是租赁。</font><font
-                                    style="vertical-align: inherit;">最新的足球教练池，并设置毕业分类宣传。</font></font>
+                        <p>Lorem存有悲坐阿梅德，consectetur
+                            adipiscing ELIT。前庭是租赁。最新的足球教练池，并设置毕业分类宣传。
                         </p>
                     </div>
 
@@ -288,7 +260,21 @@
     </div>
 </footer>
 <script type="text/javascript">
-
+    $('#addComment').click(function () {
+        var data = $('#commentForm').serialize();
+        console.log("序列化" + data);
+        $.ajax({
+            url: "comment/add",
+            type: "post",
+            data: data,
+            dataType: "json",
+            success: function (result) {
+                console.info(result);
+            },
+            error: function () {
+            }
+        });
+    });
 </script>
 </body>
 </html>

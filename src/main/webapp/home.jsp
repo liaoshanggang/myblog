@@ -154,8 +154,8 @@
                         <h1>
                             <i class="fa fa-info-circle"></i><font
                                 style="vertical-align: inherit;"><font
-                                style="vertical-align: inherit;"> <a
-                                href="views/templet.jsp">后台管理主页</a>
+                                style="vertical-align: inherit;"> <%--<a
+                                href="views/templet.jsp">后台管理主页</a>--%>
                         </font></font>
                         </h1>
                     </div>

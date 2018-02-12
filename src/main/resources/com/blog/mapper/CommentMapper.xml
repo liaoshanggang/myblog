@@ -1,5 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blog.mapper.CommentMapper">
-  
+    <!-- 表中有外键，这个表一定是多方！！ -->
+    <!-- 评论是多方，文章是一方
+    对于评论，是一对一文章，采用association 查询出来的是评论（文章）
+    对于文章，是一对多评论，采用collection,查询出来的是文章（List评论） -->
+    <resultMap id="baseResultMap" type="com.blog.vo.Comment">
+            <id column="COMT_ID" jdbcType="INTEGER" property="comtId" />
+            <result column="COMT_ARTI_ID" jdbcType="INTEGER" property="comtArtiId" />
+            <result column="COMT_CONTENT" jdbcType="VARCHAR" property="comtContent" />
+            <result column="COMT_USER_ID" jdbcType="INTEGER" property="comtUserId" />
+            <result column="COMT_TIME" jdbcType="TIMESTAMP" property="comtTime" />
+            <collection property="replies" ofType="reply">
+                <id column="REPLY_ID" jdbcType="INTEGER" property="replyId" />
+                <result column="REPLY_COMT_ID" jdbcType="INTEGER" property="replyComtId" />
+                <result column="REPLY_CONTENT" jdbcType="VARCHAR" property="replyContent" />
+                <result column="REPLY_TIME" jdbcType="TIMESTAMP" property="replyTime" />
+            </collection>
+    </resultMap>
+
+    <!-- 根据文章类别 ，标题，内容，日期查询  c.COMT_ID = r.REPLY_COMT_ID -->
+    <sql id="where_selective">
+        <where>
+            <if test="queryObject.comtArtiId  !=null">
+                and COMT_ARTI_ID=#{queryObject.comtArtiId }
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectSelective" parameterType="page" resultMap="baseResultMap">
+        select * from (
+        select a.*,rownum rn from (
+        select c.*,r.*
+        from COMT c left join REPLY r on c.COMT_ID = r.REPLY_COMT_ID
+        <include refid="where_selective" />
+     ORDER BY COMT_TIME DESC
+     ) a where <![CDATA[rownum<=#{lastIndex}]]>
+     ) where rn>=#{firstIndex}
+ </select>
+ <!-- 根据服务搜索信息查找服务信息记录数 -->
+    <select id="countForSelective" parameterType="page" resultType="int">
+        select count(c.COMT_ID) from
+        COMT c left join REPLY r on c.COMT_ID = r.REPLY_COMT_ID
+        <include refid="where_selective" />
+        ORDER BY COMT_TIME DESC
+    </select>
+
+    <insert id="insertComment" parameterType="comment">
+        insert into COMT (COMT_ID, COMT_ARTI_ID, COMT_CONTENT,
+        COMT_USER_ID, COMT_TIME)
+        values (COMT_SEQ.nextval, #{comtArtiId,jdbcType=INTEGER}, #{comtContent,jdbcType=VARCHAR},
+        #{comtUserId,jdbcType=INTEGER}, sysdate)
+    </insert>
 </mapper>

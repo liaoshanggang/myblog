@@ -68,8 +68,7 @@ public class BlogUsersController {
     @RequestMapping("/reg")
     public @ResponseBody
     String addBlogUser(BlogUsers user) {
-        //logger.info(article.getArtiTitle()+"=="+article.getArtiCatgId()+"=="+article.getArtiContent());
-        //article.setArtiUserId(1);
+        user.setUserType(2);
         logger.info(user);
         iBlogUsersService.addBlogUser(user);
         //如果第二次插入的

@@ -1,30 +1,29 @@
 package com.blog.vo;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class Reply {
-    private BigDecimal replyId;
+    private Integer replyId;
 
-    private BigDecimal replyComtId;
+    private Integer replyComtId;
 
     private String replyContent;
 
     private Date replyTime;
 
-    public BigDecimal getReplyId() {
+    public Integer getReplyId() {
         return replyId;
     }
 
-    public void setReplyId(BigDecimal replyId) {
+    public void setReplyId(Integer replyId) {
         this.replyId = replyId;
     }
 
-    public BigDecimal getReplyComtId() {
+    public Integer getReplyComtId() {
         return replyComtId;
     }
 
-    public void setReplyComtId(BigDecimal replyComtId) {
+    public void setReplyComtId(Integer replyComtId) {
         this.replyComtId = replyComtId;
     }
 
@@ -42,5 +41,26 @@ public class Reply {
 
     public void setReplyTime(Date replyTime) {
         this.replyTime = replyTime;
+    }
+
+    public Reply(Integer replyId, Integer replyComtId, String replyContent, Date replyTime) {
+        this.replyId = replyId;
+        this.replyComtId = replyComtId;
+        this.replyContent = replyContent;
+        this.replyTime = replyTime;
+    }
+
+    public Reply() {
+        super();
+    }
+
+    @Override
+    public String toString() {
+        return "Reply{" +
+                "replyId=" + replyId +
+                ", replyComtId=" + replyComtId +
+                ", replyContent='" + replyContent + '\'' +
+                ", replyTime=" + replyTime +
+                '}';
     }
 }
