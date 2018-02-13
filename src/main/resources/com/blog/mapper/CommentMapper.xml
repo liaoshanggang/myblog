@@ -3,6 +3,7 @@
 <mapper namespace="com.blog.mapper.CommentMapper">
     <!-- 表中有外键，这个表一定是多方！！ -->
     <!-- 评论是多方，文章是一方
+    对于评论，是一对一用户，采用association 查询出来的是评论（用户）
     对于评论，是一对一文章，采用association 查询出来的是评论（文章）
     对于文章，是一对多评论，采用collection,查询出来的是文章（List评论） -->
     <resultMap id="baseResultMap" type="com.blog.vo.Comment">

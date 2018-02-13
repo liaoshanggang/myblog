@@ -37,8 +37,8 @@ public class TestCommentServiceImpl {
 		comment.setComtArtiId(68);
 		Page<Comment> page = new Page<Comment>(comment);
 
-		page.setPageSize(2);
-		page.setPageNo(2);
+		page.setPageSize(10);
+		page.setPageNo(1);
 
 		int totalRow = ics.countForSelective(page);
 		page.setTotalRow(totalRow);

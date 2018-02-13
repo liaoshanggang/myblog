@@ -110,7 +110,7 @@ public class ArticleController {
             if(page==null || pageNo== null){
                 page = new Page<Comment>(comment);
                 page.setPageNo(1);
-                page.setPageSize(2);
+                page.setPageSize(3);
                 int totalRow = iCommentService.countForSelective(page);
                 page.setTotalRow(totalRow);
             }else {
