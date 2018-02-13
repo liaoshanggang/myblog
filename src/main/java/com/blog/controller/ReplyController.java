@@ -24,6 +24,7 @@ public class ReplyController {
     String saveArticle(Reply reply, HttpSession session) {
         BlogUsers logUser = (BlogUsers) session.getAttribute("logUser");
         if (logUser != null) {
+            reply.setReplyUserId(logUser.getUserId());
             iReplyService.insertReply(reply);
             //如果第二次插入的
             return "success";

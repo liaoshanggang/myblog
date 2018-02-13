@@ -7,9 +7,21 @@ public class Reply {
 
     private Integer replyComtId;
 
+    private Integer replyUserId;
+
     private String replyContent;
 
     private Date replyTime;
+
+    private BlogUsers bu;
+
+    public BlogUsers getBu() {
+        return bu;
+    }
+
+    public void setBu(BlogUsers bu) {
+        this.bu = bu;
+    }
 
     public Integer getReplyId() {
         return replyId;
@@ -25,6 +37,14 @@ public class Reply {
 
     public void setReplyComtId(Integer replyComtId) {
         this.replyComtId = replyComtId;
+    }
+
+    public Integer getReplyUserId() {
+        return replyUserId;
+    }
+
+    public void setReplyUserId(Integer replyUserId) {
+        this.replyUserId = replyUserId;
     }
 
     public String getReplyContent() {

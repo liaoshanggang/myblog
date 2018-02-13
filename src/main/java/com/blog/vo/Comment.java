@@ -85,6 +85,16 @@ public class Comment {
         this.replies = replies;
     }
 
+    private BlogUsers blogUsers;
+
+    public BlogUsers getBlogUsers() {
+        return blogUsers;
+    }
+
+    public void setBlogUsers(BlogUsers blogUsers) {
+        this.blogUsers = blogUsers;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +

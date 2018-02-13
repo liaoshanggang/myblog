@@ -178,7 +178,7 @@
                                             <div class="social-feed-box">
                                                 <div class="social-avatar">
                                                     <a href="" class="pull-left">
-                                                        <img alt="图片" class="img-circle" src="img/a1.jpg">
+                                                        <img alt="评论者头像" class="img-circle" src="../${comment.getBlogUsers().getUserImageUrl()}">
                                                     </a>
                                                     <div class="media-body">
                                                         <div class="btn-group pull-right">
@@ -190,7 +190,7 @@
                                                                 <i class="fa fa-comments"></i> 回复
                                                             </button>
                                                         </div>
-                                                        <a href="#">${comment.comtUserId}</a>
+                                                        <a href="#">${comment.getBlogUsers().getUserName()}</a>
                                                         <small class="text-muted">
                                                             <fmt:formatDate value='${comment.comtTime}'
                                                                             pattern='yyyy-MM-dd HH:mm:ss'/> 评论：
@@ -203,10 +203,10 @@
                                                                    varStatus="status1">
                                                             <div class="social-avatar">
                                                                 <a href="" class="pull-left">
-                                                                    <img alt="图片" class="img-circle" src="img/a1.jpg">
+                                                                    <img alt="回复者头像" class="img-circle" src="../${reply.getBu().getUserImageUrl()}">
                                                                 </a>
                                                                 <div class="media-body">
-                                                                    <a href="#">安德鲁·威廉姆斯</a>
+                                                                    <a href="#">${reply.getBu().getUserName()}</a>
                                                                     <small class="text-muted"><fmt:formatDate
                                                                             value='${reply.replyTime}'
                                                                             pattern='yyyy-MM-dd HH:mm:ss'/> 回复：

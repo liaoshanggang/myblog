@@ -12,28 +12,47 @@
             <result column="COMT_CONTENT" jdbcType="VARCHAR" property="comtContent" />
             <result column="COMT_USER_ID" jdbcType="INTEGER" property="comtUserId" />
             <result column="COMT_TIME" jdbcType="TIMESTAMP" property="comtTime" />
+            <association property="blogUsers" javaType="blogUsers" resultMap="com.blog.mapper.BlogUsersMapper.baseResultMap" />
             <collection property="replies" ofType="reply">
                 <id column="REPLY_ID" jdbcType="INTEGER" property="replyId" />
                 <result column="REPLY_COMT_ID" jdbcType="INTEGER" property="replyComtId" />
+                <result column="REPLY_USER_ID" jdbcType="INTEGER" property="replyUserId" />
                 <result column="REPLY_CONTENT" jdbcType="VARCHAR" property="replyContent" />
                 <result column="REPLY_TIME" jdbcType="TIMESTAMP" property="replyTime" />
+                <association property="bu" javaType="blogUsers"
+                             column="re_USER_ID" columnPrefix="re_"  resultMap="com.blog.mapper.BlogUsersMapper.baseResultMap"/>
             </collection>
     </resultMap>
 
-    <!-- 根据文章类别 ，标题，内容，日期查询  c.COMT_ID = r.REPLY_COMT_ID -->
+    <!-- 根据文章类别 ，标题，内容，日期查询  c.COMT_ID = r.REPLY_COMT_ID and r.REPLY_USER_ID = b2.USER_ID-->
     <sql id="where_selective">
         <where>
+            c.COMT_USER_ID = b.USER_ID
             <if test="queryObject.comtArtiId  !=null">
                 and COMT_ARTI_ID=#{queryObject.comtArtiId }
             </if>
         </where>
     </sql>
 
+    <!--可以缺少一些字段-->
     <select id="selectSelective" parameterType="page" resultMap="baseResultMap">
         select * from (
         select a.*,rownum rn from (
-        select c.*,r.*
-        from COMT c left join REPLY r on c.COMT_ID = r.REPLY_COMT_ID
+        select c.*,r.*,b.*,
+        b2.USER_ID re_USER_ID,
+        b2.USER_NAME re_USER_NAME,
+        b2.USER_NICKNAME re_USER_NICKNAME,
+        b2.USER_PASSWORD re_USER_PASSWORD,
+        b2.USER_EMAIL re_USER_EMAIL,
+        b2.USER_MOBILE re_USER_MOBILE,
+        b2.USER_SEX re_USER_SEX,
+        b2.USER_BIRTHDAY re_USER_BIRTHDAY,
+        b2.USER_ADDRESS re_USER_ADDRESS,
+        b2.USER_PROFILE re_USER_PROFILE,
+        b2.USER_TYPE re_USER_TYPE,
+        b2.USER_IMAGE_URL re_USER_IMAGE_URL,
+        b2.EDU_BACKGROUND re_EDU_BACKGROUND
+        from COMT c left join (REPLY r left join BLOG_USERS b2 on (r.REPLY_USER_ID = b2.USER_ID)  ) on (c.COMT_ID = r.REPLY_COMT_ID) ,BLOG_USERS b
         <include refid="where_selective" />
      ORDER BY COMT_TIME DESC
      ) a where <![CDATA[rownum<=#{lastIndex}]]>
@@ -42,14 +61,13 @@
  <!-- 根据服务搜索信息查找服务信息记录数 -->
     <select id="countForSelective" parameterType="page" resultType="int">
         select count(c.COMT_ID) from
-        COMT c left join REPLY r on c.COMT_ID = r.REPLY_COMT_ID
+        COMT c left join REPLY r on c.COMT_ID = r.REPLY_COMT_ID,BLOG_USERS b,BLOG_USERS b2
         <include refid="where_selective" />
         ORDER BY COMT_TIME DESC
     </select>
 
     <insert id="insertComment" parameterType="comment">
-        insert into COMT (COMT_ID, COMT_ARTI_ID, COMT_CONTENT,
-        COMT_USER_ID, COMT_TIME)
+        insert into COMT (COMT_ID, COMT_ARTI_ID, COMT_CONTENT, COMT_USER_ID, COMT_TIME)
         values (COMT_SEQ.nextval, #{comtArtiId,jdbcType=INTEGER}, #{comtContent,jdbcType=VARCHAR},
         #{comtUserId,jdbcType=INTEGER}, sysdate)
     </insert>

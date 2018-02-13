@@ -34,10 +34,10 @@ public class TestCommentServiceImpl {
             }
         }*/
 		Comment comment =  new Comment();
-		comment.setComtArtiId(68);
+		comment.setComtArtiId(69);
 		Page<Comment> page = new Page<Comment>(comment);
 
-		page.setPageSize(10);
+		page.setPageSize(100);
 		page.setPageNo(1);
 
 		int totalRow = ics.countForSelective(page);
@@ -47,11 +47,11 @@ public class TestCommentServiceImpl {
 
 		List<Comment> list = ics.selectSelective(page);
 		for (Comment comment1 : list) {
-			logger.info("评论"+comment1.getComtId()+"");
+			logger.info("评论"+comment1.getComtId()+comment1.getComtContent()+"用户"+comment1.getBlogUsers().getUserName()+"回复");
             List<Reply> replies = comment1.getReplies();
             for (Reply replie:replies) {
                 //if(replie.getReplyComtId()!=null){
-                    logger.info(replie.getReplyId()+"=="+replie.getReplyContent());
+                    logger.info(replie.getReplyId()+"=="+replie.getReplyContent()+replie.getBu().getUserName());
                 //}
             }
 		}
