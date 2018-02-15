@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 public interface ReplyMapper {
 
     void insertReply(Reply reply);
+
+    Integer countForComment(Reply reply);
 }

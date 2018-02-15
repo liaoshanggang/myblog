@@ -1,5 +1,6 @@
 package com.blog.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -7,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.blog.service.ICommentService;
-import com.blog.vo.Comment;
+import com.blog.vo.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,9 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.blog.service.IArtiCategoryService;
 import com.blog.service.IArticleService;
-import com.blog.vo.ArtiCategory;
-import com.blog.vo.Article;
-import com.blog.vo.Page;
 
 @Controller
 @RequestMapping("/article")
@@ -95,7 +93,7 @@ public class ArticleController {
 
     @RequestMapping("/queryById/{artiId}/{moudule}")
     public String queryById(@PathVariable Integer artiId, @PathVariable String moudule,
-                            Comment comment, Integer pageNo,ModelMap modelMap, HttpSession session) {
+                            Comment comment, Integer pageNo, ModelMap modelMap, HttpSession session) {
         Article article = new Article();
         article.setArtiId(artiId);
         Article article1 = iArticleService.selectArticleById(article);
@@ -105,7 +103,7 @@ public class ArticleController {
             logger.info(moudule);
             return "modify_article";
         } else {//法一，这个，法二，转发到另一个控制器，把文章id带上
-            comment.setComtArtiId(artiId);
+            /*comment.setComtArtiId(artiId);
             Page<Comment> page = (Page<Comment>) session.getAttribute("commentPage");
             if(page==null || pageNo== null){
                 page = new Page<Comment>(comment);
@@ -118,9 +116,112 @@ public class ArticleController {
             }
             List<Comment> list = iCommentService.selectSelective(page);
             modelMap.addAttribute("commentList", list);
+            session.setAttribute("commentPage", page);*/
+            //================================================================
+            //list1每页的最后一条数
+            List<Integer> curLastIndexs = getCurLastIndexs(artiId);
+            //arr存储固定页的记录数
+            int[] curPageSizes = getCurPageSizes(curLastIndexs);
+            //================================================================
+            //通过页数来查找对于页要显示的记录数
+            if (pageNo == null) {
+                pageNo = 1;
+            }
+            int size = getPageSize(curPageSizes, pageNo);
+            //================================================================
+            comment.setComtArtiId(artiId);
+            RdPage<Comment> page = new RdPage<Comment>(comment);//查询条件
+            page.setPageNo(pageNo);//当前的页号
+            page.setPageSize(size);//当前页的记录数
+            int totalR = iCommentService.countForSelective2(page);
+            page.setTotalRow(totalR);//总行数
+            page.setTotalPage(curPageSizes.length);//总页数
+            logger.info("总记录：" + totalR);
+            logger.info("页数" + page);
+            if (curLastIndexs.size() > 0) {
+                page.setFirstIndex(curLastIndexs.get(pageNo - 1) - size + 1);//本页数据首条记录索引
+                page.setLastIndex(curLastIndexs.get(pageNo - 1));//本页数据最后条记录索引
+            }
+            List<Comment> list = iCommentService.selectSelective2(page);
+            modelMap.addAttribute("commentList", list);
             session.setAttribute("commentPage", page);
+            /***********************************************************************/
             return "/article_detail";
         }
+    }
+
+    private int getPageSize(int[] arr, Integer pageNo) {
+        int size = 0;
+        for (int i = 1; i <= arr.length; i++) {//563331
+            if (i == pageNo) {
+                size = arr[i - 1];
+            }
+        }
+        return size;
+    }
+
+    private int[] getCurPageSizes(List<Integer> curLastIndexs) {
+        int[] curPageSizes = new int[curLastIndexs.size()];
+        for (int i = 0; i < curLastIndexs.size(); i++) {
+            if ((i + 1) == curLastIndexs.size()) {
+                break;
+            }
+            //logger.info("差" + (list1.get(i + 1) - list1.get(i)));
+            curPageSizes[i + 1] = (curLastIndexs.get(i + 1) - curLastIndexs.get(i));
+            if (i == 0) {
+                curPageSizes[0] = curLastIndexs.get(0);
+            }
+            //list1.add(i,list1.get(i+1)-list1.get(i));//logger.info("第"+(i+1)+"页显示"+list1.get(i)+"行");
+        }
+        logger.info("每页要显示的不同记录数" + curPageSizes);
+        return curPageSizes;
+    }
+
+    public List<Integer> getCurLastIndexs(Integer artiId) {
+        /******************************************************/
+        Comment comment = new Comment();
+        comment.setComtArtiId(artiId);
+        RdPage<Comment> page = new RdPage<Comment>(comment);
+        List<Integer> curLastIndexs = new ArrayList<>();//存放begin-end
+        Integer count = 0;
+        Integer count2 = 0;
+        Integer count3 = 0;
+        int totalRow = iCommentService.countForSelective2(page); //page.setTotalRow(totalRow);//总行数
+        logger.info(totalRow);
+        int num;
+        if(totalRow<=3){
+            num = totalRow;
+        }else{
+            num = 3 ;
+        }
+        page.setPageSize(totalRow);
+        page.setPageNo(1);
+        page.setFirstIndex(1);
+        page.setLastIndex(totalRow);
+        List<Comment> list = iCommentService.selectSelective2(page);
+        for (Comment c : list) {
+            Reply r = new Reply();
+            r.setReplyComtId(c.getComtId()); //count += irs.countForComment(r);//logger.info("count==="+count);
+            List<Reply> replies = c.getReplies();
+            count2++;//logger.info("count2==="+count2);
+            if (replies.size() >= 1) {
+                count3++;//logger.info("count3==="+count3);
+            }
+            for (Reply replie : replies) {
+                count++;//回复为0的不计算//logger.info("count==="+count);
+            }
+            logger.info("count===" + count + "count2===" + count2 + "count3===" + count3);
+            logger.info(count2 + "-" + count3 + "+" + count + "=" + (count2 - count3 + count));
+            if ((count2) % num == 0) {
+                curLastIndexs.add(count2 - count3 + count);
+            }
+            if (count2 == list.size()) {
+                curLastIndexs.add(count2 - count3 + count);
+            }
+        }
+        logger.info("count===" + count + "count2===" + count2 + "count3===" + count3);
+        logger.info("curLastIndexs==" + curLastIndexs);
+        return curLastIndexs;
     }
 
     @RequestMapping("/modify")

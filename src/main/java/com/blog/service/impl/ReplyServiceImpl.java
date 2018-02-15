@@ -18,4 +18,9 @@ public class ReplyServiceImpl implements IReplyService {
     public void insertReply(Reply reply) {
         replyMapper.insertReply(reply);
     }
+
+    @Override
+    public Integer countForComment(Reply reply) {
+        return replyMapper.countForComment(reply) ;
+    }
 }

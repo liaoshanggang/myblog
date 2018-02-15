@@ -162,13 +162,13 @@
                                             <textarea class="form-control" name="comtContent" placeholder="写点什么..."
                                                       required></textarea>
                                             <button id="addComment" class="form-control btn btn-white"
-                                                    style="background-color: #F8F8F8;">提交评论
+                                                    style="background-color: #F8F8F8;" name="${commentPage.pageNo}">提交评论
                                             </button>
                                         </form>
                                     </div>
                                 </div>
 
-                                网友最新评论 (${commentPage.getTotalRow()})
+                                网友最新评论 (${commentPage.getTotalRow()})<input class="pull-right btn btn-white" type="button" id="toggle" value="隐藏>>>回复<<<">
                                 <hr>
                                 <!-- 评论开始 -->
                                 <div class="row">
@@ -186,8 +186,8 @@
                                                                     class="fa fa-thumbs-up"></i> 赞
                                                             </button>
                                                             <button class="btn btn-white btn-xs showReplyInput "
-                                                                    value="${comment.comtId}">
-                                                                <i class="fa fa-comments"></i> 回复
+                                                                    value="${comment.comtId}" name="${commentPage.pageNo}">
+                                                                <i class="fa fa-comments"></i> <span>回复</span>
                                                             </button>
                                                         </div>
                                                         <a href="#">${comment.getBlogUsers().getUserName()}</a>
@@ -201,7 +201,7 @@
                                                             <%--回复开始--%>
                                                         <c:forEach var="reply" items="${comment.replies}"
                                                                    varStatus="status1">
-                                                            <div class="social-avatar">
+                                                            <div class="social-avatar toggleReply">
                                                                 <a href="" class="pull-left">
                                                                     <img alt="回复者头像" class="img-circle" src="../${reply.getBu().getUserImageUrl()}">
                                                                 </a>
@@ -308,6 +308,16 @@
 </footer>
 
 <script type="text/javascript">
+    //展开
+    $("#toggle").click(function() {
+        if($("#toggle").val()== "展开<<<回复>>>" ){
+            $("#toggle").val("隐藏>>>回复<<<");
+            $(".toggleReply").show().fadeIn(1000);
+        }else{
+            $("#toggle").val("展开<<<回复>>>");
+            $(".toggleReply").hide().fadeOut(1000);
+        }
+    });
     $('#addComment').click(function () {
         var data = $('#commentForm').serialize();
         console.log("序列化" + data);
@@ -326,11 +336,22 @@
     });
     $('.showReplyInput').click(function (event) {
         var replyComtId = $(this).val();
+        //console.info($(this).find("span"));
+        var span = $(this).find("span");
+        var reply = span.text();
+        if(reply== "回复" ){
+            span.text("取消回复");
+        }else{
+            span.text("回复");
+            $(".show").empty();
+            return ;
+        }
+        var pageNo = $(this).attr("name");
         console.info("replyComtId"+replyComtId);
         $(".show").empty();
         $('#showInput'+replyComtId).empty();
         $('#showInput'+replyComtId).append("<div class=\"social-body\">\n" +
-            "    <form action=\"\" name=\"a1\" id=\"replyForm\"><%--javascript:void(0);--%>\n" +
+            "    <form action=\"javascript:void(0);\" name=\"a1\" id=\"replyForm\"><%--javascript:void(0);--%>\n" +
             "        <input type=\"hidden\" class=\"form-control\" name=\"replyComtId\"\n" +
             "               value=\""+replyComtId+"\"/>\n" +
             "        <textarea class=\"form-control\" name=\"replyContent\" placeholder=\"写点什么...\"\n" +
@@ -341,7 +362,6 @@
             "    </form>\n" +
             "</div><script>\n" +
             "    $('#addReply').click(function () {\n" +
-            "        alert(\"sdsf\");\n" +
             "        var data = $('#replyForm').serialize();\n" +
             "        console.log(\"序列化\" + data);\n" +
             "        $.ajax({\n" +
@@ -350,7 +370,7 @@
             "            data: data,\n" +
             "            success: function (result) {\n" +
             "                //$(\".show\").empty();\n" +
-            "                console.info(result);\n" +
+            "                console.info(result);location=location;\n" +
             "            },\n" +
             "            error: function () {\n" +
             "                alert(\"error\");\n" +

@@ -5,6 +5,7 @@ import com.blog.service.ICommentService;
 import com.blog.vo.Article;
 import com.blog.vo.Comment;
 import com.blog.vo.Page;
+import com.blog.vo.RdPage;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -28,6 +29,16 @@ public class CommentServiceImpl implements ICommentService {
     @Override
     public int countForSelective(Page<Comment> comment) {
         return commentMapper.countForSelective(comment);
+    }
+
+    @Override
+    public List<Comment> selectSelective2(RdPage<Comment> page) {
+        return commentMapper.selectSelective2(page);
+    }
+
+    @Override
+    public int countForSelective2(RdPage<Comment> comment) {
+        return commentMapper.countForSelective2(comment);
     }
 
 }

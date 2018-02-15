@@ -5,4 +5,5 @@ import com.blog.vo.Reply;
 public interface IReplyService {
 
     void insertReply(Reply reply);
+    Integer countForComment(Reply reply);
 }

@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blog.mapper.ReplyMapper">
+    <resultMap id="baseResultMap" type="com.blog.vo.Reply">
+        <id column="REPLY_ID" jdbcType="INTEGER" property="replyId"/>
+        <result column="REPLY_COMT_ID" jdbcType="INTEGER" property="replyComtId"/>
+        <result column="REPLY_USER_ID" jdbcType="INTEGER" property="replyUserId"/>
+        <result column="REPLY_CONTENT" jdbcType="VARCHAR" property="replyContent"/>
+        <result column="REPLY_TIME" jdbcType="TIMESTAMP" property="replyTime"/>
+    </resultMap>
     <insert id="insertReply" parameterType="reply">
         insert into REPLY (REPLY_ID, REPLY_COMT_ID,REPLY_USER_ID,REPLY_CONTENT,REPLY_TIME)
         values (REPLY_SEQ.nextval, #{replyComtId,jdbcType=INTEGER},#{replyUserId,jdbcType=INTEGER},
          #{replyContent,jdbcType=VARCHAR}, sysdate)
     </insert>
+    <!--根据评论id查询该评论的回复条数-->
+    <select id="countForComment" parameterType="reply" resultType="int">
+        select COUNT (reply_comt_id) from reply where reply_comt_id = #{replyComtId}
+    </select>
 </mapper>

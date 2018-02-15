@@ -60,7 +60,39 @@
  </select>
  <!-- 根据服务搜索信息查找服务信息记录数 -->
     <select id="countForSelective" parameterType="page" resultType="int">
-        select count(c.COMT_ID) from
+        select count(DISTINCT c.COMT_ID)-count(DISTINCT r.REPLY_COMT_ID)+count(DISTINCT r.REPLY_ID) from
+        COMT c left join REPLY r on c.COMT_ID = r.REPLY_COMT_ID,BLOG_USERS b,BLOG_USERS b2
+        <include refid="where_selective" />
+        ORDER BY COMT_TIME DESC
+    </select>
+
+    <!--selectSelective2selectSelective2selectSelective2可以缺少一些字段-->
+    <select id="selectSelective2" parameterType="rdPage" resultMap="baseResultMap">
+        select * from (
+        select a.*,rownum rn from (
+        select c.*,r.*,b.*,
+        b2.USER_ID re_USER_ID,
+        b2.USER_NAME re_USER_NAME,
+        b2.USER_NICKNAME re_USER_NICKNAME,
+        b2.USER_PASSWORD re_USER_PASSWORD,
+        b2.USER_EMAIL re_USER_EMAIL,
+        b2.USER_MOBILE re_USER_MOBILE,
+        b2.USER_SEX re_USER_SEX,
+        b2.USER_BIRTHDAY re_USER_BIRTHDAY,
+        b2.USER_ADDRESS re_USER_ADDRESS,
+        b2.USER_PROFILE re_USER_PROFILE,
+        b2.USER_TYPE re_USER_TYPE,
+        b2.USER_IMAGE_URL re_USER_IMAGE_URL,
+        b2.EDU_BACKGROUND re_EDU_BACKGROUND
+        from COMT c left join (REPLY r left join BLOG_USERS b2 on (r.REPLY_USER_ID = b2.USER_ID)  ) on (c.COMT_ID = r.REPLY_COMT_ID) ,BLOG_USERS b
+        <include refid="where_selective" />
+        ORDER BY COMT_TIME DESC
+        ) a where <![CDATA[rownum<=#{lastIndex}]]>
+        ) where rn>=#{firstIndex}
+    </select>
+    <!-- countForSelective2countForSelective2countForSelective2根据服务搜索信息查找服务信息记录数 -->
+    <select id="countForSelective2" parameterType="rdPage" resultType="int">
+        select count(DISTINCT c.COMT_ID)-count(DISTINCT r.REPLY_COMT_ID)+count(DISTINCT r.REPLY_ID) from
         COMT c left join REPLY r on c.COMT_ID = r.REPLY_COMT_ID,BLOG_USERS b,BLOG_USERS b2
         <include refid="where_selective" />
         ORDER BY COMT_TIME DESC
