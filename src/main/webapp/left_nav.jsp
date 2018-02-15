@@ -31,23 +31,15 @@
             <!-- 左下导航栏开始 -->
             <!-- 一个列表项开始 -->
             <li class="active"><a href="article/query"><i
-                    class="fa fa-diamond"></i> <span class="nav-label"><font
-                    style="vertical-align: inherit;"><font
-                    style="vertical-align: inherit;">文章管理</font></font></span></a></li>
+                    class="fa fa-diamond"></i> <span class="nav-label">文章管理</span></a></li>
 
             <!-- 一个列表项结束 -->
             <li class=""><a href="category/query"><i
-                    class="fa fa-diamond"></i> <span class="nav-label"><font
-                    style="vertical-align: inherit;"><font
-                    style="vertical-align: inherit;">类别管理</font></font></span></a></li>
-            <li class=""><a href="views/manage_comment.jsp"><i
-                    class="fa fa-diamond"></i> <span class="nav-label"><font
-                    style="vertical-align: inherit;"><font
-                    style="vertical-align: inherit;">评论管理</font></font></span></a></li>
+                    class="fa fa-diamond"></i> <span class="nav-label">类别管理</span></a></li>
+            <li class=""><a href="comment/query"><i
+                    class="fa fa-diamond"></i> <span class="nav-label">评论管理</span></a></li>
             <li class=""><a href="views/manage_file.jsp"><i
-                    class="fa fa-diamond"></i> <span class="nav-label"><font
-                    style="vertical-align: inherit;"><font
-                    style="vertical-align: inherit;">文件管理</font></font></span></a></li>
+                    class="fa fa-diamond"></i> <span class="nav-label">文件管理</span></a></li>
 
             <li><a href="index.html"><i class="fa fa-th-large"></i> <span
                     class="nav-label">用户管理</span> <span class="fa arrow"></span></a>

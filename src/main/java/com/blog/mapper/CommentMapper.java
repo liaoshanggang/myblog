@@ -20,4 +20,10 @@ public interface CommentMapper {
     List<Comment> selectSelective2(RdPage<Comment> page);
 
     int countForSelective2(RdPage<Comment> comment);
+
+    List<Comment> selectForCommentArticle(Page<Comment> page);
+
+    int countForCommentArticle(Page<Comment> comments);
+
+    void deleteCommentById(Integer comtId);
 }

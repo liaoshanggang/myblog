@@ -12,6 +12,7 @@
             <result column="COMT_CONTENT" jdbcType="VARCHAR" property="comtContent" />
             <result column="COMT_USER_ID" jdbcType="INTEGER" property="comtUserId" />
             <result column="COMT_TIME" jdbcType="TIMESTAMP" property="comtTime" />
+            <association property="article" javaType="article" resultMap="com.blog.mapper.ArticleMapper.baseResultMap" />
             <association property="blogUsers" javaType="blogUsers" resultMap="com.blog.mapper.BlogUsersMapper.baseResultMap" />
             <collection property="replies" ofType="reply">
                 <id column="REPLY_ID" jdbcType="INTEGER" property="replyId" />
@@ -23,22 +24,43 @@
                              column="re_USER_ID" columnPrefix="re_"  resultMap="com.blog.mapper.BlogUsersMapper.baseResultMap"/>
             </collection>
     </resultMap>
+    <sql id="where_selectForCommentArticle">
+        <where>
+            b.ARTI_ID = c.COMT_ARTI_ID and c.COMT_USER_ID = u.USER_ID
+        </where>
+    </sql>
+
+    <select id="selectForCommentArticle" parameterType="page" resultMap="baseResultMap">
+        select * from (
+        select a.*,rownum rn from (
+        select b.*,c.*,u.*
+        from ARTICLE b,COMT c,BLOG_USERS u
+        <include refid="where_selectForCommentArticle" />
+        ORDER BY c.COMT_TIME DESC
+        ) a where <![CDATA[rownum<=#{lastIndex}]]>
+        ) where rn>=#{firstIndex}
+    </select>
+    <select id="countForCommentArticle" parameterType="page" resultType="int">
+        select count(c.COMT_ID) from ARTICLE b,COMT c,BLOG_USERS u
+        <include refid="where_selectForCommentArticle" />
+        ORDER BY COMT_TIME DESC
+    </select>
 
     <!-- 根据文章类别 ，标题，内容，日期查询  c.COMT_ID = r.REPLY_COMT_ID and r.REPLY_USER_ID = b2.USER_ID-->
     <sql id="where_selective">
         <where>
-            c.COMT_USER_ID = b.USER_ID
+            c.COMT_USER_ID = b.USER_ID AND c.COMT_ARTI_ID = q.ARTI_ID
             <if test="queryObject.comtArtiId  !=null">
                 and COMT_ARTI_ID=#{queryObject.comtArtiId }
             </if>
         </where>
     </sql>
 
-    <!--可以缺少一些字段-->
+    <!--可以缺少一些字段 c.COMT_ARTI_ID = q.ARTI_ID-->
     <select id="selectSelective" parameterType="page" resultMap="baseResultMap">
         select * from (
         select a.*,rownum rn from (
-        select c.*,r.*,b.*,
+        select c.*,r.*,b.*,q.*,
         b2.USER_ID re_USER_ID,
         b2.USER_NAME re_USER_NAME,
         b2.USER_NICKNAME re_USER_NICKNAME,
@@ -52,20 +74,34 @@
         b2.USER_TYPE re_USER_TYPE,
         b2.USER_IMAGE_URL re_USER_IMAGE_URL,
         b2.EDU_BACKGROUND re_EDU_BACKGROUND
-        from COMT c left join (REPLY r left join BLOG_USERS b2 on (r.REPLY_USER_ID = b2.USER_ID)  ) on (c.COMT_ID = r.REPLY_COMT_ID) ,BLOG_USERS b
+        from COMT c left join (REPLY r left join BLOG_USERS b2 on (r.REPLY_USER_ID = b2.USER_ID)  ) on (c.COMT_ID = r.REPLY_COMT_ID) ,BLOG_USERS b,ARTICLE q
         <include refid="where_selective" />
      ORDER BY COMT_TIME DESC
      ) a where <![CDATA[rownum<=#{lastIndex}]]>
      ) where rn>=#{firstIndex}
  </select>
  <!-- 根据服务搜索信息查找服务信息记录数 -->
-    <select id="countForSelective" parameterType="page" resultType="int">
+    <!--<select id="countForSelective" parameterType="page" resultType="int">
         select count(DISTINCT c.COMT_ID)-count(DISTINCT r.REPLY_COMT_ID)+count(DISTINCT r.REPLY_ID) from
         COMT c left join REPLY r on c.COMT_ID = r.REPLY_COMT_ID,BLOG_USERS b,BLOG_USERS b2
         <include refid="where_selective" />
         ORDER BY COMT_TIME DESC
+    </select>-->
+    <select id="countForSelective" parameterType="page" resultType="int">
+        select count(DISTINCT c.COMT_ID)-count(DISTINCT r.REPLY_COMT_ID)+count(DISTINCT r.REPLY_ID)
+        from COMT c left join (REPLY r left join BLOG_USERS b2 on (r.REPLY_USER_ID = b2.USER_ID)  ) on (c.COMT_ID = r.REPLY_COMT_ID) ,BLOG_USERS b,ARTICLE q
+        <include refid="where_selective" />
+        ORDER BY COMT_TIME DESC
     </select>
 
+    <sql id="where_selective2">
+        <where>
+            c.COMT_USER_ID = b.USER_ID
+            <if test="queryObject.comtArtiId  !=null">
+                and COMT_ARTI_ID=#{queryObject.comtArtiId }
+            </if>
+        </where>
+    </sql>
     <!--selectSelective2selectSelective2selectSelective2可以缺少一些字段-->
     <select id="selectSelective2" parameterType="rdPage" resultMap="baseResultMap">
         select * from (
@@ -85,7 +121,7 @@
         b2.USER_IMAGE_URL re_USER_IMAGE_URL,
         b2.EDU_BACKGROUND re_EDU_BACKGROUND
         from COMT c left join (REPLY r left join BLOG_USERS b2 on (r.REPLY_USER_ID = b2.USER_ID)  ) on (c.COMT_ID = r.REPLY_COMT_ID) ,BLOG_USERS b
-        <include refid="where_selective" />
+        <include refid="where_selective2" />
         ORDER BY COMT_TIME DESC
         ) a where <![CDATA[rownum<=#{lastIndex}]]>
         ) where rn>=#{firstIndex}
@@ -94,7 +130,7 @@
     <select id="countForSelective2" parameterType="rdPage" resultType="int">
         select count(DISTINCT c.COMT_ID)-count(DISTINCT r.REPLY_COMT_ID)+count(DISTINCT r.REPLY_ID) from
         COMT c left join REPLY r on c.COMT_ID = r.REPLY_COMT_ID,BLOG_USERS b,BLOG_USERS b2
-        <include refid="where_selective" />
+        <include refid="where_selective2" />
         ORDER BY COMT_TIME DESC
     </select>
 
@@ -103,4 +139,10 @@
         values (COMT_SEQ.nextval, #{comtArtiId,jdbcType=INTEGER}, #{comtContent,jdbcType=VARCHAR},
         #{comtUserId,jdbcType=INTEGER}, sysdate)
     </insert>
+
+    <delete id="deleteCommentById" parameterType="Integer">
+        delete
+        comt c
+        where c.COMT_ID=#{comtId}
+    </delete>
 </mapper>

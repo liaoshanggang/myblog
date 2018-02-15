@@ -41,4 +41,19 @@ public class CommentServiceImpl implements ICommentService {
         return commentMapper.countForSelective2(comment);
     }
 
+    @Override
+    public List<Comment> selectForCommentArticle(Page<Comment> page) {
+        return commentMapper.selectForCommentArticle(page);
+    }
+
+    @Override
+    public int countForCommentArticle(Page<Comment> comments) {
+        return commentMapper.countForCommentArticle(comments);
+    }
+
+    @Override
+    public void deleteCommentById(Comment comment) {
+        commentMapper.deleteCommentById(comment.getComtId());
+    }
+
 }

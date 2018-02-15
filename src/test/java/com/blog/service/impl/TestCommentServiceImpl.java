@@ -2,10 +2,7 @@ package com.blog.service.impl;
 
 import com.blog.service.ICommentService;
 import com.blog.service.IReplyService;
-import com.blog.vo.Comment;
-import com.blog.vo.Page;
-import com.blog.vo.RdPage;
-import com.blog.vo.Reply;
+import com.blog.vo.*;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +21,38 @@ public class TestCommentServiceImpl {
     ICommentService ics;
     @Resource
     IReplyService irs;
+    @Test
+    public void testDeleteCommentById() {
+        /*删除20的同时更新回复id*/
+        Comment comment = new Comment();
+        comment.setComtId(18);
+
+        Reply r = new Reply();
+        r.setReplyId(2);
+        r.setReplyComtId(comment.getComtId());
+        irs.updateReplyById(r);
+
+        ics.deleteCommentById(comment);
+    }
+
+    @Test
+    public void testSelectForCommentArticle() {
+        Comment comment = new Comment();
+        Page<Comment> page = new Page<Comment>(comment);
+
+        page.setPageSize(3);
+        page.setPageNo(1);
+
+        int totalRow = ics.countForCommentArticle(page);
+        page.setTotalRow(totalRow);
+        logger.info("总记录：" + totalRow);
+        logger.info("页数" + page);
+
+        List<Comment> list = ics.selectForCommentArticle(page);
+        for (Comment c:list) {
+            logger.info("info"+c+"article"+c.getArticle());
+        }
+    }
 
     @Test
     public void testSelectSelective2() {
@@ -148,6 +177,31 @@ public class TestCommentServiceImpl {
 //if(replie.getReplyComtId()!=null){
                 logger.info(replie.getReplyId() + "==" + replie.getReplyContent() + replie.getBu().getUserName());
 //}
+            }
+        }
+    }
+
+    @Test
+    public void testSelectSelective3() {
+        /*未找到要求的 FROM 关键字 前面，问题*/
+        Comment comment = new Comment();
+        //comment.setComtArtiId(69);
+        Page<Comment> page = new Page<Comment>(comment);
+
+        page.setPageSize(50);
+        page.setPageNo(1);
+
+        int totalRow = ics.countForSelective(page);
+        page.setTotalRow(totalRow);
+        logger.info("总记录：" + totalRow);
+        logger.info("页数" + page);
+
+        List<Comment> list = ics.selectSelective(page);
+        for (Comment comment1 : list) {
+            logger.info("用户"+comment1.getBlogUsers()+"评论"+comment1+"文章"+comment1.getArticle());
+            List<Reply> replies = comment1.getReplies();
+            for (Reply replie : replies) {
+                logger.info("-->用户"+replie.getBu()+"回复"+replie);
             }
         }
     }

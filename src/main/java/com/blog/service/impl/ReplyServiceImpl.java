@@ -23,4 +23,14 @@ public class ReplyServiceImpl implements IReplyService {
     public Integer countForComment(Reply reply) {
         return replyMapper.countForComment(reply) ;
     }
+
+    @Override
+    public void updateReplyById(Reply reply) {
+        replyMapper.updateReplyById(reply);
+    }
+
+    @Override
+    public void deleteReplyById(Reply reply) {
+        replyMapper.deleteReplyById(reply);
+    }
 }

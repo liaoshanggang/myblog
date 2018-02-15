@@ -94,6 +94,15 @@ public class Comment {
     public void setBlogUsers(BlogUsers blogUsers) {
         this.blogUsers = blogUsers;
     }
+    private Article article;
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
+    }
 
     @Override
     public String toString() {

@@ -31,4 +31,27 @@ public class ReplyController {
         }
         return "error";
     }
+
+    @RequestMapping("/modify")
+    public @ResponseBody
+    String modifyReply(Reply reply) {
+        logger.info(reply);
+        iReplyService.updateReplyById(reply);
+        //如果第二次插入的
+        return "success";
+    }
+/*
+    @RequestMapping("/delete")
+    public String delRadio(Reply reply) {
+        iReplyService.deleteReplyById(reply);
+        return "forward:/reply/query";
+    }*/
+
+    @RequestMapping("/del")
+    public @ResponseBody
+    String deleteReplyById(Reply reply) {
+        iReplyService.deleteReplyById(reply);
+        //如果第二次插入的
+        return "success";
+    }
 }

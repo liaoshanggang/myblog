@@ -17,4 +17,16 @@
     <select id="countForComment" parameterType="reply" resultType="int">
         select COUNT (reply_comt_id) from reply where reply_comt_id = #{replyComtId}
     </select>
+    <!--根据回复评论的id更新,把他的评论id为第一条id-->
+    <update id="updateReplyById" parameterType="reply">
+        update REPLY
+        <trim prefix="SET" suffixOverrides=",">REPLY_COMT_ID=#{replyId,jdbcType=INTEGER},
+        </trim>
+        where REPLY_COMT_ID=#{replyComtId}
+    </update>
+    <delete id="deleteReplyById" parameterType="reply">
+        delete
+        REPLY
+        where REPLY_ID =#{replyId}
+    </delete>
 </mapper>

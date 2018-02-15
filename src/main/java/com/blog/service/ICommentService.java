@@ -16,4 +16,10 @@ public interface ICommentService {
     List<Comment> selectSelective2(RdPage<Comment> page);
 
     int countForSelective2(RdPage<Comment> comments);
+
+    List<Comment> selectForCommentArticle(Page<Comment> page);
+
+    int countForCommentArticle(Page<Comment> comments);
+
+    void deleteCommentById(Comment comment);
 }

@@ -1,10 +1,8 @@
 package com.blog.controller;
 
 import com.blog.service.ICommentService;
-import com.blog.vo.Article;
-import com.blog.vo.BlogUsers;
-import com.blog.vo.Comment;
-import com.blog.vo.Page;
+import com.blog.service.IReplyService;
+import com.blog.vo.*;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,6 +20,8 @@ public class CommentController {
     static Logger logger = Logger.getLogger(CommentController.class);
     @Resource
     ICommentService iCommentService;
+    @Resource
+    IReplyService irs;
 
     @RequestMapping("/add")
     public @ResponseBody
@@ -34,5 +34,38 @@ public class CommentController {
             return "success";
         }
         return "error";
+    }
+
+    @RequestMapping("/query")
+    public String queryComment(Comment comment, Integer pageNo, ModelMap modelMap, HttpSession session) {
+        logger.info(comment);
+        Page<Comment> page = (Page<Comment>) session.getAttribute("commentPage2");
+        if (page == null || pageNo == null) {
+            page = new Page<Comment>(comment);
+            page.setPageNo(1);
+            page.setPageSize(10);
+            int totalRow = iCommentService.countForSelective(page);
+            page.setTotalRow(totalRow);
+        } else {
+            page.setPageNo(pageNo);
+        }
+
+        List<Comment> list = iCommentService.selectSelective(page);
+        modelMap.addAttribute("commentList2", list);
+
+        session.setAttribute("commentPage2", page);
+        return "/manage_comment";
+    }
+    @RequestMapping("/del")
+    public @ResponseBody
+    String deleteCommentById(Comment comment) {
+        logger.info(comment);
+        Reply r = new Reply();
+        r.setReplyId(2);
+        r.setReplyComtId(comment.getComtId());
+        irs.updateReplyById(r);
+        iCommentService.deleteCommentById(comment);
+        //如果第二次插入的
+        return "success";
     }
 }
