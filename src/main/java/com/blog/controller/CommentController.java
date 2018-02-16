@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,6 +40,12 @@ public class CommentController {
     @RequestMapping("/query")
     public String queryComment(Comment comment, Integer pageNo, ModelMap modelMap, HttpSession session) {
         logger.info(comment);
+        if(comment.getComtUserId()!=null){
+            List<Reply> replies1 = new ArrayList<>();
+            for (Reply r:replies1) {
+                r.setReplyUserId(comment.getComtUserId());
+            }
+        }
         Page<Comment> page = (Page<Comment>) session.getAttribute("commentPage2");
         if (page == null || pageNo == null) {
             page = new Page<Comment>(comment);

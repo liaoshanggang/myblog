@@ -55,9 +55,9 @@
                 <div class="col-lg-12">
                     <div class="tabs-container">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#tab-1"
+                            <li class="active"><a class="b" data-toggle="tab" href="#tab-1"
                                                   aria-expanded="true">我的文章评论</a></li>
-                            <li class=""><a data-toggle="tab" href="#tab-2"
+                            <li class=""><a class="b" data-toggle="tab" href="#tab-2"
                                             aria-expanded="false">我发表的评论</a></li>
                         </ul>
                         <div class="tab-content">
@@ -317,6 +317,68 @@
 <!-- Sweet alert -->
 <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
 <script>
+    window.onload=function(){
+        var oDox=$(".tabs-container");
+        var aLi=$(".nav-tabs > li");
+        var aDiv=$(".tab-content > div");
+
+        for(var i=0;i<aLi.length;i++){
+            aLi[i].index=i;
+            aLi[i].onclick=function(){
+                for(var i=0;i<aLi.length;i++){
+                    aLi[i].className="";
+                    aDiv[i].style.display="none";
+                    setCookie("index",this.index,1)
+                }
+                this.className="active";
+                aDiv[this.index].style.display="block";
+            }
+        }
+        //判断是有cookie值
+        if(getCookie("index")){
+            for(var i=0;i<aLi.length;i++){
+                aLi[i].className='';
+                aDiv[i].style.display='none'
+            }
+            aLi[getCookie('index')].className='active';
+            aDiv[getCookie('index')].style.display='block';
+        }
+        ///设置cookie
+        function setCookie(name,value,iDay){
+            if(iDay){
+                var oDate=new Date();
+                oDate.setDate(oDate.getDate()+iDay);
+                document.cookie=name+'='+value+';path=/;expires='+oDate;
+            }else{
+                document.cookie=name+'='+value+';path=/';
+            }
+        };
+        //获取cookie
+        function getCookie(name){
+            var arr=document.cookie.split("; ");
+            for(var i=0;i<arr.length;i++){
+                var arr1=arr[i].split("=");
+                if(arr1[0]==name){
+                    return arr1[1];
+                }
+
+            }
+
+            return "";
+        }
+    }
+</script>
+<script>
+    var hash = location.hash;
+    if(hash){
+        tab(hash.match(/\d+/)[0]);
+    }
+    $('.b').click(function(){
+        tab($(this).index());
+    });
+    function tab(index){
+        $('.tab-pane').siblings('.tab-pane').hide().end().eq(index).show();
+    }
     $(".delReply").click(function () {
         var cur = $(this);
         swal({

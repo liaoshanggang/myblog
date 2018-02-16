@@ -206,4 +206,34 @@ public class TestCommentServiceImpl {
         }
     }
 
+    @Test
+    public void testSelectSelective4() {
+        /*未找到要求的 FROM 关键字 前面，问题*/
+        Comment comment = new Comment();
+        comment.setComtUserId(1);
+        List<Reply> replies1 = new ArrayList<>();
+        for (Reply r:replies1) {
+            r.setReplyUserId(1);
+        }
+        comment.setReplies(replies1);
+        Page<Comment> page = new Page<Comment>(comment);
+
+        page.setPageSize(50);
+        page.setPageNo(1);
+
+        int totalRow = ics.countForSelective(page);
+        page.setTotalRow(totalRow);
+        logger.info("总记录：" + totalRow);
+        logger.info("页数" + page);
+
+        List<Comment> list = ics.selectSelective(page);
+        for (Comment comment1 : list) {
+            logger.info("用户"+comment1.getBlogUsers()+"评论"+comment1+"文章"+comment1.getArticle());
+            List<Reply> replies = comment1.getReplies();
+            for (Reply replie : replies) {
+                logger.info("-->用户"+replie.getBu()+"回复"+replie);
+            }
+        }
+    }
+
 }

@@ -53,6 +53,16 @@
             <if test="queryObject.comtArtiId  !=null">
                 and COMT_ARTI_ID=#{queryObject.comtArtiId }
             </if>
+            <if test="queryObject.comtUserId  !=null">
+                and COMT_USER_ID=#{queryObject.comtUserId }
+                <foreach collection="queryObject.replies" item="item" index="index" open="(" separator=" union all " close=")">
+                    <if test="item  !=null">
+                        and REPLY_USER_ID = #{item.replyUserId}
+                    </if>
+                </foreach>
+            </if>
+
+
         </where>
     </sql>
 
