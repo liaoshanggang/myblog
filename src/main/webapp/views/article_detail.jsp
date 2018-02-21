@@ -1,14 +1,16 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: Administrator
+  Date: 2018/2/21
+  Time: 11:40
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%
-    String path = request.getContextPath();
-    String basePath = request.getScheme() + "://"
-            + request.getServerName() + ":" + request.getServerPort()
-            + path + "/";
-    application.setAttribute("rootpath", basePath);
-%>
 <!DOCTYPE>
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -47,17 +49,17 @@
         }
     </script>
     <style type="text/css">
-        div img {
+        div p img {
             max-width: 200px;
             height: auto;
             cursor: pointer;
             border: 1px double #cccccc;
             padding: 3px;
             zoom: expression( function(elm)
-	       {     if (elm.width>200) 
-	               {  var oldVW = elm.width; elm.width=200;             
-	                   elm.height = elm.height*(200 /oldVW);        
-	                }         elm.style.zoom = '1';     
+	       {     if (elm.width>200)
+	               {  var oldVW = elm.width; elm.width=200;
+	                   elm.height = elm.height*(200 /oldVW);
+	                }         elm.style.zoom = '1';
 	      }
 	(this));
         }
@@ -85,28 +87,29 @@
         }
     </style>
 </head>
-<body id="" class="gray-bg">
+
+
+<body class="canvas-menu">
 
 <div id="wrapper">
-    <div class="row" style="width: 100%;">
+    <!-- 左边导航栏开始 -->
+    <%--<%@include file="../left_nav.jsp" %>--%>
+    <!-- 左导航栏结束 -->
+    <div id="page-wrapper" class="gray-bg">
+        <!-- 头部开始 -->
         <%@include file="../head.jsp" %>
+        <!-- 头部结束 -->
 
         <!-- ===================主要内容开始=================== -->
-        <div
-                class="wrapper wrapper-content col-md-offset-1 animated  fadeInRight article">
-            <!-- 主面板 -->
-            <div class="row col-md-9">
-                <div class="panel col-md-12">
-                    <div class="panel-heading col-md-12">
-                        <ol class="breadcrumb">
-                            <li><a href="index.jsp">首页</a></li>
-                            <li class="active"><strong>本页</strong></li>
-                        </ol>
-                    </div>
-                    <div class="panel-body col-md-12">
+        <div class="row">
+            <div class="container">
+                <div class="wrapper wrapper-content animated fadeInUp" style="padding-top: 0px;"><%-- article--%>
+
+                    <%--博客栏开始--%>
+                    <div class="col-md-9">
                         <!-- 博客全文开始 -->
-                        <div class="ibox col-md-12">
-                            <div class="ibox-content col-md-12">
+                        <div class="ibox">
+                            <div class="ibox-content">
                                 <div class="text-center article-title" style="width:100%;word-wrap: break-word">
                                     <h1 id="title"> ${article.artiTitle }
                                     </h1>
@@ -168,7 +171,9 @@
                                     </div>
                                 </div>
 
-                                网友最新评论 (${commentPage.getTotalRow()})<input class="pull-right btn btn-white" type="button" id="toggle" value="隐藏>>>回复<<<">
+                                网友最新评论 (${commentPage.getTotalRow()})<input class="pull-right btn btn-white"
+                                                                            type="button" id="toggle"
+                                                                            value="隐藏>>>回复<<<">
                                 <hr>
                                 <!-- 评论开始 -->
                                 <div class="row">
@@ -178,7 +183,8 @@
                                             <div class="social-feed-box">
                                                 <div class="social-avatar">
                                                     <a href="" class="pull-left">
-                                                        <img alt="评论者头像" class="img-circle" src="../${comment.getBlogUsers().getUserImageUrl()}">
+                                                        <img alt="评论者头像" class="img-circle"
+                                                             src="../${comment.getBlogUsers().getUserImageUrl()}">
                                                     </a>
                                                     <div class="media-body">
                                                         <div class="btn-group pull-right">
@@ -186,7 +192,8 @@
                                                                     class="fa fa-thumbs-up"></i> 赞
                                                             </button>
                                                             <button class="btn btn-white btn-xs showReplyInput "
-                                                                    value="${comment.comtId}" name="${commentPage.pageNo}">
+                                                                    value="${comment.comtId}"
+                                                                    name="${commentPage.pageNo}">
                                                                 <i class="fa fa-comments"></i> <span>回复</span>
                                                             </button>
                                                         </div>
@@ -203,7 +210,8 @@
                                                                    varStatus="status1">
                                                             <div class="social-avatar toggleReply">
                                                                 <a href="" class="pull-left">
-                                                                    <img alt="回复者头像" class="img-circle" src="../${reply.getBu().getUserImageUrl()}">
+                                                                    <img alt="回复者头像" class="img-circle"
+                                                                         src="../${reply.getBu().getUserImageUrl()}">
                                                                 </a>
                                                                 <div class="media-body">
                                                                     <a href="#">${reply.getBu().getUserName()}</a>
@@ -272,20 +280,25 @@
                             </div>
                         </div>
                         <!-- 博客全文结束 -->
-                    </div>
-                </div>
-            </div>
-            <!-- 主面板 -->
 
-            <div class="col-md-3">
-                <div class="panel">
-                    <div class="panel-heading">
-                        <i class="fa fa-info-circle"></i> 5555信息面板
                     </div>
-                    <div class="panel-body">
-                        <p>Lorem存有悲坐阿梅德，consectetur
-                            adipiscing ELIT。前庭是租赁。最新的足球教练池，并设置毕业分类宣传。
-                        </p>
+                    <%--博客栏结束--%>
+                    <div class="col-md-3">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h1>
+                                    <i class="fa fa-info-circle"></i><%--<a
+                                href="views/templet.jsp">后台管理主页</a>--%>
+                                </h1>
+                            </div>
+                            <div class="panel-body">
+                                <p>Lorem存有悲坐阿梅德，consectetur
+                                    adipiscing ELIT。前庭是租赁。
+                                    最新的足球教练池，并设置毕业分类宣传。
+                                </p>
+                            </div>
+
+                        </div>
                     </div>
 
                 </div>
@@ -293,94 +306,85 @@
         </div>
 
         <!-- ===================主要内容结束=================== -->
+        <!-- 底部 -->
+        <%@include file="../bottom.html" %>
+        <script type="text/javascript">
+            //展开
+            $("#toggle").click(function () {
+                if ($("#toggle").val() == "展开<<<回复>>>") {
+                    $("#toggle").val("隐藏>>>回复<<<");
+                    $(".toggleReply").show().fadeIn(1000);
+                } else {
+                    $("#toggle").val("展开<<<回复>>>");
+                    $(".toggleReply").hide().fadeOut(1000);
+                }
+            });
+            $('#addComment').click(function () {
+                var data = $('#commentForm').serialize();
+                console.log("序列化" + data);
+                $.ajax({
+                    url: "comment/add",
+                    type: "post",
+                    data: data,
+                    //dataType: "json",
+                    success: function (result) {
+                        console.info(result);
+                    },
+                    error: function () {
+                        alert("请登陆后评论");
+                    }
+                });
+            });
+            $('.showReplyInput').click(function (event) {
+                var replyComtId = $(this).val();
+                //console.info($(this).find("span"));
+                var span = $(this).find("span");
+                var reply = span.text();
+                if (reply == "回复") {
+                    span.text("取消回复");
+                } else {
+                    span.text("回复");
+                    $(".show").empty();
+                    return;
+                }
+                var pageNo = $(this).attr("name");
+                console.info("replyComtId" + replyComtId);
+                $(".show").empty();
+                $('#showInput' + replyComtId).empty();
+                $('#showInput' + replyComtId).append("<div class=\"social-body\">\n" +
+                    "    <form action=\"javascript:void(0);\" name=\"a1\" id=\"replyForm\"><%--javascript:void(0);--%>\n" +
+                    "        <input type=\"hidden\" class=\"form-control\" name=\"replyComtId\"\n" +
+                    "               value=\"" + replyComtId + "\"/>\n" +
+                    "        <textarea class=\"form-control\" name=\"replyContent\" placeholder=\"写点什么...\"\n" +
+                    "                  required></textarea>\n" +
+                    "        <button id=\"addReply\" class=\"form-control btn btn-white\"\n" +
+                    "                style=\"background-color: #F8F8F8;\">提交回复\n" +
+                    "        </button>\n" +
+                    "    </form>\n" +
+                    "</div><script>\n" +
+                    "    $('#addReply').click(function () {\n" +
+                    "        var data = $('#replyForm').serialize();\n" +
+                    "        console.log(\"序列化\" + data);\n" +
+                    "        $.ajax({\n" +
+                    "            url: \"reply/add\",\n" +
+                    "            type: \"post\",\n" +
+                    "            data: data,\n" +
+                    "            success: function (result) {\n" +
+                    "                //$(\".show\").empty();\n" +
+                    "                console.info(result);location=location;\n" +
+                    "            },\n" +
+                    "            error: function () {\n" +
+                    "                alert(\"error\");\n" +
+                    "            }\n" +
+                    "        });\n" +
+                    "    });" + "<\/script>");
 
-
+                //$('#showInput'+userId).load("views/reply_input.jsp");
+            });
+        </script>
     </div>
 </div>
-<!-- <hr style="height: 100;color:red;"> -->
-<!-- 底部 -->
-<footer style="background-color: white;">
-    <div>
-        <div style="text-align: center; margin-top: 0px;">
-            <strong>Copyright</strong> &copy; ForwardLiao 2018
-        </div>
-    </div>
-</footer>
-
-<script type="text/javascript">
-    //展开
-    $("#toggle").click(function() {
-        if($("#toggle").val()== "展开<<<回复>>>" ){
-            $("#toggle").val("隐藏>>>回复<<<");
-            $(".toggleReply").show().fadeIn(1000);
-        }else{
-            $("#toggle").val("展开<<<回复>>>");
-            $(".toggleReply").hide().fadeOut(1000);
-        }
-    });
-    $('#addComment').click(function () {
-        var data = $('#commentForm').serialize();
-        console.log("序列化" + data);
-        $.ajax({
-            url: "comment/add",
-            type: "post",
-            data: data,
-            //dataType: "json",
-            success: function (result) {
-                console.info(result);
-            },
-            error: function () {
-                alert("请登陆后评论");
-            }
-        });
-    });
-    $('.showReplyInput').click(function (event) {
-        var replyComtId = $(this).val();
-        //console.info($(this).find("span"));
-        var span = $(this).find("span");
-        var reply = span.text();
-        if(reply== "回复" ){
-            span.text("取消回复");
-        }else{
-            span.text("回复");
-            $(".show").empty();
-            return ;
-        }
-        var pageNo = $(this).attr("name");
-        console.info("replyComtId"+replyComtId);
-        $(".show").empty();
-        $('#showInput'+replyComtId).empty();
-        $('#showInput'+replyComtId).append("<div class=\"social-body\">\n" +
-            "    <form action=\"javascript:void(0);\" name=\"a1\" id=\"replyForm\"><%--javascript:void(0);--%>\n" +
-            "        <input type=\"hidden\" class=\"form-control\" name=\"replyComtId\"\n" +
-            "               value=\""+replyComtId+"\"/>\n" +
-            "        <textarea class=\"form-control\" name=\"replyContent\" placeholder=\"写点什么...\"\n" +
-            "                  required></textarea>\n" +
-            "        <button id=\"addReply\" class=\"form-control btn btn-white\"\n" +
-            "                style=\"background-color: #F8F8F8;\">提交回复\n" +
-            "        </button>\n" +
-            "    </form>\n" +
-            "</div><script>\n" +
-            "    $('#addReply').click(function () {\n" +
-            "        var data = $('#replyForm').serialize();\n" +
-            "        console.log(\"序列化\" + data);\n" +
-            "        $.ajax({\n" +
-            "            url: \"reply/add\",\n" +
-            "            type: \"post\",\n" +
-            "            data: data,\n" +
-            "            success: function (result) {\n" +
-            "                //$(\".show\").empty();\n" +
-            "                console.info(result);location=location;\n" +
-            "            },\n" +
-            "            error: function () {\n" +
-            "                alert(\"error\");\n" +
-            "            }\n" +
-            "        });\n" +
-            "    });"+"<\/script>");
-
-        //$('#showInput'+userId).load("views/reply_input.jsp");
-    });
-</script>
-
 </body>
+
 </html>
+
