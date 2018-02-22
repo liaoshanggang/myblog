@@ -9,6 +9,7 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE>
 <html>
 
@@ -24,29 +25,105 @@
     <%@include file="js-common.jsp" %>
     <title>前台主页</title>
     <style type="text/css">
+        /*.ibox-content img {*/
+        /*max-width: 200px;*/
+        /*height: auto;*/
+        /*cursor: pointer;*/
+        /*border: 1px double #cccccc;*/
+        /*padding: 3px;*/
+        /*zoom: expression( function(elm)*/
+        /*{     if (elm.width>200)*/
+        /*{  var oldVW = elm.width; elm.width=200;*/
+        /*elm.height = elm.height*(200 /oldVW);*/
+        /*}         elm.style.zoom = '1';*/
+        /*}*/
+        /*(this));*/
+        /*}*/
         .ibox-content img {
-            max-width: 200px;
-            height: auto;
+            max-width: 100%;
+            max-height: 100%;
             cursor: pointer;
-            border: 1px double #cccccc;
-            padding: 3px;
-            zoom: expression( function(elm)
-	       {     if (elm.width>200)
-	               {  var oldVW = elm.width; elm.width=200;
-	                   elm.height = elm.height*(200 /oldVW);
-	                }         elm.style.zoom = '1';
-	      }
-	(this));
+            display: none;
         }
 
         #title {
-            width: 98%; /*必须设置宽度*/
-            overflow: hidden; /*溢出隐藏*/
-            text-overflow: ellipsis; /*以省略号...显示*/
-            white-space: nowrap; /*强制不换行*/
+            width: 98%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /*必须设置宽度*//*溢出隐藏*//*以省略号...显示*//*强制不换行*/
+        .shadow {
+            box-shadow: 0px 0px 15px #888888;
+        }
+
+        /*overflow:hidden;
+        text-overflow: ellipsis;*/
+        .briefInfo {
+            max-width: 100%;
+            border-top: #E6E6E6 1px solid;
+            border-bottom: #E6E6E6 1px solid;
+            padding: 10px;
+            /*height: 5em;*/
+            /*margin: 1em;*/
+            /*overflow:hidden;*/
+        }
+
+        /* overflow: hidden;
+         text-overflow: ellipsis;
+         display: -webkit-box;
+         -webkit-line-clamp: 10; !*!/这儿的数字代表的就是你所需要实现效果的第N行*!
+     -webkit-box-orient: vertical;*/
+        .briefInfo pre {
+            max-width: 100%;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .briefInfo .p2 {
+            line-height: 1.5em;
+            max-width: 100%;
+        }
+
+        .expandMore {
+            cursor: pointer;
         }
     </style>
+    <script>
+        $(function () {
+            $(".ibox").hover(
+                function () {
+                    $(this).addClass("shadow");
+                },
+                function () {
+                    $(this).removeClass("shadow");
+                }
+            );
 
+
+            $(".briefInfo").each(function (i) {
+                //var divH = $(this).height();
+                var $p = $(".p2", $(this)).eq(0);
+                var href = $p.parent().prev().prev().find("a").attr("href");
+                //$(this).find("p");
+                //console.info($p+"========="+divH);
+                $p.html($p.text().substring(1, 150).replace(/(\s)*([a-zA-Z0-9]+|\W)(\.\.\.)?$/, "...") + "" +
+                    "<a href=\"" + href + "\" class=\"\">查看更多>></a>");
+                //var len = $p.text().substring(1,200).length;
+                //console.info("="+$p.text());
+                // while ($p.text().substring(1).length > len) {
+                //     $p.text($p.text().replace(/(\s)*([a-zA-Z0-9]+|\W)(\.\.\.)?$/, "..."));
+                //     console.info($p.outerHeight()+"=========/n"+$p.text()+"/n");
+                // }
+                // while ($p.outerHeight() > divH) {
+                //     $p.text($p.text().replace(/(\s)*([a-zA-Z0-9]+|\W)(\.\.\.)?$/, "..."));
+                //     //console.info($p.outerHeight()+"=========/n"+$p.text()+"/n");
+                // }
+            });
+        })
+
+    </script>
 </head>
 
 
@@ -73,7 +150,7 @@
                             <div class="ibox">
                                 <div class="ibox-content">
                                     <!-- <h2 style="overflow: hidden"> -->
-                                    <h1 id="title">
+                                    <h1 id="title" title="${article.artiTitle }">
                                         <a href="article/queryById/${article.artiId }/detail"
                                            class="btn-link">${article.artiTitle }</a>
                                     </h1>
@@ -82,18 +159,16 @@
                                             class="fa fa-clock-o"></i> <fmt:formatDate value='${article.artiTime}'
                                                                                        pattern='yyyy-MM-dd HH:mm:ss'/></span>
                                     </div>
-                                    <div>
-                                        <p>${article.artiContent }</p>
+                                    <div class="briefInfo">
+                                        <div class="p2"><%--${fn:substring(article.artiContent, 1, 6000)}--%> ${article.artiContent } </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h5>Tags:</h5>
                                             <button class="btn btn-primary btn-xs" type="button">Model</button>
                                             <button class="btn btn-white btn-xs" type="button">Publishing</button>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="small text-right">
-                                                <h5>Stats:</h5>
                                                 <div>
                                                     <i class="fa fa-comments-o"> </i> ${article.artiComtNumber }
                                                     comments
@@ -147,32 +222,39 @@
                         <!-- 链接结束 -->
                     </div>
                     <%--博客栏结束--%>
-                    <div class="col-md-3">
-                        <div class="panel">
-                            <div class="panel-heading">
-                                <h1>
-                                    <i class="fa fa-info-circle"></i><%--<a
-                                href="views/templet.jsp">后台管理主页</a>--%>
-                                </h1>
+                    <div class="col-md-3" style="padding-left:0px;">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <div class="tabs-container">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a data-toggle="tab" href="#tab-3"
+                                                              aria-expanded="true">网站信息</a></li>
+                                        <li class=""><a data-toggle="tab" href="#tab-4" aria-expanded="false">会员中心</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div id="tab-3" class="tab-pane active">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                        <div id="tab-4" class="tab-pane">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="panel-body">
-                                <p>Lorem存有悲坐阿梅德，consectetur
-                                    adipiscing ELIT。前庭是租赁。
-                                    最新的足球教练池，并设置毕业分类宣传。
-                                </p>
-                            </div>
-
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- ===================主要内容结束=================== -->
         <!-- 底部 -->
         <%@include file="bottom.html" %>
     </div>
+
+    <!-- ===================主要内容结束=================== -->
+</div>
 </div>
 </body>
 

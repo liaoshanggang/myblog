@@ -49,19 +49,11 @@
         }
     </script>
     <style type="text/css">
-        div p img {
-            max-width: 200px;
-            height: auto;
+
+        .ibox-content img {
+            max-width: 100%;
+            max-height: 100%;
             cursor: pointer;
-            border: 1px double #cccccc;
-            padding: 3px;
-            zoom: expression( function(elm)
-	       {     if (elm.width>200)
-	               {  var oldVW = elm.width; elm.width=200;
-	                   elm.height = elm.height*(200 /oldVW);
-	                }         elm.style.zoom = '1';
-	      }
-	(this));
         }
 
         #title {
@@ -84,6 +76,18 @@
         .post-copyright a {
             color: #999;
             text-decoration: none;
+        }
+        .detailInfo {
+            max-width: 100%;
+            border-top: #E6E6E6 1px solid;
+            border-bottom: #E6E6E6 1px solid;
+            padding: 10px;
+
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            /*height: 5em;*/
+            /*margin: 1em;*/
+            /*overflow:hidden;*/
         }
     </style>
 </head>
@@ -124,8 +128,7 @@
                                 </div>
                                 <!-- <div style="overflow:auto"> -->
                                 <hr>
-                                <div>
-                                    <p>${article.artiContent }</p>
+                                <div class="detailInfo">${article.artiContent }
                                 </div>
                                 <hr>
                                 <div class="post-copyright">
@@ -283,7 +286,7 @@
 
                     </div>
                     <%--博客栏结束--%>
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="padding-left:0px;">
                         <div class="panel">
                             <div class="panel-heading">
                                 <h1>
@@ -303,11 +306,12 @@
 
                 </div>
             </div>
+
+            <!-- 底部 -->
+            <%@include file="../bottom.html" %>
         </div>
 
         <!-- ===================主要内容结束=================== -->
-        <!-- 底部 -->
-        <%@include file="../bottom.html" %>
         <script type="text/javascript">
             //展开
             $("#toggle").click(function () {

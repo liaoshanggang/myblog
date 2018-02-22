@@ -1,5 +1,6 @@
 package com.blog.controller;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,6 +97,9 @@ public class ArticleController {
                             Comment comment, Integer pageNo, ModelMap modelMap, HttpSession session) {
         Article article = new Article();
         article.setArtiId(artiId);
+
+        getAccessIp();
+
         Article article1 = iArticleService.selectArticleById(article);
         modelMap.addAttribute("article", article1);
         logger.info(article1);
@@ -148,6 +152,26 @@ public class ArticleController {
             /***********************************************************************/
             return "/article_detail";
         }
+    }
+
+    private String getAccessIp() {
+        String ip = request.getHeader("x-forwarded-for");
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("PRoxy-Client-IP");
+        }
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        InetAddress a;
+        try {
+            a = InetAddress.getLocalHost();
+            System.out.println("主机名称: " + a.getHostName()+"ip:"+ip);
+        } catch (Exception e) {
+        }
+        return ip;
     }
 
     private int getPageSize(int[] arr, Integer pageNo) {
