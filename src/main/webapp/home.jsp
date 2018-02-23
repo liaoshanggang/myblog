@@ -108,21 +108,21 @@
             //     //var divH = $(this).height();
             //     var $p = $(".p2", $(this)).eq(0);
             //     var href = $p.parent().prev().prev().find("a").attr("href");
-                //$(this).find("p");
-                //console.info($p+"========="+divH);
-                // $p.html($p.text().substring(1, 150).replace(/(\s)*([a-zA-Z0-9]+|\W)(\.\.\.)?$/, "...") + "" +
-                //     "<a href=\"" + href + "\" class=\"\">查看更多>></a>");
-                //var len = $p.text().substring(1,200).length;
-                //console.info("="+$p.text());
-                // while ($p.text().substring(1).length > len) {
-                //     $p.text($p.text().replace(/(\s)*([a-zA-Z0-9]+|\W)(\.\.\.)?$/, "..."));
-                //     console.info($p.outerHeight()+"=========/n"+$p.text()+"/n");
-                // }
-                // while ($p.outerHeight() > divH) {
-                //     $p.text($p.text().replace(/(\s)*([a-zA-Z0-9]+|\W)(\.\.\.)?$/, "..."));
-                //     //console.info($p.outerHeight()+"=========/n"+$p.text()+"/n");
-                // }
-           // });
+            //$(this).find("p");
+            //console.info($p+"========="+divH);
+            // $p.html($p.text().substring(1, 150).replace(/(\s)*([a-zA-Z0-9]+|\W)(\.\.\.)?$/, "...") + "" +
+            //     "<a href=\"" + href + "\" class=\"\">查看更多>></a>");
+            //var len = $p.text().substring(1,200).length;
+            //console.info("="+$p.text());
+            // while ($p.text().substring(1).length > len) {
+            //     $p.text($p.text().replace(/(\s)*([a-zA-Z0-9]+|\W)(\.\.\.)?$/, "..."));
+            //     console.info($p.outerHeight()+"=========/n"+$p.text()+"/n");
+            // }
+            // while ($p.outerHeight() > divH) {
+            //     $p.text($p.text().replace(/(\s)*([a-zA-Z0-9]+|\W)(\.\.\.)?$/, "..."));
+            //     //console.info($p.outerHeight()+"=========/n"+$p.text()+"/n");
+            // }
+            // });
         })
 
     </script>
@@ -168,13 +168,13 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <%--<div class="col-md-6">
-                                        </div>--%>
+                                            <%--<div class="col-md-6">
+                                            </div>--%>
                                         <div class="col-md-12">
                                             <button class="btn btn-primary btn-xs" type="button">Model</button>
                                             <span class="small pull-right ">
-                                            <i class="fa fa-comments-o"> </i> ${article.artiComtNumber } comments<br>
-                                            <i class="fa fa-eye"> </i> ${article.artiPageView } views</span>
+                                            <i class="fa fa-comments-o"> </i> ${article.artiComtNumber } Comments<br>
+                                            <i class="fa fa-eye"> </i> ${article.artiPageView } Views</span>
                                         </div>
                                     </div>
                                 </div>
@@ -224,37 +224,86 @@
                     <%--博客栏结束--%>
                     <div class="col-md-3" style="padding-left:0px;">
                         <div class="ibox">
-                            <div class="ibox-content">
-                                <div class="tabs-container">
-                                    <ul class="nav nav-tabs">
-                                        <li class="active"><a data-toggle="tab" href="#tab-3"
-                                                              aria-expanded="true">网站信息</a></li>
-                                        <li class=""><a data-toggle="tab" href="#tab-4" aria-expanded="false">会员中心</a>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content">
-                                        <div id="tab-3" class="tab-pane active">
-                                            <div class="panel-body"></div>
+                            <div class="tabs-container">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#tab-3" aria-expanded="true">
+                                        <h3 class="font-bold">网站信息</h3></a></li>
+                                    <li class=""><a data-toggle="tab" href="#tab-4" aria-expanded="false">
+                                        <h3 class="font-bold">会员中心</h3></a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="tab-3" class="tab-pane active">
+                                        <div class="panel-body" style="padding: 0px;">
+                                            <ul>
+                                                <li>网站名称：LSG's Blog</li>
+                                                <li>博客系统：<a href="//github.com/liaoshanggang" target="_blank"
+                                                            style="font-style: italic;">
+                                                    <i class="fa fa-graduation-cap"></i>NoteBlog</a></li>
+                                                <li>交流反馈：
+                                                    <a target="_blank"
+                                                       href="//shang.qq.com/wpa/qunwpa?idkey=a2db8d0fa1aa7f91fabf149d9f868efa1811e0a6839851220a9c2b2ecaf0bce7">
+                                                        <img border="0" src="//pub.idqqimg.com/wpa/images/group.png"
+                                                             alt="笔记博客 ~ 交流反馈" title="笔记博客 ~ 交流反馈"></a></li>
+                                                <li>前端UI：<a href="//www.bootcss.com/" target="_blank">Bootstrap</a></li>
+                                                <li>后端架构：<a href="//spring.io/projects"
+                                                            target="_blank">Sping、Mybatis等</a></li>
+                                            </ul>
                                         </div>
-                                        <div id="tab-4" class="tab-pane">
-                                            <div class="panel-body"></div>
+                                    </div>
+                                    <div id="tab-4" class="tab-pane">
+                                        <div class="panel-body" style="padding: 10px;">
+                                            <p class="text-center">
+                                            <a href="javascript:void(0);alert('很抱歉，未实现QQ第三方登录！');" class="btn btn-white btn-md">
+                                                <i class="fa fa-qq"></i> 网站用户 </a>
+                                            <a data-toggle="modal" data-target="#myModel3" class="btn btn-white btn-md">
+                                                <i class="fa fa-user-o"></i> 网站管理</a></p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h3 class="font-bold no-margins">搜一下
+                                    <span class="pull-right">
+                                        <a href="/search" target="_blank" class="btn-link">
+                                            <i><strong>前往</strong> <i class="fa fa-angle-double-right"></i></i>
+                                        </a>
+                                    </span></h3>
+                            </div>
+                            <div class="ibox-content"style="padding: 5px;">
+                                <div class="search-form">
+                                    <form action="" method="get">
+                                        <div class="input-group">
+                                            <input type="text" placeholder="键入Enter键以搜索" name="search" class="btn btn-facebook btn-outline form-control input-md">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-success btn-facebook btn-outline" type="submit"> 搜索 </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h3 class="font-bold no-margins">热门文章</h3>
+                            </div>
+                            <div class="ibox-content">
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <!-- 底部 -->
+            <%@include file="bottom.html" %>
         </div>
 
-        <!-- 底部 -->
-        <%@include file="bottom.html" %>
+        <!-- ===================主要内容结束=================== -->
     </div>
-
-    <!-- ===================主要内容结束=================== -->
-</div>
 </div>
 </body>
 

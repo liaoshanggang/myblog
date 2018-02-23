@@ -24,26 +24,28 @@
     })
 
 </script>
+
 <!-- 头部开始 -->
 <div class="row border-bottom">
     <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0;background-color:#393D49">
         <div class="navbar-header">
             <!-- href="#"没有效果 -->
-            <a class="navbar-minimalize minimalize-styl-2 btn"><i
+            <a href="showHome" class="navbar-minimalize minimalize-styl-2 btn"><i
                     class="fa fa-graduation-cap" style="font-size: 25px;"></i> <i style="font-size: 25px;">LSG's
                 Blog</i></a>
-            <form role="search" class="navbar-form-custom"
+            <div class="pull-left" id="localtime" style="font-size: 10px;padding-top: 8px;"></div>
+            <%--<form role="search" class="navbar-form-custom"
                   action="search_results.html">
                 <div class="form-group">
                     <input type="text" placeholder="Search for something..."
                            class="form-control" name="top-search" id="top-search" style="padding-top:20px">
                 </div>
-            </form>
+            </form>--%>
         </div>
         <ul class="nav navbar-top-links navbar-right">
             <li><span class="m-r-sm text-muted welcome-message"> <marquee
                     onmouseover="this.stop();" onmouseout="this.start();"
-                    style="font-size: 10px;height: 20px;padding-top: 5px;">
+                    style="font-size: 10px;height: 40px;padding-top: 25px;">
 						欢迎来到廖尚岗的个人博客网站 </marquee>
 			</span></li>
             <li class="nav_li"><a href="#"> <i class="fa fa-search"></i>搜索</a></li>
@@ -139,3 +141,46 @@
     </div>
 </div>--%>
 <!-- 链接结束 -->
+<script type="text/javascript">
+    function showLocale(objD)
+    {
+        var str,colorhead,colorfoot;
+        var yy = objD.getYear();
+        if(yy<1900) yy = yy+1900;
+        var MM = objD.getMonth()+1;
+        if(MM<10) MM = '0' + MM;
+        var dd = objD.getDate();
+        if(dd<10) dd = '0' + dd;
+        var hh = objD.getHours();
+        if(hh<10) hh = '0' + hh;
+        var mm = objD.getMinutes();
+        if(mm<10) mm = '0' + mm;
+        var ss = objD.getSeconds();
+        if(ss<10) ss = '0' + ss;
+        var ww = objD.getDay();
+        if ( ww==0 ) colorhead="<a class=\"navbar-minimalize minimalize-styl-2 btn\">";
+        if ( ww > 0 && ww < 6 ) colorhead="<a class=\"navbar-minimalize minimalize-styl-2 btn\">";
+        if ( ww==6 ) colorhead="<a class=\"navbar-minimalize minimalize-styl-2 btn\">";
+        if (ww==0) ww="星期日";
+        if (ww==1) ww="星期一";
+        if (ww==2) ww="星期二";
+        if (ww==3) ww="星期三";
+        if (ww==4) ww="星期四";
+        if (ww==5) ww="星期五";
+        if (ww==6) ww="星期六";
+        colorfoot="</a>"
+        str = colorhead + yy + "年" + MM + "月" + dd + "日"+ ww+"" + hh + ":" + mm + ":" + ss + " "  + colorfoot;
+        //alert(str);
+        return str;
+    }
+    function tick()
+    {
+        var today;
+        today = new Date();
+        $("#localtime").html(showLocale(today));
+        window.setTimeout("tick()", 1000);
+    }
+    tick();
+    window.onresize = function(){
+    }
+</script>
