@@ -340,6 +340,7 @@
                 });
             });
             $('.showReplyInput').click(function (event) {
+                var artiId = $("[name='comtArtiId']").val();
                 var replyComtId = $(this).val();
                 //console.info($(this).find("span"));
                 var span = $(this).find("span");
@@ -359,6 +360,8 @@
                     "    <form action=\"javascript:void(0);\" name=\"a1\" id=\"replyForm\"><%--javascript:void(0);--%>\n" +
                     "        <input type=\"hidden\" class=\"form-control\" name=\"replyComtId\"\n" +
                     "               value=\"" + replyComtId + "\"/>\n" +
+                    "        <input type=\"hidden\" class=\"form-control\" name=\"artiId\"\n" +
+                    "               value=\"" + artiId + "\"/>\n" +
                     "        <textarea class=\"form-control\" name=\"replyContent\" placeholder=\"写点什么...\"\n" +
                     "                  required></textarea>\n" +
                     "        <button id=\"addReply\" class=\"form-control btn btn-white\"\n" +

@@ -1,5 +1,6 @@
 package com.blog.controller;
 
+import com.blog.service.IArticleService;
 import com.blog.service.ICommentService;
 import com.blog.service.IReplyService;
 import com.blog.vo.*;
@@ -23,6 +24,8 @@ public class CommentController {
     ICommentService iCommentService;
     @Resource
     IReplyService irs;
+    @Resource
+    IArticleService ias;
 
     @RequestMapping("/add")
     public @ResponseBody
@@ -31,6 +34,9 @@ public class CommentController {
         if (logUser != null) {
             comment.setComtUserId(logUser.getUserId());
             iCommentService.insertComment(comment);
+            Article a = new Article();
+            a.setArtiId(comment.getComtArtiId());
+            ias.updateArtiComtNumber(a);
             //如果第二次插入的
             return "success";
         }

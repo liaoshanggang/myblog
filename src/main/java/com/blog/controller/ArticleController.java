@@ -98,9 +98,9 @@ public class ArticleController {
         Article article = new Article();
         article.setArtiId(artiId);
 
-        getAccessIp();
+        String accessIp = getAccessIp();
 
-        Article article1 = iArticleService.selectArticleById(article);
+        Article article1 = iArticleService.selectArticleById(article,accessIp);
         modelMap.addAttribute("article", article1);
         logger.info(article1);
         if (moudule.equals("modify")) {

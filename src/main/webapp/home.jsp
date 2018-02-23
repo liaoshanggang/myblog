@@ -65,6 +65,8 @@
             border-top: #E6E6E6 1px solid;
             border-bottom: #E6E6E6 1px solid;
             padding: 10px;
+            /*white-space: pre-wrap;*/
+            word-wrap: break-word;
             /*height: 5em;*/
             /*margin: 1em;*/
             /*overflow:hidden;*/
@@ -102,14 +104,14 @@
             );
 
 
-            $(".briefInfo").each(function (i) {
-                //var divH = $(this).height();
-                var $p = $(".p2", $(this)).eq(0);
-                var href = $p.parent().prev().prev().find("a").attr("href");
+            // $(".briefInfo").each(function (i) {
+            //     //var divH = $(this).height();
+            //     var $p = $(".p2", $(this)).eq(0);
+            //     var href = $p.parent().prev().prev().find("a").attr("href");
                 //$(this).find("p");
                 //console.info($p+"========="+divH);
-                $p.html($p.text().substring(1, 150).replace(/(\s)*([a-zA-Z0-9]+|\W)(\.\.\.)?$/, "...") + "" +
-                    "<a href=\"" + href + "\" class=\"\">查看更多>></a>");
+                // $p.html($p.text().substring(1, 150).replace(/(\s)*([a-zA-Z0-9]+|\W)(\.\.\.)?$/, "...") + "" +
+                //     "<a href=\"" + href + "\" class=\"\">查看更多>></a>");
                 //var len = $p.text().substring(1,200).length;
                 //console.info("="+$p.text());
                 // while ($p.text().substring(1).length > len) {
@@ -120,7 +122,7 @@
                 //     $p.text($p.text().replace(/(\s)*([a-zA-Z0-9]+|\W)(\.\.\.)?$/, "..."));
                 //     //console.info($p.outerHeight()+"=========/n"+$p.text()+"/n");
                 // }
-            });
+           // });
         })
 
     </script>
@@ -160,21 +162,19 @@
                                                                                        pattern='yyyy-MM-dd HH:mm:ss'/></span>
                                     </div>
                                     <div class="briefInfo">
-                                        <div class="p2"><%--${fn:substring(article.artiContent, 1, 6000)}--%> ${article.artiContent } </div>
+                                        <div class="p2"><%--${fn:substring(article.artiContent, 1, 6000)}--%> ${article.artiContent }
+                                            <a href="article/queryById/${article.artiId }/detail"
+                                               class="">...更多>></a>
+                                        </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <%--<div class="col-md-6">
+                                        </div>--%>
+                                        <div class="col-md-12">
                                             <button class="btn btn-primary btn-xs" type="button">Model</button>
-                                            <button class="btn btn-white btn-xs" type="button">Publishing</button>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="small text-right">
-                                                <div>
-                                                    <i class="fa fa-comments-o"> </i> ${article.artiComtNumber }
-                                                    comments
-                                                </div>
-                                                <i class="fa fa-eye"> </i> ${article.artiPageView } views
-                                            </div>
+                                            <span class="small pull-right ">
+                                            <i class="fa fa-comments-o"> </i> ${article.artiComtNumber } comments<br>
+                                            <i class="fa fa-eye"> </i> ${article.artiPageView } views</span>
                                         </div>
                                     </div>
                                 </div>

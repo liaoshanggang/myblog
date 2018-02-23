@@ -1,6 +1,8 @@
 package com.blog.controller;
 
+import com.blog.service.IArticleService;
 import com.blog.service.IReplyService;
+import com.blog.vo.Article;
 import com.blog.vo.BlogUsers;
 import com.blog.vo.Reply;
 import org.apache.log4j.Logger;
@@ -18,14 +20,17 @@ public class ReplyController {
     static Logger logger = Logger.getLogger(ReplyController.class);
     @Resource
     IReplyService iReplyService;
+    @Resource
+    IArticleService ias;
 
     @RequestMapping("/add")
     public @ResponseBody
-    String saveArticle(Reply reply, HttpSession session) {
+    String saveArticle(Reply reply,Article a, HttpSession session) {
         BlogUsers logUser = (BlogUsers) session.getAttribute("logUser");
         if (logUser != null) {
             reply.setReplyUserId(logUser.getUserId());
             iReplyService.insertReply(reply);
+            ias.updateArtiComtNumber(a);
             //如果第二次插入的
             return "success";
         }

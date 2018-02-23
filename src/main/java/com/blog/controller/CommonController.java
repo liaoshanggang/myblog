@@ -40,9 +40,10 @@ public class CommonController {
 		for (Article a:list) {
 			String str = StripHT(a.getArtiContent());
 			if(str.length()>200){
-				a.setArtiContent(str.substring(1,180));
+				a.setArtiContent(str.substring(0,180));
+			}else{
+				a.setArtiContent(str);
 			}
-			a.setArtiContent(str);
 		}
 		modelMap.addAttribute("articleList", list);
 

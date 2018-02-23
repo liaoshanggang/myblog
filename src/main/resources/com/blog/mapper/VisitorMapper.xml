@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blog.mapper.VisitorMapper">
-  
+    <resultMap id="baseResultMap" type="visitor">
+        <id column="VISITOR_ID" jdbcType="INTEGER" property="visitorId" />
+        <result column="VISITOR_TIME" jdbcType="TIMESTAMP" property="visitorTime" />
+        <result column="VISITOR_IP" jdbcType="VARCHAR" property="visitorIp" />
+        <result column="ARTI_ID" jdbcType="INTEGER" property="artiId" />
+    </resultMap>
+
+    <!--根据文章id查找该访问者-->
+    <select id="selectVisitorByAid" parameterType="visitor" resultMap="baseResultMap">
+        select v.* from VISITOR v where v.ARTI_ID = #{artiId}
+    </select>
+    <!--插入访问者信息-->
+    <insert id="addVisitor" parameterType="visitor">
+    insert into VISITOR (VISITOR_ID, VISITOR_TIME, VISITOR_IP,
+      ARTI_ID)
+    values (VISITOR_SEQ.nextval,sysdate, #{visitorIp,jdbcType=VARCHAR},
+      #{artiId,jdbcType=INTEGER})
+  </insert>
+    <!--根据文章id查询pageView countPageViewByAid-->
+    <select id="countPageViewByAid" parameterType="visitor" resultType="int">
+        select count(v.VISITOR_IP) from VISITOR v WHERE v.ARTI_ID = #{artiId}
+    </select>
 </mapper>

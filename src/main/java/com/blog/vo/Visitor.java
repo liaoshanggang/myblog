@@ -1,22 +1,21 @@
 package com.blog.vo;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class Visitor {
-    private BigDecimal visitorId;
+    private Integer visitorId;
 
     private Date visitorTime;
 
     private String visitorIp;
 
-    private BigDecimal artiId;
+    private Integer artiId;
 
-    public BigDecimal getVisitorId() {
+    public Integer getVisitorId() {
         return visitorId;
     }
 
-    public void setVisitorId(BigDecimal visitorId) {
+    public void setVisitorId(Integer visitorId) {
         this.visitorId = visitorId;
     }
 
@@ -36,11 +35,11 @@ public class Visitor {
         this.visitorIp = visitorIp == null ? null : visitorIp.trim();
     }
 
-    public BigDecimal getArtiId() {
+    public Integer getArtiId() {
         return artiId;
     }
 
-    public void setArtiId(BigDecimal artiId) {
+    public void setArtiId(Integer artiId) {
         this.artiId = artiId;
     }
 }

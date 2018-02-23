@@ -1,9 +1,12 @@
 package com.blog.service.impl;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.Resource;
 
+import com.blog.service.IVisitorService;
+import com.blog.vo.Visitor;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,15 +22,49 @@ public class TestArticleServiceImpl {
 	static Logger logger = Logger.getLogger(TestArticleServiceImpl.class);
 	@Resource
 	IArticleService ias;
+	@Resource
+	IVisitorService ivs;
+	@Test
+	public void testAddVisitor(){
+		String ip = "192.168.1.3";
+		Article article = new Article();
+		article.setArtiId(20);
+
+		Visitor v = new Visitor();
+		v.setVisitorIp(ip);
+		v.setArtiId(article.getArtiId());
+		List<Visitor> visitors = ivs.selectVisitorByAid(v);
+		if(visitors.size()<1){
+			ivs.addVisitor(v);
+		}else{
+			boolean flag = false;
+			for (Visitor v2: visitors) {
+				if(ip.equals(v2.getVisitorIp())){//如果存在
+					flag = true;
+					break;
+				}
+			}
+			if(!flag){
+				ivs.addVisitor(v);
+			}
+		}
+		Integer pageView = ivs.countPageViewByAid(v);
+		article.setArtiPageView(pageView);
+		ias.updateArticleById(article);
+		Article article1 = ias.selectArticleById(article);
+	}
 
 	@Test
 	public void testUpdateArticleById(){
 		Article article = new Article();
-		article.setArtiCatgId(2);
-		article.setArtiTitle("可以了更新");
+		/*article.setArtiCatgId(2);
+		article.setArtiTitle("可以了更新1");
 		article.setArtiContent("跟新啦啦啦");
 		article.setArtiId(5);
-		ias.updateArticleById(article);
+		ias.updateArticleById(article);*/
+		article.setArtiId(20);
+		Article article1 = ias.selectArticleById(article);
+		logger.info("....."+article1);
 	}
 
 	@Test
