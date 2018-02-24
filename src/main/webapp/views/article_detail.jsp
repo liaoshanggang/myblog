@@ -99,15 +99,15 @@
     <!-- 左边导航栏开始 -->
     <%--<%@include file="../left_nav.jsp" %>--%>
     <!-- 左导航栏结束 -->
-    <div id="page-wrapper" class="gray-bg">
+    <div id="page-wrapper" class="gray-bg" style="padding: 0px;">
         <!-- 头部开始 -->
         <%@include file="../head.jsp" %>
         <!-- 头部结束 -->
 
         <!-- ===================主要内容开始=================== -->
         <div class="row">
-            <div class="container">
-                <div class="wrapper wrapper-content animated fadeInUp" style="padding-top: 0px;"><%-- article--%>
+            <div class="container"style="padding: 0px;">
+                <div class="wrapper wrapper-content animated fadeInUp" style="padding: 0px;"><%-- article--%>
 
                     <%--博客栏开始--%>
                     <div class="col-md-9">

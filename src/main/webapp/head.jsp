@@ -9,6 +9,26 @@
     /*background-color: #ffffff;*/
     /*border-top-left-radius: 5px;
     border-bottom-right-radius: 5px;*/
+    .navbar2-fixed-top {
+        background: #fff;
+        transition-duration: 0.5s;
+        border-bottom: 1px solid #e7eaec !important;
+        z-index: 2030;
+        top: 0px;
+        right: 0;
+        left: 0;
+        position: fixed;
+    }
+    .navbar1-fixed-top {
+        background: #fff;
+        transition-duration: 0.5s;
+        border-bottom: 1px solid #e7eaec !important;
+        z-index: 2030;
+        top: 0px;
+        right: 0;
+        left: 0;
+        position: fixed;
+    }
 </style>
 <script>
     $(function () {
@@ -21,13 +41,49 @@
                 $(this).removeClass("enterBorder");
             }
         );
+        fixed();
+        // $(window).resize(function() {
+        //     }
+        // });
+        // window.onresize = function(){
+        //     if(document.body.clientWidth<766){
+        //         var height = $("#nav2").outerHeight() ;
+        //         console.info(height);
+        //         /* $("#nav1").removeClass("navbar-static-top");
+        //          $("#nav1").addClass("navbar1-fixed-top");*/
+        //         $("#nav2").removeClass("navbar-static-top");
+        //         $("#nav2").addClass("navbar2-fixed-top");
+        //         //$("#nav1").css("top",height);
+        //     }else{
+        //         /*$("#nav1").removeClass("navbar1-fixed-top");
+        //         $("#nav1").addClass("navbar-static-top");*/
+        //         $("#nav2").removeClass("navbar2-fixed-top");
+        //         $("#nav2").addClass("navbar-static-top");
+        //     }
+        // }
     })
 
+    function fixed(){
+        if(document.body.clientWidth<766){
+            var height = $("#nav2").outerHeight() ;
+            console.info(height);
+            /* $("#nav1").removeClass("navbar-static-top");
+             $("#nav1").addClass("navbar1-fixed-top");*/
+            $("#nav2").removeClass("navbar-static-top");
+            $("#nav2").addClass("navbar2-fixed-top");
+            //$("#nav1").css("top",height);
+        }else{
+            /*$("#nav1").removeClass("navbar1-fixed-top");
+            $("#nav1").addClass("navbar-static-top");*/
+            $("#nav2").removeClass("navbar2-fixed-top");
+            $("#nav2").addClass("navbar-static-top");
+        }
+    }
 </script>
 
 <!-- 头部开始 -->
 <div class="row border-bottom">
-    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0;background-color:#393D49">
+    <nav id="nav1" class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0;background-color:#393D49">
         <div class="navbar-header">
             <!-- href="#"没有效果 -->
             <a href="showHome" class="navbar-minimalize minimalize-styl-2 btn"><i
@@ -83,7 +139,7 @@
 <!-- 头部结束 -->
 <!-- 链接开始 -->
 <div class="white-bg" style="padding-bottom:0px;">
-    <nav class="navbar navbar-static-top" role="navigation">
+    <nav class="navbar navbar-static-top" role="navigation" id="nav2">
         <div class="navbar-header col-md-1">
             <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse"
                     class="btn-white navbar-toggle collapsed" type="button">
@@ -181,6 +237,4 @@
         window.setTimeout("tick()", 1000);
     }
     tick();
-    window.onresize = function(){
-    }
 </script>

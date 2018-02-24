@@ -129,21 +129,21 @@
 </head>
 
 
-<body class="canvas-menu">
+<body class="canvas-menu"onresize="fixed()">
 
 <div id="wrapper">
     <!-- 左边导航栏开始 -->
     <%--<%@include file="../left_nav.jsp" %>--%>
     <!-- 左导航栏结束 -->
-    <div id="page-wrapper" class="gray-bg">
+    <div id="page-wrapper" class="gray-bg" style="padding: 0px;">
         <!-- 头部开始 -->
         <%@include file="head.jsp" %>
         <!-- 头部结束 -->
 
         <!-- ===================主要内容开始=================== -->
         <div class="row">
-            <div class="container">
-                <div class="wrapper wrapper-content animated fadeInUp" style="padding-top: 0px;">
+            <div class="container" style="padding: 0px;">
+                <div class="wrapper wrapper-content animated fadeInUp" style="padding: 0px;">
 
                     <%--博客栏开始--%>
                     <div class="col-md-9">
@@ -171,10 +171,9 @@
                                             <%--<div class="col-md-6">
                                             </div>--%>
                                         <div class="col-md-12">
-                                            <button class="btn btn-primary btn-xs" type="button">Model</button>
                                             <span class="small pull-right ">
-                                            <i class="fa fa-comments-o"> </i> ${article.artiComtNumber } Comments<br>
-                                            <i class="fa fa-eye"> </i> ${article.artiPageView } Views</span>
+                                            <i class="fa fa-comments-o"> </i> ${article.artiComtNumber } 评论
+                                            <i class="fa fa-eye"> </i> ${article.artiPageView } 浏览</span>
                                         </div>
                                     </div>
                                 </div>
