@@ -156,6 +156,9 @@
                     <a aria-expanded="false" role="button" href="tech" target="_blank" title="技术话题">技术话题</a>
                 </li>
                 <li class="nav_li">
+                    <a aria-expanded="false" role="button" href="playback" target="_blank" title="现场还原">现场还原</a>
+                </li>
+                <li class="nav_li">
                     <a aria-expanded="false" role="button" href="share" target="_blank" title="分享">分享</a>
                 </li>
                 <li class="nav_li">

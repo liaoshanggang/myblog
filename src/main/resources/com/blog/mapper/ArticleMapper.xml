@@ -126,4 +126,10 @@
 		</trim>
 		where ARTI_CATG_ID=#{artiCatgId}
 	</update>
+
+	<!--根据浏览量查询前10条记录-->
+	<select id="selectHotArticles" resultMap="baseResultMap">
+		SELECT * FROM (SELECT a.* , ROWNUM rn FROM ARTICLE a ORDER BY a.ARTI_PAGE_VIEW DESC ) WHERE
+		 <![CDATA[ rn <= 10 ]]>
+	</select>
 </mapper>

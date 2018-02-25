@@ -31,4 +31,6 @@ public interface ArticleMapper {
 	public void updateArticleById(Article article);
 
     void updateById(Article article);
+
+    List<Article> selectHotArticles();
 }

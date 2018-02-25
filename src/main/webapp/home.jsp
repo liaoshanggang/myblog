@@ -48,7 +48,7 @@
             display: none;
         }
 
-        #title {
+        .title {
             width: 98%;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -102,6 +102,19 @@
             }else{
                 $("#tab-4").children().children().empty().append("<a class='btn-link'><h3>欢迎来到我的博客！</h3><a>");
             }
+
+            $.get("article/selectHot", function (data) {
+                var showHot = $("#showHot");
+                $.each(data, function (i, item) {
+                    console.info(item.artiId+"=="+item.artiTitle);
+                    var option = $("<div class=\"\">" +
+                        "<h4 class=\"title\"><a href=\"article/queryById/"+item.artiId+" /detail\"\n" +
+                        "  class=\"btn-link\">"+item.artiTitle+"</a></h4></div>" +
+                        "<hr style=\"margin:0px;border-bottom: #E6E6E6 1px solid;\">")
+                    showHot.append(option);
+                });
+            }, "json");
+
             $(".ibox").hover(
                 function () {
                     $(this).addClass("shadow");
@@ -160,7 +173,7 @@
                             <div class="ibox">
                                 <div class="ibox-content">
                                     <!-- <h2 style="overflow: hidden"> -->
-                                    <h1 id="title" title="${article.artiTitle }">
+                                    <h1 class="title" title="${article.artiTitle }">
                                         <a href="article/queryById/${article.artiId }/detail"
                                            class="btn-link">${article.artiTitle }</a>
                                     </h1>
@@ -297,8 +310,7 @@
                             <div class="ibox-content">
                                 <h3 class="font-bold no-margins">热门文章</h3>
                             </div>
-                            <div class="ibox-content">
-
+                            <div class="ibox-content" id="showHot">
                             </div>
                         </div>
                     </div>

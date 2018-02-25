@@ -33,4 +33,6 @@ public interface IArticleService {
 	void updateById(Article article);
 
 	public void updateArtiComtNumber(Article article);
+
+	List<Article> selectHotArticles();
 }

@@ -35,6 +35,14 @@ public class ArticleController {
     @Resource
     ICommentService iCommentService;
 
+    @RequestMapping("/selectHot")
+    public @ResponseBody
+    List<Article> selectHotArticles(ModelMap modelMap) {
+        List<Article> hotArticles = iArticleService.selectHotArticles();
+        modelMap.addAttribute("hotArticles", hotArticles);
+        return hotArticles;
+    }
+
     @RequestMapping("/loadCategory")
     public @ResponseBody
     List<ArtiCategory> loadCategory(ModelMap modelMap) {

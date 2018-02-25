@@ -110,4 +110,9 @@ public class ArticleServiceImpl implements IArticleService {
 		this.updateArticleById(article);
 	}
 
+	@Override
+	public List<Article> selectHotArticles() {
+		return articleMapper.selectHotArticles();
+	}
+
 }
