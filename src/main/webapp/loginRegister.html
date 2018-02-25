@@ -1,7 +1,12 @@
+<style>
+    .error {
+        color: red;
+    }
+</style>
 <!-- 登陆模态框 -->
 <div class="modal inmodal" id="myModel3" tabindex="-1"
      role="dialog" aria-hidden="true">
-    <div class="modal-dialog"><%-- modal-sm--%> <%--style="width:500px;"--%>
+    <div class="modal-dialog"><!--modal-sm style="width:500px;"-->
         <div class="modal-content animated fadeIn">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">
@@ -11,16 +16,20 @@
             </div>
             <div class="modal-body" id="modalBody3">
 
-                <form class="m-t" action="user/login" method="post">
-                    <div class="form-group">
-                        <div class="input-group m-b"><span class="input-group-addon">&nbsp;<span
+                <form class="cmxform" id="signupForm" class="m-t" role="form" action="" method="post">
+                    <!--target="nm_iframe"javascript:void(0);-->
+                    <div class="form-group" style="margin-bottom:0px;height:55px;">
+                        <div class="input-group m-b" id="userName" style="margin-bottom:0px;"><span
+                                class="input-group-addon">&nbsp;<span
                                 class="glyphicon glyphicon-user"></span>&nbsp;</span>
-                            <input value="admin" type="text" class="form-control" name="userName" placeholder="请输入用户名"
+                            <input value="admin" type="text" class="form-control" name="userName"
+                                   placeholder="用户名/手机号/邮箱"
                                    required="">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="input-group m-b"><span class="input-group-addon">&nbsp;<span
+                    <div class="form-group" style="margin-bottom:0px;height:55px;">
+                        <div class="input-group m-b" id="password" style="margin-bottom:0px;"><span
+                                class="input-group-addon">&nbsp;<span
                                 class="glyphicon glyphicon-lock"></span>&nbsp;</span>
                             <input value="admin" type="password" class="form-control" name="userPassword"
                                    placeholder="请输入密码"
@@ -28,12 +37,12 @@
                     </div>
                     <div class="form-group">
                         <div class="input-group">
-                            <h3><img alt="" src="user/code" class="pull-left" onclick="changeImge(this)">
-                                <a>看不清？点图片换一个</a></h3>
+                            <h3><img id="img" alt="" src="user/code" class="pull-left" onclick="changeImge(this)">
+                                <a class="btn-link" onclick="change(this)">看不清？换一个</a></h3>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="input-group">
+                    <div class="form-group" style="margin-bottom:0px;height:55px;">
+                        <div class="input-group" id="submitCode" style="margin-bottom:0px;">
 									  <span class="input-group-addon" id="basic-addon1">
 									  	&nbsp;<span class="glyphicon glyphicon-picture"></span>&nbsp;
 									  </span>
@@ -41,16 +50,20 @@
                                    aria-describedby="basic-addon1" required="">
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary block full-width m-b">登录</button>
+                    <button id="submit" type="submit" class="btn btn-outline btn-success block full-width m-b">登录
+                    </button>
+
                     <a href="#">
                         <small>忘记密码？</small>
                     </a>
                     <p class="text-muted text-center">
                         <small>还没有账号？</small>
-                    </p>
+                    </p><!-- <a href="stulogin.jsp"><small>学生登录</small></a> -->
                     <a class="btn btn-sm btn-white btn-block" data-dismiss="modal" data-toggle="modal"
                        data-target="#regModel">创建一个账户</a>
-
+                    <p class="m-t" style="text-align: center;">
+                        <small>Copyright © forwardLiao 2018</small>
+                    </p>
                 </form>
             </div>
             <!--<div class="modal-footer">
@@ -72,30 +85,32 @@
                 </button>
                 <h4 class="modal-title">请填写注册信息</h4>
             </div>
-            <form action="" method="post">
+            <form id="regForm" action="" method="post">
                 <div class="modal-body" id="regModalBody">
-                    <div class="form-group">
-                        <div class="input-group m-b"><span class="input-group-addon">用&nbsp;&nbsp;户&nbsp;&nbsp;名</span>
-                            <input id="userName" type="text" class="form-control" name="userName" placeholder="请输入用户名"
+                    <div class="form-group" style="margin-bottom:0px;height:55px;">
+                        <div class="input-group m-b" style="margin-bottom:0px;"><span class="input-group-addon">用&nbsp;&nbsp;户&nbsp;&nbsp;名</span>
+                            <input id="userName1" type="text" class="form-control" name="userName" placeholder="请输入用户名"
                                    required="">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="input-group m-b"><span class="input-group-addon">设置密码</span>
-                            <input id="userPassword" type="password" class="form-control" name="userPassword"
+                    <div class="form-group" style="margin-bottom:0px;height:55px;">
+                        <div class="input-group m-b" style="margin-bottom:0px;"><span
+                                class="input-group-addon">设置密码</span>
+                            <input id="userPassword1" type="password" class="form-control" name="userPassword1"
                                    placeholder="请输入密码"
                                    required=""></div>
                     </div>
-                    <div class="form-group">
-                        <div class="input-group m-b"><span class="input-group-addon">确认密码</span>
+                    <div class="form-group" style="margin-bottom:0px;height:55px;">
+                        <div class="input-group m-b" style="margin-bottom:0px;"><span
+                                class="input-group-addon">确认密码</span>
                             <input id="rePassword" type="password" class="form-control" name="rePassword"
                                    placeholder="请再次输入密码"
                                    required=""></div>
                     </div>
                     <div class="form-group">
-                        <div class="checkbox i-checks"><label> <input type="checkbox"><i></i>同意条款和政策</label></div>
+                        <input id="agreeCB" name="agree" type="checkbox"><span>同意条款和政策</span>
                     </div>
-                    <button id="reg" type="button" class="btn btn-primary block full-width m-b">注册</button>
+                    <button id="reg" type="submit" class="btn btn-outline btn-success block full-width m-b">注册</button>
 
                     <p class="text-muted text-center">
                         <small>已经有一个帐户？</small>
@@ -114,38 +129,133 @@
 </div>
 <!-- Toastr script -->
 <script src="js/plugins/toastr/toastr.min.js"></script>
+<script src="dist/jquery.validate.min.js"></script>
+<script src="dist/additional-methods.js"></script>
+<script src="dist/localization/messages_zh.js"></script>
 <script>
-    $('#myModel3').on('shown.bs.modal', function (e) {
+    $(function () {
+        modal();
+    })
+
+    function modal() {
+        $('#myModel3').on('shown.bs.modal', function (e) {
 // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
-        $(this).css('display', 'block');
-        var modalHeight = $(window).height() / 2 - $('#myModel3 .modal-dialog').height() / 2;
-        $(this).find('.modal-dialog').css({
-            'margin-top': modalHeight
+            $(this).css('display', 'block');
+            var modalHeight = $(window).height() / 2 - $('#myModel3 .modal-dialog').height() / 2;
+            $(this).find('.modal-dialog').css({
+                'margin-top': modalHeight
+            });
         });
-    });
-    $('#regModel').on('shown.bs.modal', function (e) {
-// 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
-        $(this).css('display', 'block');
-        var modalHeight = $(window).height() / 2 - $('#regModel .modal-dialog').height() / 2;
-        $(this).find('.modal-dialog').css({
-            'margin-top': modalHeight
+        $('#regModel').on('shown.bs.modal', function (e) {
+            // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+            $(this).css('display', 'block');
+            var modalHeight = $(window).height() / 2 - $('#regModel .modal-dialog').height() / 2;
+            $(this).find('.modal-dialog').css({
+                'margin-top': modalHeight
+            });
+        });
+    }
+
+    //登陆
+    $().ready(function () {
+        $(".cancel").click(function () {
+            validator.resetForm();
+        });
+        // 在键盘按下并释放及提交后验证提交表单
+        $("#signupForm").validate({
+            submitHandler: function () {
+                var data = $('#signupForm').serialize();
+                console.info(data);
+                $.ajax({
+                    url: "user/login2/admin",
+                    type: "post",
+                    data: data,
+                    scriptCharset: 'utf-8',
+                    success: function (result) {
+                        console.info(result);
+                        if (result == "success") {
+                            success("登陆成功！2秒后跳转");
+                            setTimeout(function () {
+                                window.location.href = "showHome";
+                            }, 2000);
+                        } else {
+                            success(result);
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            },
+            errorPlacement: function (error, element) {
+                // Append error within linked label
+                console.info(element);
+                $(element).parent().after(error);
+            },
+            errorElement: "span",
+            debug: true,
+            rules: {
+                userName: {
+                    required: true,
+                    minlength: 2
+                },
+                userPassword: {
+                    required: true,
+                    minlength: 5,
+                    maxlength: 50
+                },
+                submitCode: {
+                    required: true,
+                    minlength: 5
+                },
+                agree: "required"
+            },
+            messages: {
+                userName: {
+                    required: "请输入用户名",
+                    minlength: "用户名必需由两个字母组成"
+                },
+                userPassword: {
+                    required: "请输入密码",
+                    minlength: "密码长度不能小于5个字母",
+                    maxlength: "密码长度不能大于 50 个字母"
+                },
+                submitCode: {
+                    required: "请输入验证码",
+                    minlength: "验证码长度为 5 个字母"
+                },
+                email: "请输入一个正确的邮箱",
+                agree: "请接受我们的声明"
+            }
         });
     });
 
     function changeImge(img) {
-        console.log(0000);
         console.info(img);
         img.src = "user/code?r=" + new Date().getTime();
     }
 
-    $('#reg').click(function () {
-        var rePassword = $("#rePassword").val();
-        var userName = $("#userName").val();
-        var userPassword = $("#userPassword").val();
-        if (rePassword != userPassword) {
-            success("两次密码不一样,请重新输入");
-        } else {
-// 执行一些动作...
+    function change(a) {
+        var aa = $(a);
+        console.info($(aa).prev());
+        $(aa).prev().attr("src", "user/code?r=" + new Date().getTime());
+    }
+
+
+    //注册
+    $("#agreeCB").on('ifChecked', function () {
+        $(this).parent().next().next().remove();
+    });
+    $("#agreeCB").on('ifUnchecked', function () {
+        $(this).parent().next().after("<span class='error'>请接受条款和政策</span>");
+    });
+    $("#regForm").validate({
+        submitHandler: function () {
+            /*$('#reg').click(function () {*/
+
+            var rePassword = $("#rePassword").val();
+            var userName = $("#userName1").val();
+            var userPassword = $("#userPassword1").val();
+            // 执行一些动作...
             //console.log("模态框%o","关闭");
             console.log("表单数据：%o", {"userName": userName, "userPassword": userPassword});
             //var data = $('#regModel').serialize(); //name=value&p2=v2&....
@@ -159,15 +269,64 @@
                     console.info(result);
                     if (result == "success") {
                         $('#regModel').modal('hide');
-                        success("注册成功！");
+                        success("注册成功！请登陆");
+                        return;
                     }
+                    success(result);
                 },
                 error: function () {
                 }
+                /*});*/
             });
-
+        },
+        errorPlacement: function (error, element) {
+            console.info(element);
+            if ($(element).attr("id") == "agreeCB") {
+                $(element).parent().next().next().remove();
+                $(element).parent().next().after(error);
+            } else {
+                $(element).parent().after(error);
+            }
+        },
+        errorElement: "span",
+        debug: true,
+        rules: {
+            userName: {
+                required: true,
+                minlength: 2
+            },
+            userPassword1: {
+                required: true,
+                minlength: 5,
+                maxlength: 50
+            },
+            rePassword: {
+                required: true,
+                minlength: 5,
+                maxlength: 50,
+                equalTo: "#userPassword1"
+            },
+            agree: {required: true}
+        },
+        messages: {
+            userName: {
+                required: "请输入用户名",
+                minlength: "用户名必需由两个字母组成"
+            },
+            userPassword1: {
+                required: "请输入密码",
+                minlength: "密码长度不能小于5个字母",
+                maxlength: "密码长度不能大于 50 个字母"
+            },
+            rePassword: {
+                required: "请输入确认密码",
+                minlength: "密码长度不能小于 5 个字母",
+                maxlength: "密码长度不能大于 50 个字母",
+                equalTo: "两次密码输入不一致"
+            },
+            email: "请输入一个正确的邮箱",
+            agree: "请接受条款和政策"
         }
-
     });
 
     function success(msg) {
@@ -177,7 +336,7 @@
             "progressBar": false,
             "preventDuplicates": true,
             "positionClass": "toast-bottom-center",
-            "showDuration": "1500",
+            "showDuration": "2000",
             "hideDuration": "1500",
             "timeOut": "1500",
             "extendedTimeOut": "1500",
@@ -197,9 +356,12 @@
 </script>
 <script>
     $(document).ready(function () {
-        $('.i-checks').iCheck({
+        /*$('.i-checks').iCheck({
             checkboxClass: 'icheckbox_square-green',
             radioClass: 'iradio_square-green',
+        });*/
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-green',
         });
     });
 </script>

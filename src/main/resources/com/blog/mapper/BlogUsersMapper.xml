@@ -137,5 +137,16 @@
 		from blog_users
 		where blog_users.USER_ID=#{id}
 	</select>
+<!-- java.lang.IllegalArgumentException: Result Maps collection does not contain value for com.blog.mapper.BlogUsersMapper.int
+### SQL: select count(*)         from blog_users         where blog_users.USER_NAME=?;
+### Cause: java.sql.SQLException: ORA-00911: 无效字符
+The error occurred while setting parameters;
+-->
+    <!-- 这里sql结尾不能加分号，否则报“ORA-00911”的错误 -->
+    <select id="selectUserByName" parameterType="blogUsers" resultType="int">
+        select count(USER_ID)
+        from blog_users
+        where USER_NAME=#{userName}
+    </select>
 
 </mapper>

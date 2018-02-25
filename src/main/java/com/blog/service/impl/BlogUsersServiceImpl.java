@@ -2,6 +2,7 @@ package com.blog.service.impl;
 
 import javax.annotation.Resource;
 
+import com.blog.util.LoginConstant;
 import com.blog.vo.Page;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +30,14 @@ public class BlogUsersServiceImpl implements IBlogUsersService {
 		}
 
 	@Override
-	public void addBlogUser(BlogUsers user) {
-		blogUsersMapper.addBlogUser(user);
+	public String addBlogUser(BlogUsers user) {
+		int num = blogUsersMapper.selectUserByName(user);
+		if(num>=1){
+			return LoginConstant.REG_ERROR_MESSAGE_USEREXIST;
+		}else{
+			blogUsersMapper.addBlogUser(user);
+			return "success";
+		}
 	}
 
 	@Override

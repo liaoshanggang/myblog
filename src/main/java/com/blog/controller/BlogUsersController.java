@@ -1,15 +1,18 @@
 package com.blog.controller;
 
 import com.blog.service.IBlogUsersService;
+import com.blog.util.LoginConstant;
 import com.blog.vo.BlogUsers;
 import com.blog.vo.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.FileNotFoundException;
@@ -24,21 +27,92 @@ public class BlogUsersController {
     static Logger logger = Logger.getLogger(BlogUsersController.class);
     @Resource
     IBlogUsersService iBlogUsersService;
+    @Autowired
+    private HttpServletRequest request;
 
-    @RequestMapping(value = {"/login"}, method = {RequestMethod.POST, RequestMethod.GET})
-    public String login(BlogUsers blogUsers, ModelMap modelMap,
-                        HttpSession session, String submitCode) {
+    @RequestMapping(value = {"/login2/{moudule}"}, method = {RequestMethod.POST, RequestMethod.GET},produces = "text/plain;charset=utf-8")
+    public @ResponseBody
+    String loginAjax(BlogUsers blogUsers,@PathVariable String moudule, ModelMap modelMap,
+                     HttpSession session, String submitCode) {
         String code = (String) session.getAttribute("validCode");
+        if(code==null){
+            return "error";
+        }
         if (StringUtils.isEmpty(submitCode) || !StringUtils.equals(code.toLowerCase(), submitCode.toLowerCase())) {
-            return "redirect:/index.jsp";
+            return LoginConstant.LOGIN_ERROR_MESSAGE_VALIDATECODE;
+        }
+        BlogUsers user = iBlogUsersService.selectForLogin(blogUsers);
+        if (user != null) {
+            session.setAttribute("logUser", user);
+            if(moudule.equals("head")){
+                return "success";
+            }else if(moudule.equals("admin")){
+                return "success";
+            }
+        }
+        return LoginConstant.LOGIN_ERROR_MESSAGE_USERERROR;
+    }
+
+    @RequestMapping(value = {"/login/{moudule}"}, method = {RequestMethod.POST, RequestMethod.GET})
+    public String login(BlogUsers blogUsers,@PathVariable String moudule, ModelMap modelMap,
+                        HttpSession session, String submitCode) {
+
+        String code = (String) session.getAttribute("validCode");
+        if(code==null){
+            return "redirect:index.jsp";
+        }
+        if (StringUtils.isEmpty(submitCode) || !StringUtils.equals(code.toLowerCase(), submitCode.toLowerCase())) {
+            return getReturn();
         }
         logger.info(blogUsers);
         BlogUsers user = iBlogUsersService.selectForLogin(blogUsers);
         if (user != null) {
             session.setAttribute("logUser", user);
-            return "redirect:/index.jsp";
+            if(moudule.equals("head")){
+                return getReturn();
+            }else if(moudule.equals("admin")){
+                return "redirect:/article/query";
+            }
         }
-        return "redirect:/login.jsp";
+        return getReturn();
+    }
+
+    public String getReturn(){
+        String returnStr = "redirect:index.jsp";
+        //http://localhost:8901/myblog/login.jsp
+        String header_referer = request.getHeader("Referer");
+        /*有views和jsp的直接，没有的用redirect+""*/
+        String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();//http://localhost:8901
+        String url2 =  request.getServletPath();///user/login/head
+        if (request.getQueryString() != null) {
+            url += "?" + request.getQueryString();
+        }
+        String contextPath = request.getContextPath();///myblog
+        String head = url+contextPath;
+        boolean isContainViews = false;
+        boolean isContainJsp = false;
+        if(header_referer.contains("views")){
+            isContainViews = true;
+            //header_referer = header_referer.replace("/views","");
+        }
+        if(header_referer.endsWith(".jsp")){
+            isContainJsp = true;
+            //header_referer = StringUtils.substringBetween(header_referer, contextPath, ".jsp");
+        }/*else{
+            header_referer = header_referer.substring(head.length(), header_referer.length());
+        }*/
+        if(isContainViews&&isContainJsp){
+            header_referer = header_referer.replace("/views","");
+            header_referer = StringUtils.substringBetween(header_referer, contextPath, ".jsp");
+            returnStr =   header_referer;
+        }else if(isContainJsp){
+            header_referer = StringUtils.substringBetween(header_referer, contextPath, ".jsp");
+            returnStr =  ".."+header_referer;
+        }else if(!isContainViews&&!isContainJsp){
+            header_referer = header_referer.substring(head.length(), header_referer.length());
+            returnStr = "redirect:"+header_referer;
+        }
+        return returnStr;
     }
 
     @RequestMapping(value = {"/logOff"}, method = {RequestMethod.POST, RequestMethod.GET})
@@ -65,14 +139,17 @@ public class BlogUsersController {
         }
     }
 
-    @RequestMapping("/reg")
+    @RequestMapping(value = {"/reg"},produces = "text/plain;charset=utf-8")
     public @ResponseBody
     String addBlogUser(BlogUsers user) {
+        if(user.getUserPassword().length()<5||user.getUserPassword().length()>50){
+            return LoginConstant.REG_ERROR_MESSAGE_USERPASSWORD;
+        }
         user.setUserType(2);
-        logger.info(user);
-        iBlogUsersService.addBlogUser(user);
+        user.setUserImageUrl("user/img/common-20180225-155739.jpg");
+        String info = iBlogUsersService.addBlogUser(user);
         //如果第二次插入的
-        return "success";
+        return  info;
     }
 
     @RequestMapping("/queryAll")

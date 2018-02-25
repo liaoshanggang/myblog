@@ -13,7 +13,7 @@ public interface IBlogUsersService {
 	 */
 	BlogUsers selectForLogin(BlogUsers user);
 
-	void addBlogUser (BlogUsers user);
+	String addBlogUser (BlogUsers user);
 
     int countForSelective(Page<BlogUsers> page);
 

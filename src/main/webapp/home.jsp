@@ -23,6 +23,8 @@
     <base href="${rootpath}">
     <%@include file="css-common.jsp" %>
     <%@include file="js-common.jsp" %>
+    <!-- Toastr style -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
     <title>前台主页</title>
     <style type="text/css">
         /*.ibox-content img {*/
@@ -94,6 +96,12 @@
     </style>
     <script>
         $(function () {
+            var logUser = "<%=session.getAttribute("logUser")%>";
+            console.info(logUser+"类型"+typeof(logUser));
+            if(logUser=="null"){
+            }else{
+                $("#tab-4").children().children().empty().append("<a class='btn-link'><h3>欢迎来到我的博客！</h3><a>");
+            }
             $(".ibox").hover(
                 function () {
                     $(this).addClass("shadow");
@@ -255,7 +263,7 @@
                                             <p class="text-center">
                                             <a href="javascript:void(0);alert('很抱歉，未实现QQ第三方登录！');" class="btn btn-white btn-md">
                                                 <i class="fa fa-qq"></i> 网站用户 </a>
-                                            <a data-toggle="modal" data-target="#myModel3" class="btn btn-white btn-md">
+                                            <a href="login.jsp" class="btn btn-white btn-md">
                                                 <i class="fa fa-user-o"></i> 网站管理</a></p>
                                         </div>
                                     </div>

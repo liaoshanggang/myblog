@@ -30,4 +30,6 @@ public interface BlogUsersMapper {
     BlogUsers selectUserById(int id);
 
 	void updateUser(BlogUsers user);
+
+	int selectUserByName(BlogUsers user);
 }
