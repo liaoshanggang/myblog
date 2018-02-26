@@ -116,7 +116,7 @@
             %>
             <li  class="nav_li"><a href="user/logOff"> <i class="fa fa-sign-out"></i> 注销
             </a></li>
-            <li  class="nav_li"><a href="user/showMe" style="height: 67px;"> <img alt="image" class="img-circle" style="width: 35px;height: 35px;"
+            <li  class="nav_li"><a id="headImg" href="user/showMe" style="height: 67px;"> <img alt="image" class="img-circle" style="width: 35px;height: 35px;"
                                             src="../<%=user.getUserImageUrl()%>">
             </a></li>
             <%

@@ -17,7 +17,13 @@
     <!-- Toastr style -->
     <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
     <%@include file="../js-common.jsp" %>
-
+    <style>
+        .title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
 </head>
 
 
@@ -29,6 +35,9 @@
     <!-- 左导航栏结束 -->
     <div id="page-wrapper" class="gray-bg">
         <!-- 头部开始 -->
+        <%@include file="../head.jsp" %>
+        <!-- 头部结束 -->
+        <%--<!-- 头部开始 -->
         <%@include file="../top_nav.jsp" %>
         <!-- 头部结束 -->
 
@@ -47,12 +56,12 @@
                 </div>
             </div>
         </div>
-        <!-- 链接结束 -->
+        <!-- 链接结束 -->--%>
 
         <!-- ===================主要内容开始=================== -->
         <div class="row">
-            <div class="col-lg-10 col-lg-offset-1">
-                <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="col-lg-10 col-lg-offset-1" style="padding: 0px 0px 40px 0px;">
+                <div class="wrapper wrapper-content animated fadeInUp" style="padding: 0px;">
                     <div class="ibox">
                         <div class="ibox-content">
 
@@ -62,7 +71,8 @@
                                     <div class="col-md-5">
 
                                         <div class="profile-image">
-                                            <img id="myHead" src="../${curUser.userImageUrl}" class="img-circle circle-border m-b-md" alt="profile">
+                                            <img id="myHead" src="../${curUser.userImageUrl}"
+                                                 class="img-circle circle-border m-b-md" alt="profile">
                                             <a id="uptHead" href="#" class="btn" data-toggle="modal"
                                                data-target="#uptPic" value="${curUser.userId}">
                                                 <span class="glyphicon glyphicon-edit"></span>修改头像
@@ -158,6 +168,11 @@
 
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="tab-1">
+                                                    <div class="" id="myBlog"></div>
+                                                    <input type="hidden" value="0" id="blog_pageNo">
+                                                    <button id="showMore" class="btn btn-primary btn-block m-t" onclick="get_more_blog(this)">
+                                                        <i class="fa fa-arrow-down"></i>展示更多
+                                                    </button>
                                                 </div>
                                                 <div class="tab-pane" id="tab-2"></div>
                                                 <div class="tab-pane" id="tab-3"></div>
@@ -181,7 +196,49 @@
         <script src="js/plugins/toastr/toastr.min.js"></script>
     </div>
 </div>
+<script>
+    $(function(){
+        get_more_blog();
+    })
+    $(window).scroll(function(event){
+        var wScrollY = window.scrollY; // 当前滚动条位置
+        var wInnerH = window.innerHeight; // 设备窗口的高度（不会变）
+        var bScrollH = document.body.scrollHeight; // 滚动条总高度 元素内容的高度
+        if (wScrollY + wInnerH +100 >= bScrollH) {//在滚动条距离底端50px以内
+            console.info("当前滚动条位置:"+wScrollY+"设备窗口的高度（不会变）"+wInnerH+"滚动条总高度"+bScrollH);
+            var showMore = $("#showMore");
+            get_more_blog(showMore);
+        }
+    });
+    function get_more_blog(obj){
+        var myBlog = $("#myBlog");
+        var blog_pageNo = parseInt($('#blog_pageNo').val());
+        $.ajax({
+            type: "GET",
+            url: 'article/selectShowMore',
+            data: {pageNo:blog_pageNo+1},
+            dataType: 'json',
+            success: function (data) {
+                console.info(data.length);
+                if(data.length == 0){//没数据了
+                    $(obj).html("已全部加载");
+                }else{
+                    $.each(data, function (i, item) {
+                        //console.info(item.artiId+"=="+item.artiTitle+"=="+item.artiTime);
+                        var d = new Date(item.artiTime);
+                        var option = $( "<div class=\"ibox-content \">" +
+                            "<h3 class=\"col-md-10\"><a href=\"article/queryById/"+item.artiId+" /detail\"\n" +
+                            "class=\"btn-link \">"+item.artiTitle+"</a></h3>" +
+                            "<small class=\"col-md-2\">"+ d.Format('yyyy-MM-dd hh:mm:ss')+"</small></div>");
+                        myBlog.append(option);
+                    });
+                    $('#blog_pageNo').val(blog_pageNo+1);
+                }
+            }
+        })
+    }
 
+</script>
 <!-- 修改用户信息模态框 -->
 <div class="modal inmodal fade" id="showMe" tabindex="-1"
      role="dialog" aria-hidden="true">

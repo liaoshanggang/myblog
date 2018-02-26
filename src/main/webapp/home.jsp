@@ -49,7 +49,6 @@
         }
 
         .title {
-            width: 98%;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -97,7 +96,7 @@
     <script>
         $(function () {
             var logUser = "<%=session.getAttribute("logUser")%>";
-            console.info(logUser+"类型"+typeof(logUser));
+            //console.info(logUser+"类型"+typeof(logUser));
             if(logUser=="null"){
             }else{
                 $("#tab-4").children().children().empty().append("<a class='btn-link'><h3>欢迎来到我的博客！</h3><a>");
@@ -106,11 +105,9 @@
             $.get("article/selectHot", function (data) {
                 var showHot = $("#showHot");
                 $.each(data, function (i, item) {
-                    console.info(item.artiId+"=="+item.artiTitle);
-                    var option = $("<div class=\"\">" +
-                        "<h4 class=\"title\"><a href=\"article/queryById/"+item.artiId+" /detail\"\n" +
-                        "  class=\"btn-link\">"+item.artiTitle+"</a></h4></div>" +
-                        "<hr style=\"margin:0px;border-bottom: #E6E6E6 1px solid;\">")
+                    //console.info(item.artiId+"=="+item.artiTitle);
+                    var option = $( "<li class=\"title list-group-item\" style=\"padding-left:25px\"><a href=\"article/queryById/"+item.artiId+" /detail\"\n" +
+                        "  class=\"btn-link\">"+item.artiTitle+"</a></li>");
                     showHot.append(option);
                 });
             }, "json");
@@ -163,7 +160,7 @@
 
         <!-- ===================主要内容开始=================== -->
         <div class="row">
-            <div class="container" style="padding: 0px;">
+            <div class="container" style="padding: 0px 0px 40px 0px;">
                 <div class="wrapper wrapper-content animated fadeInUp" style="padding: 0px;">
 
                     <%--博客栏开始--%>
@@ -310,18 +307,19 @@
                             <div class="ibox-content">
                                 <h3 class="font-bold no-margins">热门文章</h3>
                             </div>
-                            <div class="ibox-content" id="showHot">
+                            <div class="ibox-content no-padding" style="display: block;">
+                                <ul class="list-group" id="showHot">
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- 底部 -->
-            <%@include file="bottom.html" %>
         </div>
 
         <!-- ===================主要内容结束=================== -->
+        <!-- 底部 -->
+        <%@include file="bottom.html" %>
     </div>
 </div>
 </body>

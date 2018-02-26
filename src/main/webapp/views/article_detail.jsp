@@ -106,7 +106,7 @@
 
         <!-- ===================主要内容开始=================== -->
         <div class="row">
-            <div class="container"style="padding: 0px;">
+            <div class="container"style="padding: 0px 0px 40px 0px;">
                 <div class="wrapper wrapper-content animated fadeInUp" style="padding: 0px;"><%-- article--%>
 
                     <%--博客栏开始--%>
@@ -306,9 +306,6 @@
 
                 </div>
             </div>
-
-            <!-- 底部 -->
-            <%@include file="../bottom.html" %>
         </div>
 
         <!-- ===================主要内容结束=================== -->
@@ -389,6 +386,8 @@
                 //$('#showInput'+userId).load("views/reply_input.jsp");
             });
         </script>
+        <!-- 底部 -->
+        <%@include file="../bottom.html" %>
     </div>
 </div>
 </body>

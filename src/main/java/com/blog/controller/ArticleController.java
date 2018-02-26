@@ -35,6 +35,26 @@ public class ArticleController {
     @Resource
     ICommentService iCommentService;
 
+    @RequestMapping("/selectShowMore")
+    public @ResponseBody
+    List<Article> selectShowMore(Article article, Integer pageNo, ModelMap modelMap, HttpSession session) {
+        logger.info(article);
+        Page<Article> page = (Page<Article>) session.getAttribute("artiPage");
+        if (page == null || pageNo == null) {
+            page = new Page<Article>(article);
+            page.setPageNo(1);
+            page.setPageSize(10);
+            int totalRow = iArticleService.countForSelective(page);
+            page.setTotalRow(totalRow);
+        } else {
+            page.setPageNo(pageNo);
+        }
+
+        List<Article> articleList = iArticleService.selectSelective(page);
+        session.setAttribute("artiPage", page);
+        return articleList;
+    }
+
     @RequestMapping("/selectHot")
     public @ResponseBody
     List<Article> selectHotArticles(ModelMap modelMap) {
