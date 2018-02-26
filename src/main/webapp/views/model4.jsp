@@ -178,6 +178,7 @@
                 success: function (result) {
                     $('#uptPic').modal('hide');
                     $("#myHead").attr("src", "../" + result);
+                    $("#headImg").attr("src", "../" + result);
                 },
                 error: function () {
                     alert("error");

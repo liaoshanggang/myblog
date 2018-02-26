@@ -95,7 +95,7 @@ public class FileController implements ServletContextAware {//1、
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/upload", method = RequestMethod.POST,produces = "text/plain;charset=utf-8")
     public @ResponseBody
     String upload(@RequestParam("file") MultipartFile file, HttpSession session)
             throws IOException {
@@ -106,6 +106,11 @@ public class FileController implements ServletContextAware {//1、
             //把路径插入到数据库user/img/abc.jpg，并存放到服务器硬盘上
             copyPic(file, realPath + File.separator + newFileName);
             BlogUsers user = (BlogUsers) session.getAttribute("logUser");
+            if(user==null){
+                return "未登陆，上传失败，请重新登陆！";
+            }
+            user.setUserImageUrl(accessPath + newFileName);
+            session.setAttribute("logUser", user);
             BlogUsers user2 = new BlogUsers();
             user2.setUserId(user.getUserId());
             user2.setUserImageUrl(accessPath + newFileName);

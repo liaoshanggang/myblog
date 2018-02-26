@@ -41,16 +41,23 @@ public class BlogUsersController {
         if (StringUtils.isEmpty(submitCode) || !StringUtils.equals(code.toLowerCase(), submitCode.toLowerCase())) {
             return LoginConstant.LOGIN_ERROR_MESSAGE_VALIDATECODE;
         }
+        if (loginMethod(blogUsers, moudule, session)) return "success";
+        return LoginConstant.LOGIN_ERROR_MESSAGE_USERERROR;
+    }
+
+    private boolean loginMethod(BlogUsers blogUsers, String moudule, HttpSession session) {
         BlogUsers user = iBlogUsersService.selectForLogin(blogUsers);
         if (user != null) {
             session.setAttribute("logUser", user);
             if(moudule.equals("head")){
-                return "success";
+                return true;
             }else if(moudule.equals("admin")){
-                return "success";
+                return true;
+            }else if(moudule.equals("reg")){
+                return true;
             }
         }
-        return LoginConstant.LOGIN_ERROR_MESSAGE_USERERROR;
+        return false;
     }
 
     @RequestMapping(value = {"/login/{moudule}"}, method = {RequestMethod.POST, RequestMethod.GET})
@@ -141,13 +148,16 @@ public class BlogUsersController {
 
     @RequestMapping(value = {"/reg"},produces = "text/plain;charset=utf-8")
     public @ResponseBody
-    String addBlogUser(BlogUsers user) {
+    String addBlogUser(BlogUsers user , HttpSession session) {
         if(user.getUserPassword().length()<5||user.getUserPassword().length()>50){
             return LoginConstant.REG_ERROR_MESSAGE_USERPASSWORD;
         }
         user.setUserType(2);
         user.setUserImageUrl("user/img/common-20180225-155739.jpg");
         String info = iBlogUsersService.addBlogUser(user);
+        if("success".equals(info)){
+            this.loginMethod(user,"reg",session);
+        }
         //如果第二次插入的
         return  info;
     }

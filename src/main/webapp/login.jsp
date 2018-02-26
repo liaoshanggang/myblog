@@ -228,7 +228,11 @@
                     console.info(result);
                     if (result == "success") {
                         $('#regModel').modal('hide');
-                        success("注册成功！请登陆");
+                        //success("注册成功！请登陆");
+                        success("注册成功！请修改个人资料");
+                        setTimeout(function () {
+                            window.location.href = "user/showMe";
+                        }, 500);
                         return;
                     }
                     success(result);
