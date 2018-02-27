@@ -168,7 +168,7 @@
                     <a aria-expanded="false" role="button" href="views/article_archives.jsp" title="文章存档">文章存档</a>
                 </li>
                 <li class="nav_li">
-                    <a aria-expanded="false" role="button" href="aboutMe" target="_blank" title="关于我">关于我</a>
+                    <a aria-expanded="false" role="button" href="views/profile.jsp" title="关于">关于</a>
                 </li>
                 <%--<li class="">
                     <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> Menu item <span class="caret"></span></a>

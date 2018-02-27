@@ -37,9 +37,18 @@
             font-size: 14px;
             line-height: 1.9;
         }
+        .shadow {
+            box-shadow: 0px 0px 15px #888888;
+        }
         .entry ul {
             margin-bottom: 1em;
             margin-left: 20px;
+        }
+        .entry a:hover {
+            text-decoration: none;
+            background: #2085c5;
+            color: #fff;
+            border-radius: 3px;
         }
         .entry ul li time {
             margin-right: 8px;
@@ -49,6 +58,11 @@
         .entry a{
             color: #3d658d;
             text-decoration: none;
+        }
+        .entry h2{
+            margin-bottom: 10px;
+            padding: 4px 0;
+            border-bottom: 1px dashed #ccc;
         }
     </style>
 </head>
@@ -68,7 +82,7 @@
             <div class="col-lg-10 col-lg-offset-1" style="padding: 0px 0px 40px 0px;">
                 <div class="wrapper wrapper-content animated fadeInUp" style="padding: 0px;">
                     <div class="ibox">
-                        <div class="ibox-content">
+                        <div class="ibox-content shadow">
                             <input type="hidden" value="0" id="blog_pageNo">
                             <div class="entry archives" id="archivesList">
                                 <h2>2018</h2>
@@ -107,7 +121,7 @@
         var wScrollY = window.scrollY; // 当前滚动条位置
         var wInnerH = window.innerHeight; // 设备窗口的高度（不会变）
         var bScrollH = document.body.scrollHeight; // 滚动条总高度 元素内容的高度
-        if (wScrollY + wInnerH >= bScrollH&& ajaxstatus&&ajaxone==1) {//在滚动条距离底端50px以内
+        if (wScrollY + wInnerH +20 >= bScrollH&& ajaxstatus&&ajaxone==1) {//在滚动条距离底端50px以内
             console.info("当前滚动条位置:"+wScrollY+"设备窗口的高度（不会变）"+wInnerH+"滚动条总高度"+bScrollH);
             ajaxone ++;
 
