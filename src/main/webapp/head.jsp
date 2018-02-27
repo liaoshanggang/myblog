@@ -162,10 +162,10 @@
                     <a aria-expanded="false" role="button" href="share" target="_blank" title="分享">分享</a>
                 </li>
                 <li class="nav_li">
-                    <a aria-expanded="false" role="button" href="share" target="_blank" title="足迹">足迹</a>
+                    <a aria-expanded="false" role="button" href="showFile" target="_blank" title="我的相册">我的相册</a>
                 </li>
                 <li class="nav_li">
-                    <a aria-expanded="false" role="button" href="showFile" target="_blank" title="我的相册">我的相册</a>
+                    <a aria-expanded="false" role="button" href="views/article_archives.jsp" title="文章存档">文章存档</a>
                 </li>
                 <li class="nav_li">
                     <a aria-expanded="false" role="button" href="aboutMe" target="_blank" title="关于我">关于我</a>

@@ -3,6 +3,8 @@ package com.blog.controller;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -52,6 +54,20 @@ public class ArticleController {
 
         List<Article> articleList = iArticleService.selectSelective(page);
         session.setAttribute("artiPage", page);
+        /*try {
+            Thread.sleep(5000);
+
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }*/
+        /*Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+
+            }
+        };
+        timer.schedule(task, 2000);*/
         return articleList;
     }
 

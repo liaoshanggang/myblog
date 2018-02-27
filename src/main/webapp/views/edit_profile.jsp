@@ -218,6 +218,7 @@
             url: 'article/selectShowMore',
             data: {pageNo:blog_pageNo+1},
             dataType: 'json',
+            async: false,
             success: function (data) {
                 console.info(data.length);
                 if(data.length == 0){//没数据了

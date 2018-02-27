@@ -256,7 +256,7 @@
                                                 <li>网站名称：LSG's Blog</li>
                                                 <li>博客系统：<a href="//github.com/liaoshanggang" target="_blank"
                                                             style="font-style: italic;">
-                                                    <i class="fa fa-graduation-cap"></i>NoteBlog</a></li>
+                                                    <i class="fa fa-github" style="font-size:24px"></i>LSG's Blog</a></li>
                                                 <li>交流反馈：
                                                     <a target="_blank"
                                                        href="//shang.qq.com/wpa/qunwpa?idkey=a2db8d0fa1aa7f91fabf149d9f868efa1811e0a6839851220a9c2b2ecaf0bce7">

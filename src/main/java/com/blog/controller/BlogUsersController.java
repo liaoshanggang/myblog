@@ -211,10 +211,10 @@ public class BlogUsersController {
 
     @RequestMapping("/selectUserById/{userId}/{moudule}")
     public String selectUserById(@PathVariable String userId,@PathVariable String moudule, ModelMap modelMap) {
-        if(userId==null){
-            return "/home";
+        if(userId==null||userId.equals("undefined")){
+            return "../home";
         }
-        int id = Integer.valueOf(userId);
+        int id = Integer.valueOf(userId);// java.lang.NumberFormatException: For input string: "undefined"
 
         System.out.println(id);
 
