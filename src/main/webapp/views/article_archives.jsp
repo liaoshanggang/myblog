@@ -23,6 +23,7 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
         .loadingdiv {
             height: 35px;
             text-indent: 40px;
@@ -33,33 +34,40 @@
             line-height: 35px;
             margin-left: 30px;
         }
+
         .entry {
             font-size: 14px;
             line-height: 1.9;
         }
+
         .shadow {
             box-shadow: 0px 0px 15px #888888;
         }
+
         .entry ul {
             margin-bottom: 1em;
             margin-left: 20px;
         }
+
         .entry a:hover {
             text-decoration: none;
             background: #2085c5;
             color: #fff;
             border-radius: 3px;
         }
+
         .entry ul li time {
             margin-right: 8px;
             color: #666;
             font-size: 13px;
         }
-        .entry a{
+
+        .entry a {
             color: #3d658d;
             text-decoration: none;
         }
-        .entry h2{
+
+        .entry h2 {
             margin-bottom: 10px;
             padding: 4px 0;
             border-bottom: 1px dashed #ccc;
@@ -109,70 +117,83 @@
     </div>
 </div>
 <script>
-    var ajaxstatus = true,ajaxone=1;
-    $(function(){
+    var pagenum = 1, ajaxstatus = true, ajaxone = 1;
+    $(function () {
         /*$("#loadingdiv").ajaxStart(function () {
             $("#loadingdiv").show();
         });*/
-        get_more_blog();
-        get_more_blog();
-    });
-    $(window).scroll(function(event){
-        var wScrollY = window.scrollY; // 当前滚动条位置
-        var wInnerH = window.innerHeight; // 设备窗口的高度（不会变）
-        var bScrollH = document.body.scrollHeight; // 滚动条总高度 元素内容的高度
-        if (wScrollY + wInnerH +20 >= bScrollH&& ajaxstatus&&ajaxone==1) {//在滚动条距离底端50px以内
-            console.info("当前滚动条位置:"+wScrollY+"设备窗口的高度（不会变）"+wInnerH+"滚动条总高度"+bScrollH);
-            ajaxone ++;
-
+        if (ajaxone == 1 && pagenum == 1) {
             get_more_blog();
         }
     });
-    function get_more_blog(){
+    $(window).scroll(function (event) {
+        var wholeHeight = $(document).height();
+        var scrollTop = $(this).scrollTop();
+        var clientHeight = $(this).height();
+        if (clientHeight + scrollTop + 10 >= wholeHeight && ajaxstatus && ajaxone == 1) {//在滚动条距离底端50px以内
+            get_more_blog();
+        }
+        // var wScrollY = window.scrollY; // 当前滚动条位置
+        // var wInnerH = window.innerHeight; // 设备窗口的高度（不会变）
+        // var bScrollH = document.body.scrollHeight; // 滚动条总高度 元素内容的高度
+        // if (wScrollY + wInnerH +10 >= bScrollH&& ajaxstatus&&ajaxone==1) {//在滚动条距离底端50px以内
+        //     console.info("当前滚动条位置:"+wScrollY+"设备窗口的高度（不会变）"+wInnerH+"滚动条总高度"+bScrollH);
+        //     get_more_blog();
+        // }
+    });
+
+    function get_more_blog() {
+        ajaxone++;
         /*setTimeout(function () {
         }, 5000);*/
         //$("#loadingdiv").css("display","show");
         $("#loadingdiv").show();
         var blog_pageNo = parseInt($('#blog_pageNo').val());
-            $.ajax({
-                url: "article/selectShowMore",
-                type: "post",
-                dataType: "json",
-                /*async: false,*/
-                data: {pageNo:blog_pageNo+1},
-                /*beforeSend:function(){
-                    $("#loadingdiv").show(1000);
-                },*/
-                success: function (data) {
-                    ajaxone=1;
-                    $("#loadingdiv").hide();
-                    console.info(data.length);
-                    var a_length = data.length;
-                    if (a_length > 0) {
-                        var year = $("#archivesList h2:last").html();
-                        var li = '';
-                        $.each(data, function (i, item) {
-                            //console.info(item.artiId+"=="+item.artiTitle+"=="+item.artiTime);
-                            var time = new Date(item.artiTime).Format("MM/dd");
-                            var clicknum = item.artiPageView ? item.artiPageView : 1;
-                            li = li+ '<li><time datetime="' + new Date(item.artiTime) + '">' + time + '</time>' +
-                                '<a href="article/queryById/' + item.artiId + '/detail">' + item.artiTitle + '</a>' +
-                                '<span style="color:#a8ced8;margin-left:30px;">' + clicknum + '次浏览</span> </li>';
-                        });
-                        if(year.indexOf("2018")!=-1){//找到
-                            var appendHtml = '<ul>' + li + '</ul>';
-                        }else{
-                            var appendHtml = '<h2>' + year + '2018年及以前文章</h2><ul>' + li + '</ul>';
-                        }
-                        $("#archivesList").append(appendHtml);
-                        $('#blog_pageNo').val(blog_pageNo+1);
+        //var blog_pageNo = pagenum;
+        $.ajax({
+            url: "article/selectShowMore/archives",
+            type: "post",
+            dataType: "json",
+            /*async: false,*/
+            data: {pageNo: blog_pageNo + 1},//blog_pageNo
+            /*beforeSend:function(){
+                $("#loadingdiv").show(1000);
+            },*/
+            success: function (data) {
+                ajaxone = 1;
+                $("#loadingdiv").hide();
+                console.info(data.length);
+                var a_length = data.length;
+                if (a_length > 0) {
+                    //pagenum ++;
+                    var year = $("#archivesList h2:last").html();
+                    var li = '';
+                    $.each(data, function (i, item) {
+                        //console.info(item.artiId+"=="+item.artiTitle+"=="+item.artiTime);
+                        var time = new Date(item.artiTime).Format("MM/dd");
+                        var clicknum = item.artiPageView ? item.artiPageView : 1;
+                        li = li + '<li><time datetime="' + new Date(item.artiTime) + '">' + time + '</time>' +
+                            '<a href="article/queryById/' + item.artiId + '/detail">' + item.artiTitle + '</a>' +
+                            '<span style="color:#a8ced8;margin-left:30px;">' + clicknum + '次浏览</span> </li>';
+                    });
+                    if (year.indexOf("2018") != -1) {//找到
+                        var appendHtml = '<ul>' + li + '</ul>';
                     } else {
-                        ajaxstatus = false;
-                        $("#showMore").text("没有更多了");
+                        var appendHtml = '<h2>' + year + '2018年及以前文章</h2><ul>' + li + '</ul>';
                     }
-                    //$("#loadingdiv").css("display","none");
+                    $("#archivesList").append(appendHtml);
+                    if (blog_pageNo == 0) {
+                        $('#blog_pageNo').val(blog_pageNo + 2);
+                    } else {
+                        $('#blog_pageNo').val(blog_pageNo + 1);
+                    }
+                } else {
+                    ajaxstatus = false;
+                    $("#showMore").text("没有更多了");
                 }
-            })
+                //$("#loadingdiv").css("display","none");
+            }
+        })
     }
 
     // 对Date的扩展，将 Date 转化为指定格式的String

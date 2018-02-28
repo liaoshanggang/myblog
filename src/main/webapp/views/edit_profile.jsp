@@ -215,7 +215,7 @@
         var blog_pageNo = parseInt($('#blog_pageNo').val());
         $.ajax({
             type: "GET",
-            url: 'article/selectShowMore',
+            url: 'article/selectShowMore/edit_profile',
             data: {pageNo:blog_pageNo+1},
             dataType: 'json',
             async: false,

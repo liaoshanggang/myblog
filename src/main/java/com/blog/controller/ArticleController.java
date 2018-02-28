@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.blog.service.IArtiCategoryService;
@@ -37,22 +38,41 @@ public class ArticleController {
     @Resource
     ICommentService iCommentService;
 
-    @RequestMapping("/selectShowMore")
+    @RequestMapping(value = {"/selectShowMore/{moudule}"}, method = {RequestMethod.POST, RequestMethod.GET})
     public @ResponseBody
-    List<Article> selectShowMore(Article article, Integer pageNo, ModelMap modelMap, HttpSession session) {
+    List<Article> selectShowMore(Article article,@PathVariable String moudule, Integer pageNo, ModelMap modelMap, HttpSession session) {
         logger.info(article);
         Page<Article> page = (Page<Article>) session.getAttribute("artiPage");
         if (page == null || pageNo == null) {
             page = new Page<Article>(article);
             page.setPageNo(1);
+            /*if("archives".equals(moudule)){
+                page.setPageSize(20);
+            }else{
+                page.setPageSize(10);
+            }*/
             page.setPageSize(10);
             int totalRow = iArticleService.countForSelective(page);
             page.setTotalRow(totalRow);
         } else {
             page.setPageNo(pageNo);
         }
-
-        List<Article> articleList = iArticleService.selectSelective(page);
+        List<Article> articleList = new ArrayList<>();
+        if("archives".equals(moudule)){
+            if(pageNo==1){
+                List<Article> articleList1 = iArticleService.selectSelective(page);
+                page.setPageNo(2);
+                List<Article> articleList2 = iArticleService.selectSelective(page);
+                //Java将两个list合并，只需要把list1和list2内容都添加都集合list中即可
+                articleList.addAll(articleList1);
+                articleList.addAll(articleList2);
+            }else{
+                articleList = iArticleService.selectSelective(page);
+            }
+        }else{
+            articleList = iArticleService.selectSelective(page);
+        }
+        //List<Article> articleList = iArticleService.selectSelective(page);
         session.setAttribute("artiPage", page);
         /*try {
             Thread.sleep(5000);
