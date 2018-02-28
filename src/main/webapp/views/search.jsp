@@ -25,6 +25,13 @@
     <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
     <%@include file="../js-common.jsp" %>
     <style>
+        .shadow {
+            box-shadow: 0px 0px 5px #888888;
+        }
+
+        .shadowInput {
+            box-shadow: 0px 5px 10px #999999;
+        }
     </style>
 </head>
 
@@ -64,86 +71,100 @@
         <div class="row">
             <div class="col-lg-10 col-lg-offset-1" style="padding: 0px 0px 40px 0px;">
                 <div class="wrapper wrapper-content animated fadeInUp" style="padding: 0px;">
-                    <div class="ibox float-e-margins">
+                    <div class="ibox float-e-margins shadow">
                         <div class="ibox-content">
                             <c:if test="${not empty artiPage}">
-                            <h2>本次为你找到${artiPage.getTotalRow()}个搜索结果匹配：<span class="text-navy">${artiPage.keyWords}</span>
-                            </h2>
+                                <h2>本次为你找到${artiPage.getTotalRow()}个搜索结果匹配：<span
+                                        class="text-navy">${artiPage.keyWords}</span>
+                                </h2>
                             </c:if>
                             <%--<small>请求时间（0.23秒</small>--%>
 
                             <div class="search-form">
-                                <form action="showHome/search" method="get">
+                                <form action="search" method="get">
                                     <div class="input-group">
-                                        <input type="text" placeholder="键入Enter键以搜索" name="keyWords" class="form-control input-lg">
+                                        <input type="text" placeholder="键入Enter键以搜索" name="keyWords"
+                                               class="form-control input-lg shadowInput">
                                         <div class="input-group-btn">
-                                            <button class="btn btn-lg btn-primary" type="submit">
-                                                搜索</button>
+                                            <button class="btn btn-primary btn-lg shadowInput" type="submit">
+                                                搜索
+                                            </button>
                                         </div>
                                     </div>
 
                                 </form>
                             </div>
                             <c:forEach var="article" items="${articleList}" varStatus="status">
-                            <div class="hr-line-dashed"></div>
-                            <div class="search-result">
-                                <h2 class="" title="${article.artiTitle }">
-                                    <a href="article/queryById/${article.artiId }/detail"
-                                       class="">${article.artiTitle }</a></h2>
-                                <a href="" class="btn-link">
-                                    <strong>${article.category.catgName }</strong>
-                                    <span class="text-muted"><i class="fa fa-clock-o"></i>
+                                <div class="hr-line-dashed"></div>
+                                <div class="search-result">
+                                    <h2 class="" title="${article.artiTitle }">
+                                        <a href="article/queryById/${article.artiId }/detail"
+                                           class="">${article.artiTitle }</a></h2>
+                                    <a href="" class="btn-link">
+                                        <strong>${article.category.catgName }</strong>
+                                        <span class="text-muted"><i class="fa fa-clock-o"></i>
                                         <fmt:formatDate value='${article.artiTime}' pattern='yyyy-MM-dd HH:mm:ss'/>
                                     </span>
-                                    <span class="text-muted">
+                                        <span class="text-muted">
                                             <i class="fa fa-comments-o"> </i> ${article.artiComtNumber } 评论
                                             <i class="fa fa-eye"> </i> ${article.artiPageView } 浏览
                                     </span>
-                                </a>
-                                <p>${article.artiContent }
-                                </p>
-                            </div>
+                                    </a>
+                                    <p>${article.artiContent }
+                                    </p>
+                                </div>
                             </c:forEach>
                             <div class="hr-line-dashed"></div>
                             <div class="text-center link">
-                                <c:if test="${not empty artiPage}">
-                                    <ul class="pager pagination pagination-lg">
-                                        <li><a href="showHome/search?pageNo=1">首页</a></li>
-                                        <c:if test="${artiPage.pageNo gt 1 &&  artiPage.pageNo le artiPage.totalPage}">
-                                            <li><a href="showHome/search?pageNo=${artiPage.pageNo-1}">«上一页</a></li>
+                                <c:choose>
+                                    <c:when test="${not empty articleList}">
+                                        <c:if test="${not empty artiPage}">
+                                            <ul class="pager pagination pagination-lg">
+                                                <li><a href="search?pageNo=1">首页</a></li>
+                                                <c:if test="${artiPage.pageNo gt 1 &&  artiPage.pageNo le artiPage.totalPage}">
+                                                    <li><a href="search?pageNo=${artiPage.pageNo-1}">«上一页</a></li>
+                                                </c:if>
+                                                <c:if test="${artiPage.pageNo gt 3}">
+                                                    <li><a href="javascript:void(0)">....</a></li>
+                                                </c:if>
+                                                <c:if test="${artiPage.pageNo-2 ge 1}">
+                                                    <li>
+                                                        <a href="search?pageNo=${artiPage.pageNo-2}">${artiPage.pageNo-2}</a>
+                                                    </li>
+                                                </c:if>
+                                                <c:if test="${artiPage.pageNo-1 ge 1}">
+                                                    <li>
+                                                        <a href="search?pageNo=${artiPage.pageNo-1}">${artiPage.pageNo-1}</a>
+                                                    </li>
+                                                </c:if>
+                                                <li class="active"><a
+                                                        href="search?pageNo=${artiPage.pageNo}">${artiPage.pageNo}</a>
+                                                </li>
+                                                <c:if test="${artiPage.pageNo+1 le artiPage.totalPage}">
+                                                    <li>
+                                                        <a href="search?pageNo=${artiPage.pageNo+1}">${artiPage.pageNo+1}</a>
+                                                    </li>
+                                                </c:if>
+                                                <c:if test="${artiPage.pageNo+2 le artiPage.totalPage}">
+                                                    <li>
+                                                        <a href="search?pageNo=${artiPage.pageNo+2}">${artiPage.pageNo+2}</a>
+                                                    </li>
+                                                </c:if>
+                                                <c:if test="${artiPage.pageNo+2 lt artiPage.totalPage}">
+                                                    <li><a href="javascript:void(0)">....</a></li>
+                                                </c:if>
+                                                <c:if test="${artiPage.pageNo ge 1 && artiPage.pageNo lt artiPage.totalPage }">
+                                                    <li><a href="search?pageNo=${artiPage.pageNo+1}">下一页»</a></li>
+                                                </c:if>
+                                                <li><a href="search?pageNo=${artiPage.totalPage}">尾页</a>
+                                                </li>
+                                            </ul>
                                         </c:if>
-                                        <c:if test="${artiPage.pageNo gt 3}">
-                                            <li><a href="javascript:void(0)">....</a></li>
-                                        </c:if>
-                                        <c:if test="${artiPage.pageNo-2 ge 1}">
-                                            <li><a href="showHome/search?pageNo=${artiPage.pageNo-2}">${artiPage.pageNo-2}</a>
-                                            </li>
-                                        </c:if>
-                                        <c:if test="${artiPage.pageNo-1 ge 1}">
-                                            <li><a href="showHome/search?pageNo=${artiPage.pageNo-1}">${artiPage.pageNo-1}</a>
-                                            </li>
-                                        </c:if>
-                                        <li class="active"><a
-                                                href="showHome/search?pageNo=${artiPage.pageNo}">${artiPage.pageNo}</a>
-                                        </li>
-                                        <c:if test="${artiPage.pageNo+1 le artiPage.totalPage}">
-                                            <li><a href="showHome/search?pageNo=${artiPage.pageNo+1}">${artiPage.pageNo+1}</a>
-                                            </li>
-                                        </c:if>
-                                        <c:if test="${artiPage.pageNo+2 le artiPage.totalPage}">
-                                            <li><a href="showHome/search?pageNo=${artiPage.pageNo+2}">${artiPage.pageNo+2}</a>
-                                            </li>
-                                        </c:if>
-                                        <c:if test="${artiPage.pageNo+2 lt artiPage.totalPage}">
-                                            <li><a href="javascript:void(0)">....</a></li>
-                                        </c:if>
-                                        <c:if test="${artiPage.pageNo ge 1 && artiPage.pageNo lt artiPage.totalPage }">
-                                            <li><a href="showHome/search?pageNo=${artiPage.pageNo+1}">下一页»</a></li>
-                                        </c:if>
-                                        <li><a href="showHome/search?pageNo=${artiPage.totalPage}">尾页</a>
-                                        </li>
-                                    </ul>
-                                </c:if>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="text-center">没有更多了</div>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                     </div>
@@ -159,6 +180,14 @@
     </div>
 </div>
 <script>
+    $(".search-result").hover(
+        function () {
+            $(this).addClass("animated pulse");
+        },
+        function () {
+            $(this).removeClass("animated pulse");
+        }
+    );
 </script>
 </body>
 

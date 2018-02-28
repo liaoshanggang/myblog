@@ -97,8 +97,8 @@
         $(function () {
             var logUser = "<%=session.getAttribute("logUser")%>";
             //console.info(logUser+"类型"+typeof(logUser));
-            if(logUser=="null"){
-            }else{
+            if (logUser == "null") {
+            } else {
                 $("#tab-4").children().children().empty().append("<a class='btn-link'><h3>欢迎来到我的博客！</h3><a>");
             }
 
@@ -106,8 +106,8 @@
                 var showHot = $("#showHot");
                 $.each(data, function (i, item) {
                     //console.info(item.artiId+"=="+item.artiTitle);
-                    var option = $( "<li class=\"title list-group-item\" style=\"padding-left:25px\"><a href=\"article/queryById/"+item.artiId+" /detail\"\n" +
-                        "  class=\"btn-link\">"+item.artiTitle+"</a></li>");
+                    var option = $("<li class=\"title list-group-item\" style=\"padding-left:25px\"><a href=\"article/queryById/" + item.artiId + " /detail\"\n" +
+                        "  class=\"btn-link\">" + item.artiTitle + "</a></li>");
                     showHot.append(option);
                 });
             }, "json");
@@ -147,7 +147,7 @@
 </head>
 
 
-<body class="canvas-menu"onresize="fixed()">
+<body class="canvas-menu" onresize="fixed()">
 
 <div id="wrapper">
     <!-- 左边导航栏开始 -->
@@ -196,44 +196,54 @@
                                     </div>
                                 </div>
                             </div>
-
                             <!-- 博客列表结束 -->
                         </c:forEach>
                         <!-- 链接开始 -->
                         <div class="ibox">
                             <div class="ibox-content">
-                                <c:if test="${not empty artiPage}">
-                                    <ul class="pagination">
-                                        <li><a href="showHome/showHome?pageNo=1">«</a></li>
-                                        <c:if test="${artiPage.pageNo gt 3}">
-                                            <li><a href="javascript:void(0)">....</a></li>
+                                <c:choose>
+                                    <c:when test="${not empty articleList}">
+                                        <c:if test="${not empty artiPage}">
+                                            <ul class="pagination">
+                                                <li><a href="showHome?pageNo=1">«</a></li>
+                                                <c:if test="${artiPage.pageNo gt 3}">
+                                                    <li><a href="javascript:void(0)">....</a></li>
+                                                </c:if>
+                                                <c:if test="${artiPage.pageNo-2 ge 1}">
+                                                    <li>
+                                                        <a href="showHome?pageNo=${artiPage.pageNo-2}">${artiPage.pageNo-2}</a>
+                                                    </li>
+                                                </c:if>
+                                                <c:if test="${artiPage.pageNo-1 ge 1}">
+                                                    <li>
+                                                        <a href="showHome?pageNo=${artiPage.pageNo-1}">${artiPage.pageNo-1}</a>
+                                                    </li>
+                                                </c:if>
+                                                <li class="active"><a
+                                                        href="showHome?pageNo=${artiPage.pageNo}">${artiPage.pageNo}</a>
+                                                </li>
+                                                <c:if test="${artiPage.pageNo+1 le artiPage.totalPage}">
+                                                    <li>
+                                                        <a href="showHome?pageNo=${artiPage.pageNo+1}">${artiPage.pageNo+1}</a>
+                                                    </li>
+                                                </c:if>
+                                                <c:if test="${artiPage.pageNo+2 le artiPage.totalPage}">
+                                                    <li>
+                                                        <a href="showHome?pageNo=${artiPage.pageNo+2}">${artiPage.pageNo+2}</a>
+                                                    </li>
+                                                </c:if>
+                                                <c:if test="${artiPage.pageNo+2 lt artiPage.totalPage}">
+                                                    <li><a href="javascript:void(0)">....</a></li>
+                                                </c:if>
+                                                <li><a href="showHome?pageNo=${artiPage.totalPage}">»</a>
+                                                </li>
+                                            </ul>
                                         </c:if>
-                                        <c:if test="${artiPage.pageNo-2 ge 1}">
-                                            <li><a href="showHome/showHome?pageNo=${artiPage.pageNo-2}">${artiPage.pageNo-2}</a>
-                                            </li>
-                                        </c:if>
-                                        <c:if test="${artiPage.pageNo-1 ge 1}">
-                                            <li><a href="showHome/showHome?pageNo=${artiPage.pageNo-1}">${artiPage.pageNo-1}</a>
-                                            </li>
-                                        </c:if>
-                                        <li class="active"><a
-                                                href="showHome/showHome?pageNo=${artiPage.pageNo}">${artiPage.pageNo}</a>
-                                        </li>
-                                        <c:if test="${artiPage.pageNo+1 le artiPage.totalPage}">
-                                            <li><a href="showHome/showHome?pageNo=${artiPage.pageNo+1}">${artiPage.pageNo+1}</a>
-                                            </li>
-                                        </c:if>
-                                        <c:if test="${artiPage.pageNo+2 le artiPage.totalPage}">
-                                            <li><a href="showHome/showHome?pageNo=${artiPage.pageNo+2}">${artiPage.pageNo+2}</a>
-                                            </li>
-                                        </c:if>
-                                        <c:if test="${artiPage.pageNo+2 lt artiPage.totalPage}">
-                                            <li><a href="javascript:void(0)">....</a></li>
-                                        </c:if>
-                                        <li><a href="showHome/showHome?pageNo=${artiPage.totalPage}">»</a>
-                                        </li>
-                                    </ul>
-                                </c:if>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="text-center">没有更多了</div>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                         <!-- 链接结束 -->
@@ -256,7 +266,8 @@
                                                 <li>网站名称：LSG's Blog</li>
                                                 <li>博客系统：<a href="//github.com/liaoshanggang" target="_blank"
                                                             style="font-style: italic;">
-                                                    <i class="fa fa-github" style="font-size:24px"></i>LSG's Blog</a></li>
+                                                    <i class="fa fa-github" style="font-size:24px"></i>LSG's Blog</a>
+                                                </li>
                                                 <li>交流反馈：
                                                     <a target="_blank"
                                                        href="//shang.qq.com/wpa/qunwpa?idkey=a2db8d0fa1aa7f91fabf149d9f868efa1811e0a6839851220a9c2b2ecaf0bce7">
@@ -271,10 +282,11 @@
                                     <div id="tab-4" class="tab-pane">
                                         <div class="panel-body" style="padding: 10px;">
                                             <p class="text-center">
-                                            <a href="javascript:void(0);alert('很抱歉，未实现QQ第三方登录！');" class="btn btn-white btn-md">
-                                                <i class="fa fa-qq"></i> 网站用户 </a>
-                                            <a href="login.jsp" class="btn btn-white btn-md">
-                                                <i class="fa fa-user-o"></i> 网站管理</a></p>
+                                                <a href="javascript:void(0);alert('很抱歉，未实现QQ第三方登录！');"
+                                                   class="btn btn-white btn-md">
+                                                    <i class="fa fa-qq"></i> 网站用户 </a>
+                                                <a href="login.jsp" class="btn btn-white btn-md">
+                                                    <i class="fa fa-user-o"></i> 网站管理</a></p>
                                         </div>
                                     </div>
                                 </div>
@@ -285,18 +297,21 @@
                             <div class="ibox-content">
                                 <h3 class="font-bold no-margins">搜一下
                                     <span class="pull-right">
-                                        <a href="showHome/search" target="_blank" class="btn-link">
+                                        <a href="search" target="_blank" class="btn-link">
                                             <i><strong>前往</strong> <i class="fa fa-angle-double-right"></i></i>
                                         </a>
                                     </span></h3>
                             </div>
-                            <div class="ibox-content"style="padding: 5px;">
+                            <div class="ibox-content" style="padding: 5px;">
                                 <div class="search-form">
-                                    <form action="showHome/showHome" method="get">
+                                    <form action="showHome" method="get">
                                         <div class="input-group">
-                                            <input type="text" placeholder="键入Enter键以搜索" name="keyWords" class="btn btn-facebook btn-outline form-control input-md">
+                                            <input type="text" placeholder="键入Enter键以搜索" name="keyWords"
+                                                   class="btn btn-facebook btn-outline form-control input-md">
                                             <div class="input-group-btn">
-                                                <button class="btn btn-success btn-facebook btn-outline" type="submit"> 搜索 </button>
+                                                <button class="btn btn-success btn-facebook btn-outline" type="submit">
+                                                    搜索
+                                                </button>
                                             </div>
                                         </div>
                                     </form>

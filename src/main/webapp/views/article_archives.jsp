@@ -127,19 +127,19 @@
         }
     });
     $(window).scroll(function (event) {
-        var wholeHeight = $(document).height();
+        /*var wholeHeight = $(document).height();
         var scrollTop = $(this).scrollTop();
         var clientHeight = $(this).height();
         if (clientHeight + scrollTop + 10 >= wholeHeight && ajaxstatus && ajaxone == 1) {//在滚动条距离底端50px以内
             get_more_blog();
+        }*/
+        var wScrollY = window.scrollY; // 当前滚动条位置
+        var wInnerH = window.innerHeight; // 设备窗口的高度（不会变）
+        var bScrollH = document.body.scrollHeight; // 滚动条总高度 元素内容的高度
+        if (wScrollY + wInnerH + 10 >= bScrollH && ajaxstatus && ajaxone == 1) {//在滚动条距离底端50px以内
+            console.info("当前滚动条位置:" + wScrollY + "设备窗口的高度（不会变）" + wInnerH + "滚动条总高度" + bScrollH);
+            get_more_blog();
         }
-        // var wScrollY = window.scrollY; // 当前滚动条位置
-        // var wInnerH = window.innerHeight; // 设备窗口的高度（不会变）
-        // var bScrollH = document.body.scrollHeight; // 滚动条总高度 元素内容的高度
-        // if (wScrollY + wInnerH +10 >= bScrollH&& ajaxstatus&&ajaxone==1) {//在滚动条距离底端50px以内
-        //     console.info("当前滚动条位置:"+wScrollY+"设备窗口的高度（不会变）"+wInnerH+"滚动条总高度"+bScrollH);
-        //     get_more_blog();
-        // }
     });
 
     function get_more_blog() {

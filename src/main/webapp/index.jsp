@@ -4,6 +4,6 @@
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
     application.setAttribute("rootpath", basePath);
 
-    response.sendRedirect("showHome/showHome");
+    response.sendRedirect("showHome");
 %>
 
