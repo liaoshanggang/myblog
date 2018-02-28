@@ -104,7 +104,7 @@
                     style="font-size: 10px;height: 40px;padding-top: 25px;">
 						欢迎来到廖尚岗的个人博客网站 </marquee>
 			</span></li>
-            <li class="nav_li"><a href="#"> <i class="fa fa-search"></i>搜索</a></li>
+            <li class="nav_li"><a href="showHome/search"> <i class="fa fa-search"></i>搜索</a></li>
             <%
                 BlogUsers user = (BlogUsers) session.getAttribute("logUser");
                 if (user != null) {
@@ -150,19 +150,19 @@
         <div class="navbar-collapse collapse" id="navbar" aria-expanded="false" style="height: 1px;">
             <ul class="nav navbar-nav">
                 <li class="nav_li">
-                    <a aria-expanded="false" role="button" href="showHome" title="首页">首页</a>
+                    <a aria-expanded="false" role="button" href="showHome/showHome" title="首页">首页</a>
                 </li>
-                <li class="nav_li">
+                <%--<li class="nav_li">
                     <a aria-expanded="false" role="button" href="tech" target="_blank" title="技术话题">技术话题</a>
-                </li>
+                </li>--%>
+                <%--<li class="nav_li">--%>
+                <%--<a aria-expanded="false" role="button" href="share" target="_blank" title="分享">分享</a>--%>
+                <%--</li>--%>
                 <li class="nav_li">
                     <a aria-expanded="false" role="button" href="playback" target="_blank" title="现场还原">现场还原</a>
                 </li>
                 <li class="nav_li">
-                    <a aria-expanded="false" role="button" href="share" target="_blank" title="分享">分享</a>
-                </li>
-                <li class="nav_li">
-                    <a aria-expanded="false" role="button" href="showFile" target="_blank" title="我的相册">我的相册</a>
+                    <a aria-expanded="false" role="button" href="showFile" target="_blank" title="我的笔记">我的笔记</a>
                 </li>
                 <li class="nav_li">
                     <a aria-expanded="false" role="button" href="views/article_archives.jsp" title="文章存档">文章存档</a>

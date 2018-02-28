@@ -21,6 +21,15 @@ public class Page<T> {
 	public static final int R15 = 15; 
 	public static final int R20 = 20; 
 	public static final int R30 = 30; 
+	private String keyWords;
+
+	public String getKeyWords() {
+		return keyWords;
+	}
+
+	public void setKeyWords(String keyWords) {
+		this.keyWords = keyWords;
+	}
 
 	//总行数
 	private int totalRow = 0;

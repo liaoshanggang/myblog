@@ -82,7 +82,7 @@
                                             <label class="col-sm-2 control-label">文章类别</label>
 
                                             <div class="col-sm-2">
-                                                <select class="form-control" id="category" name="category.catgId">
+                                                <select class="form-control" id="category" name="artiCatgId">
                                                 </select>
                                             </div>
                                             <label class="col-sm-1 control-label">标题</label>

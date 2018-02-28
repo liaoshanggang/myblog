@@ -204,33 +204,33 @@
                             <div class="ibox-content">
                                 <c:if test="${not empty artiPage}">
                                     <ul class="pagination">
-                                        <li><a href="showHome?pageNo=1">«</a></li>
+                                        <li><a href="showHome/showHome?pageNo=1">«</a></li>
                                         <c:if test="${artiPage.pageNo gt 3}">
                                             <li><a href="javascript:void(0)">....</a></li>
                                         </c:if>
                                         <c:if test="${artiPage.pageNo-2 ge 1}">
-                                            <li><a href="showHome?pageNo=${artiPage.pageNo-2}">${artiPage.pageNo-2}</a>
+                                            <li><a href="showHome/showHome?pageNo=${artiPage.pageNo-2}">${artiPage.pageNo-2}</a>
                                             </li>
                                         </c:if>
                                         <c:if test="${artiPage.pageNo-1 ge 1}">
-                                            <li><a href="showHome?pageNo=${artiPage.pageNo-1}">${artiPage.pageNo-1}</a>
+                                            <li><a href="showHome/showHome?pageNo=${artiPage.pageNo-1}">${artiPage.pageNo-1}</a>
                                             </li>
                                         </c:if>
                                         <li class="active"><a
-                                                href="showHome?pageNo=${artiPage.pageNo}">${artiPage.pageNo}</a>
+                                                href="showHome/showHome?pageNo=${artiPage.pageNo}">${artiPage.pageNo}</a>
                                         </li>
                                         <c:if test="${artiPage.pageNo+1 le artiPage.totalPage}">
-                                            <li><a href="showHome?pageNo=${artiPage.pageNo+1}">${artiPage.pageNo+1}</a>
+                                            <li><a href="showHome/showHome?pageNo=${artiPage.pageNo+1}">${artiPage.pageNo+1}</a>
                                             </li>
                                         </c:if>
                                         <c:if test="${artiPage.pageNo+2 le artiPage.totalPage}">
-                                            <li><a href="showHome?pageNo=${artiPage.pageNo+2}">${artiPage.pageNo+2}</a>
+                                            <li><a href="showHome/showHome?pageNo=${artiPage.pageNo+2}">${artiPage.pageNo+2}</a>
                                             </li>
                                         </c:if>
                                         <c:if test="${artiPage.pageNo+2 lt artiPage.totalPage}">
                                             <li><a href="javascript:void(0)">....</a></li>
                                         </c:if>
-                                        <li><a href="showHome?pageNo=${artiPage.totalPage}">»</a>
+                                        <li><a href="showHome/showHome?pageNo=${artiPage.totalPage}">»</a>
                                         </li>
                                     </ul>
                                 </c:if>
@@ -285,16 +285,16 @@
                             <div class="ibox-content">
                                 <h3 class="font-bold no-margins">搜一下
                                     <span class="pull-right">
-                                        <a href="/search" target="_blank" class="btn-link">
+                                        <a href="showHome/search" target="_blank" class="btn-link">
                                             <i><strong>前往</strong> <i class="fa fa-angle-double-right"></i></i>
                                         </a>
                                     </span></h3>
                             </div>
                             <div class="ibox-content"style="padding: 5px;">
                                 <div class="search-form">
-                                    <form action="" method="get">
+                                    <form action="showHome/showHome" method="get">
                                         <div class="input-group">
-                                            <input type="text" placeholder="键入Enter键以搜索" name="search" class="btn btn-facebook btn-outline form-control input-md">
+                                            <input type="text" placeholder="键入Enter键以搜索" name="keyWords" class="btn btn-facebook btn-outline form-control input-md">
                                             <div class="input-group-btn">
                                                 <button class="btn btn-success btn-facebook btn-outline" type="submit"> 搜索 </button>
                                             </div>

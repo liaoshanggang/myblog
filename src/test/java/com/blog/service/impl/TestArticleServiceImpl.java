@@ -98,13 +98,13 @@ public class TestArticleServiceImpl {
 	public void testSelectSelective() {
 		
 		Article article =  new Article();
-		article.setArtiTitle("标题");
-		article.setArtiContent("内容");
-		article.setArtiCatgId(1);
-		article.setBeginDate("2018-1-20 18:26:43");
-		article.setEndDate("2018-2-28 18:26:43");
+		//article.setArtiTitle("标题");
+		//article.setArtiContent("笃行天下");
+		//article.setArtiCatgId(1);
+		//article.setBeginDate("2018-1-20 18:26:43");
+		//article.setEndDate("2018-2-28 18:26:43");
 		Page<Article> page = new Page<Article>(article);
-		
+		page.setKeyWords("你不做过的事");//后来居上 你不做过的事
 		page.setPageSize(5);
 		page.setPageNo(1);
 		
