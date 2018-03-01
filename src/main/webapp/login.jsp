@@ -321,10 +321,10 @@
                     success: function (result) {
                         console.info(result);
                         if (result == "success") {
-                            success("登陆成功！2秒后跳转");
-                            setTimeout(function () {
+                            // success("登陆成功！2秒后跳转");
+                            // setTimeout(function () {
                                 window.location.href = "article/query";
-                            }, 2000);
+                            //}, 2000);
                         } else {
                             success(result);
                         }

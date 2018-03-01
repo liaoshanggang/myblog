@@ -39,6 +39,7 @@ public class ArticleServiceImpl implements IArticleService {
 
 	@Override
 	public void deleteArticleById(Article article) {
+		visitorMapper.delByAid(article.getArtiId());
 		articleMapper.deleteArticleById(article.getArtiId());
 	}
 

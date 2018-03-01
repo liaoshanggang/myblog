@@ -23,4 +23,10 @@
     <select id="countPageViewByAid" parameterType="visitor" resultType="int">
         select count(v.VISITOR_IP) from VISITOR v WHERE v.ARTI_ID = #{artiId}
     </select>
+    <!--根据文章id删除-->
+    <select id="delByAid" parameterType="visitor" resultType="int">
+        delete
+		VISITOR v
+		where v.ARTI_ID = #{artiId}
+    </select>
 </mapper>

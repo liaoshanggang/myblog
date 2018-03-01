@@ -175,10 +175,11 @@
                         console.info(result);
                         if (result == "success") {
                             $('#myModel3').modal('hide');
-                            success("登陆成功！2秒后跳转");
-                            setTimeout(function () {
-                                window.location.href = "showHome";
-                            }, 2000);
+                            window.location.href = "showHome";
+                            // success("登陆成功！2秒后跳转");
+                            // setTimeout(function () {
+                            //     window.location.href = "showHome";
+                            // }, 2000);
                         } else {
                             success(result);
                         }

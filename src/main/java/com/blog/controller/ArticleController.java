@@ -122,8 +122,9 @@ public class ArticleController {
     }
 
     @RequestMapping("/delete")
-    public String delRadio(Article article) {
+    public String delRadio(Article article,int pageNo,ModelMap modelMap) {
         iArticleService.deleteArticleById(article);
+        modelMap.addAttribute("pageNo",pageNo);
         return "forward:/article/query";
     }
 	

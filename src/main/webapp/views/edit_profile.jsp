@@ -197,6 +197,7 @@
     </div>
 </div>
 <script>
+    var hasNext = true;
     $(function(){
         get_more_blog();
     })
@@ -204,13 +205,16 @@
         var wScrollY = window.scrollY; // 当前滚动条位置
         var wInnerH = window.innerHeight; // 设备窗口的高度（不会变）
         var bScrollH = document.body.scrollHeight; // 滚动条总高度 元素内容的高度
-        if (wScrollY + wInnerH +100 >= bScrollH) {//在滚动条距离底端50px以内
+        if (wScrollY + wInnerH +100 >= bScrollH && hasNext) {//在滚动条距离底端50px以内
             console.info("当前滚动条位置:"+wScrollY+"设备窗口的高度（不会变）"+wInnerH+"滚动条总高度"+bScrollH);
             var showMore = $("#showMore");
             get_more_blog(showMore);
         }
     });
     function get_more_blog(obj){
+        if(!hasNext){
+            return ;
+        }
         var myBlog = $("#myBlog");
         var blog_pageNo = parseInt($('#blog_pageNo').val());
         $.ajax({
@@ -223,6 +227,7 @@
                 console.info(data.length);
                 if(data.length == 0){//没数据了
                     $(obj).html("已全部加载");
+                    hasNext = false;
                 }else{
                     $.each(data, function (i, item) {
                         //console.info(item.artiId+"=="+item.artiTitle+"=="+item.artiTime);

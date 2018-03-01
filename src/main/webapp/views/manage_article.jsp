@@ -149,7 +149,7 @@
                                                     </button>
                                                         <%-- value="${article.artiId }--%>
                                                 </a>
-                                                <a href="article/delete?artiId=${article.artiId }">
+                                                <a href="article/delete?artiId=${article.artiId }&&pageNo=${artiPage.pageNo}">
                                                     <button class="btn btn-danger btn-outline btn-xs" type="button">删除
                                                     </button>
                                                 </a>

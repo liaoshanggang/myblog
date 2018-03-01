@@ -43,6 +43,9 @@
         #vertical-timeline::before {
             height: 97%;
         }
+        /*.nav-tabs a{
+            padding: 15px;
+        }*/
     </style>
 </head>
 
@@ -63,11 +66,11 @@
                     <div class="ibox shadow">
                         <div class="tabs-container">
                             <ul class="nav nav-tabs"><%--list-style:none;float:left;--%>
-                                <li class="active"><a data-toggle="tab" href="#about_blog">
+                                <li class="active"><a data-toggle="tab" href="#about_blog" style="padding: 10px 0px 10px 2px;">
                                     <i class="fa fa-book"></i>关于「博客系统」</a></li>
-                                <li class=""><a data-toggle="tab" href="#about_me">
+                                <li class=""><a data-toggle="tab" href="#about_me" style="padding: 10px 0px 10px 2px;">
                                     <i class="fa fa-user"></i>关于「我」</a></li>
-                                <li class=""><a data-toggle="tab" href="#about_sys">
+                                <li class=""><a data-toggle="tab" href="#about_sys" style="padding: 10px 0px 10px 2px;">
                                     <i class="fa fa-info-circle"></i>关于「网站」</a></li>
                             </ul>
                             <div class="tab-content">

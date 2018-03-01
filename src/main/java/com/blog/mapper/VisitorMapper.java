@@ -13,4 +13,6 @@ public interface VisitorMapper {
     void addVisitor(Visitor visitor);
 
     Integer countPageViewByAid(Visitor visitor);
+
+    void delByAid(Integer artiId);
 }
