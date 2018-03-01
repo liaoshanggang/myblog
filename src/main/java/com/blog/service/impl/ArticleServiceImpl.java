@@ -113,6 +113,18 @@ public class ArticleServiceImpl implements IArticleService {
         this.updateArticleById(article);
     }
 
+    //更新评论数
+    @Override
+    public void updateArtiComtNumber2(Article article) {
+        Article article1 = articleMapper.selectArticleById(article.getArtiId());
+        if (article1.getArtiComtNumber() == null) {
+            article.setArtiComtNumber(1);
+        } else {
+            article.setArtiComtNumber(article1.getArtiComtNumber() - 1);
+        }
+        this.updateArticleById(article);
+    }
+
     @Override
     public List<Article> selectHotArticles() {
         return articleMapper.selectHotArticles();

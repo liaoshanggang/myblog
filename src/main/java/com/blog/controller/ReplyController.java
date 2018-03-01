@@ -54,8 +54,9 @@ public class ReplyController {
 
     @RequestMapping("/del")
     public @ResponseBody
-    String deleteReplyById(Reply reply) {
+    String deleteReplyById(Reply reply, Article a) {
         iReplyService.deleteReplyById(reply);
+        ias.updateArtiComtNumber2(a);
         //如果第二次插入的
         return "success";
     }

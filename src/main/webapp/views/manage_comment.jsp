@@ -72,7 +72,7 @@
                                                             type="button">回复
                                                     </button>
                                                     <button class="btn btn-danger btn-outline btn-xs delComment"
-                                                            type="button" value="${comment.comtId}">删除
+                                                            type="button" value="${comment.comtId}" name="${comment.article.artiId}">删除
                                                     </button>
                                                 </div>
                                                 <a href="" class="pull-left"> <img alt="图片"
@@ -105,7 +105,7 @@
                                                                 type="button">回复
                                                         </button>
                                                         <button class="btn btn-danger btn-outline btn-xs delReply"
-                                                                type="button" value="${replie.replyId}">删除
+                                                                type="button" value="${replie.replyId}" name="${comment.article.artiId}">删除
                                                         </button>
                                                     </div>
                                                     <a href="" class="pull-left"> <img alt="图片"
@@ -190,7 +190,7 @@
                                                                     type="button">回复
                                                             </button>--%>
                                                         <button class="btn btn-danger btn-outline btn-xs delComment"
-                                                                type="button" value="${comment.comtId}">删除
+                                                                type="button" name="${comment.article.artiId}" value="${comment.comtId}">删除
                                                         </button>
                                                     </div>
                                                     <a href="" class="pull-left"> <img alt="图片"
@@ -224,7 +224,7 @@
                                                                             type="button">回复
                                                                     </button>--%>
                                                                 <button class="btn btn-danger btn-outline btn-xs delReply"
-                                                                        type="button" value="${replie.replyId}">删除
+                                                                        type="button" name="${comment.article.artiId}" value="${replie.replyId}">删除
                                                                 </button>
                                                             </div>
                                                             <a href="" class="pull-left"> <img alt="图片"
@@ -313,7 +313,7 @@
 </div>
 
 
-<%@include file="../js-common.jsp" %>
+<%--<%@include file="../js-common.jsp" %>--%>
 <!-- Toastr script -->
 <script src="js/plugins/toastr/toastr.min.js"></script>
 <!-- Sweet alert -->
@@ -402,7 +402,8 @@
             if (isConfirm) {
                 var curTr = $(cur).parent().parent().parent();
                 var id = $(cur).attr("value");
-                var json = {replyId: id};
+                var artiId = $(cur).attr("name");
+                var json = {replyId: id,artiId:artiId};
                 $.ajax({
                     url: "reply/del",
                     type: "post",
@@ -443,7 +444,9 @@
                 //swal("删除!", "你的虚构文件已被删除.", "success");
                 var curTr = $(cur).parent().parent().parent();
                 var id = $(cur).attr("value");
-                var json = {comtId: id};
+                var comtArtiId = $(cur).attr("name");
+                console.info(comtArtiId);
+                var json = {comtId: id,comtArtiId:comtArtiId};
                 $.ajax({
                     url: "comment/del",
                     type: "post",

@@ -20,6 +20,10 @@
     <meta name="author" content="">--%>
     <base href="${rootpath}">
     <%@include file="../css-common.jsp" %>
+    <!-- Toastr style -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <%@include file="../js-common.jsp" %>
     <!-- Nestable List -->
     <script src="js/plugins/nestable/jquery.nestable.js"></script>
@@ -89,6 +93,9 @@
             /*height: 5em;*/
             /*margin: 1em;*/
             /*overflow:hidden;*/
+        }
+        .social-feed-box a{
+            href:"javascript:void(0)";
         }
     </style>
 </head>
@@ -192,13 +199,16 @@
                                                     </a>
                                                     <div class="media-body">
                                                         <div class="btn-group pull-right">
-                                                            <button class="btn btn-white btn-xs"><i
+                                                            <%--<button class="btn btn-white btn-xs"><i
                                                                     class="fa fa-thumbs-up"></i> 赞
-                                                            </button>
+                                                            </button>--%>
                                                             <button class="btn btn-white btn-xs showReplyInput "
                                                                     value="${comment.comtId}"
                                                                     name="${commentPage.pageNo}">
                                                                 <i class="fa fa-comments"></i> <span>回复</span>
+                                                            </button>
+                                                            <button class="btn btn-danger btn-outline btn-xs delComment"
+                                                                    type="button" value="${comment.comtId}">删除
                                                             </button>
                                                         </div>
                                                         <a href="#">${comment.getBlogUsers().getUserName()}</a>
@@ -213,6 +223,14 @@
                                                         <c:forEach var="reply" items="${comment.replies}"
                                                                    varStatus="status1">
                                                             <div class="social-avatar toggleReply">
+                                                                <div class="btn-group pull-right">
+                                                                        <%--<button class="btn btn-success btn-outline btn-xs "
+                                                                                type="button">回复
+                                                                        </button>--%>
+                                                                    <button class="btn btn-danger btn-outline btn-xs delReply"
+                                                                            type="button" value="${reply.replyId}">删除
+                                                                    </button>
+                                                                </div>
                                                                 <a href="" class="pull-left">
                                                                     <img alt="回复者头像" class="img-circle"
                                                                          src="../${reply.getBu().getUserImageUrl()}">
@@ -310,87 +328,191 @@
         </div>
 
         <!-- ===================主要内容结束=================== -->
-        <script type="text/javascript">
-            //展开
-            $("#toggle").click(function () {
-                if ($("#toggle").val() == "展开<<<回复>>>") {
-                    $("#toggle").val("隐藏>>>回复<<<");
-                    $(".toggleReply").show().fadeIn(1000);
-                } else {
-                    $("#toggle").val("展开<<<回复>>>");
-                    $(".toggleReply").hide().fadeOut(1000);
-                }
-            });
-            $('#addComment').click(function () {
-                var data = $('#commentForm').serialize();
-                console.log("序列化" + data);
-                $.ajax({
-                    url: "comment/add",
-                    type: "post",
-                    data: data,
-                    //dataType: "json",
-                    success: function (result) {
-                        console.info(result);
-                    },
-                    error: function () {
-                        alert("请登陆后评论");
-                    }
-                });
-            });
-            $('.showReplyInput').click(function (event) {
-                var artiId = $("[name='comtArtiId']").val();
-                var replyComtId = $(this).val();
-                //console.info($(this).find("span"));
-                var span = $(this).find("span");
-                var reply = span.text();
-                if (reply == "回复") {
-                    span.text("取消回复");
-                } else {
-                    span.text("回复");
-                    $(".show").empty();
-                    return;
-                }
-                var pageNo = $(this).attr("name");
-                console.info("replyComtId" + replyComtId);
-                $(".show").empty();
-                $('#showInput' + replyComtId).empty();
-                $('#showInput' + replyComtId).append("<div class=\"social-body\">\n" +
-                    "    <form action=\"javascript:void(0);\" name=\"a1\" id=\"replyForm\"><%--javascript:void(0);--%>\n" +
-                    "        <input type=\"hidden\" class=\"form-control\" name=\"replyComtId\"\n" +
-                    "               value=\"" + replyComtId + "\"/>\n" +
-                    "        <input type=\"hidden\" class=\"form-control\" name=\"artiId\"\n" +
-                    "               value=\"" + artiId + "\"/>\n" +
-                    "        <textarea class=\"form-control\" name=\"replyContent\" placeholder=\"写点什么...\"\n" +
-                    "                  required></textarea>\n" +
-                    "        <button id=\"addReply\" class=\"form-control btn btn-white\"\n" +
-                    "                style=\"background-color: #F8F8F8;\">提交回复\n" +
-                    "        </button>\n" +
-                    "    </form>\n" +
-                    "</div><script>\n" +
-                    "    $('#addReply').click(function () {\n" +
-                    "        var data = $('#replyForm').serialize();\n" +
-                    "        console.log(\"序列化\" + data);\n" +
-                    "        $.ajax({\n" +
-                    "            url: \"reply/add\",\n" +
-                    "            type: \"post\",\n" +
-                    "            data: data,\n" +
-                    "            success: function (result) {\n" +
-                    "                //$(\".show\").empty();\n" +
-                    "                console.info(result);location=location;\n" +
-                    "            },\n" +
-                    "            error: function () {\n" +
-                    "                alert(\"error\");\n" +
-                    "            }\n" +
-                    "        });\n" +
-                    "    });" + "<\/script>");
-
-                //$('#showInput'+userId).load("views/reply_input.jsp");
-            });
-        </script>
-        <!-- 底部 -->
         <%@include file="../bottom.html" %>
     </div>
 </div>
+<!-- Toastr script -->
+<script src="js/plugins/toastr/toastr.min.js"></script>
+<!-- Sweet alert -->
+<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var logUser = "<%=session.getAttribute("logUser")%>";
+        //console.info(logUser+"类型"+typeof(logUser));
+        var n = logUser.split(",");
+        var userType;
+        for(var i=0;i<n.length;i++){
+            n2 = n[i].split("=");
+            if(n2[0].match("userType")){
+                userType = n2[1];
+                break;
+            }
+        }
+        console.info("类型"+userType);
+        if(logUser!="null" && userType==1){
+            $(".delComment").show();
+            $(".delReply").show();
+        }else{
+            $(".delComment").hide();
+            $(".delReply").hide();
+        }
+    })
+    //展开
+    $("#toggle").click(function () {
+        if ($("#toggle").val() == "展开<<<回复>>>") {
+            $("#toggle").val("隐藏>>>回复<<<");
+            $(".toggleReply").show().fadeIn(1000);
+        } else {
+            $("#toggle").val("展开<<<回复>>>");
+            $(".toggleReply").hide().fadeOut(1000);
+        }
+    });
+    $('#addComment').click(function () {
+        var data = $('#commentForm').serialize();
+        console.log("序列化" + data);
+        $.ajax({
+            url: "comment/add",
+            type: "post",
+            data: data,
+            //dataType: "json",
+            success: function (result) {
+                console.info(result);
+            },
+            error: function () {
+                alert("请登陆后评论");
+            }
+        });
+    });
+    $('.showReplyInput').click(function (event) {
+        var artiId = $("[name='comtArtiId']").val();
+        var replyComtId = $(this).val();
+        //console.info($(this).find("span"));
+        var span = $(this).find("span");
+        var reply = span.text();
+        if (reply == "回复") {
+            span.text("取消回复");
+        } else {
+            span.text("回复");
+            $(".show").empty();
+            return;
+        }
+        var pageNo = $(this).attr("name");
+        console.info("replyComtId" + replyComtId);
+        $(".show").empty();
+        $('#showInput' + replyComtId).empty();
+        $('#showInput' + replyComtId).append("<div class=\"social-body\">\n" +
+            "    <form action=\"javascript:void(0);\" name=\"a1\" id=\"replyForm\"><%--javascript:void(0);--%>\n" +
+            "        <input type=\"hidden\" class=\"form-control\" name=\"replyComtId\"\n" +
+            "               value=\"" + replyComtId + "\"/>\n" +
+            "        <input type=\"hidden\" class=\"form-control\" name=\"artiId\"\n" +
+            "               value=\"" + artiId + "\"/>\n" +
+            "        <textarea class=\"form-control\" name=\"replyContent\" placeholder=\"写点什么...\"\n" +
+            "                  required></textarea>\n" +
+            "        <button id=\"addReply\" class=\"form-control btn btn-white\"\n" +
+            "                style=\"background-color: #F8F8F8;\">提交回复\n" +
+            "        </button>\n" +
+            "    </form>\n" +
+            "</div><script>\n" +
+            "    $('#addReply').click(function () {\n" +
+            "        var data = $('#replyForm').serialize();\n" +
+            "        console.log(\"序列化\" + data);\n" +
+            "        $.ajax({\n" +
+            "            url: \"reply/add\",\n" +
+            "            type: \"post\",\n" +
+            "            data: data,\n" +
+            "            success: function (result) {\n" +
+            "                //$(\".show\").empty();\n" +
+            "                console.info(result);location=location;\n" +
+            "            },\n" +
+            "            error: function () {\n" +
+            "                alert(\"error\");\n" +
+            "            }\n" +
+            "        });\n" +
+            "    });" + "<\/script>");
+
+        //$('#showInput'+userId).load("views/reply_input.jsp");
+    });
+    $(".delComment").click(function () {
+        var cur = $(this);
+        swal({
+            title: "你确定要删除吗？",
+            text: "",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ED5565",//DD6B55
+            confirmButtonText: "是的，删除它！",
+            cancelButtonText: "不，取消！",
+            allowOutsideClick: true,
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function (isConfirm) {
+            if (isConfirm) {
+                //swal("删除!", "你的虚构文件已被删除.", "success");
+                var curTr = $(cur).parent().parent().parent().parent();
+                var id = $(cur).attr("value");
+                var comtArtiId = $("[name='comtArtiId']").val();
+                var json = {comtId: id,comtArtiId:comtArtiId};
+                $.ajax({
+                    url: "comment/del",
+                    type: "post",
+                    data: json,
+                    success: function (result) {
+                        //console.info(result);
+                        if (result == "success") {
+                            //console.info(curTr);
+                            curTr.remove();
+                            success("删除成功！");
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            } else {
+                //swal("取消", "该类别未删除！:):):)", "error");
+            }
+        });
+    })
+
+    $(".delReply").click(function () {
+        var cur = $(this);
+        swal({
+            title: "你确定要删除吗？",
+            text: "",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ED5565",//DD6B55
+            confirmButtonText: "是的，删除它！",
+            cancelButtonText: "不，取消！",
+            allowOutsideClick: true,
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function (isConfirm) {
+            if (isConfirm) {
+                var curTr = $(cur).parent().parent();
+                var id = $(cur).attr("value");
+                var artiId = $("[name='comtArtiId']").val();
+                var json = {replyId: id,artiId:artiId};
+                $.ajax({
+                    url: "reply/del",
+                    type: "post",
+                    data: json,
+                    success: function (result) {
+                        //console.info(result);
+                        if (result == "success") {
+                            //console.info(curTr);
+                            curTr.remove();
+                            success("删除成功！");
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            } else {
+            }
+        });
+    })
+</script>
+<!-- 底部 -->
 </body>
 
 </html>

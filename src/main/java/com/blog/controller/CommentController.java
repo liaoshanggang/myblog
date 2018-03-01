@@ -79,6 +79,9 @@ public class CommentController {
         r.setReplyComtId(comment.getComtId());
         irs.updateReplyById(r);
         iCommentService.deleteCommentById(comment);
+        Article a = new Article();
+        a.setArtiId(comment.getComtArtiId());
+        ias.updateArtiComtNumber2(a);
         //如果第二次插入的
         return "success";
     }
