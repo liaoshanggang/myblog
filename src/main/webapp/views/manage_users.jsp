@@ -218,7 +218,7 @@
             }, function (isConfirm) {
                 if (isConfirm) {
                     var curTr = $(cur).parent().parent();
-                    console.info(curTr);
+                    //console.info(curTr);
                     var id = $(cur).attr("value");
                     var json = {userId: id};
                     $.ajax({
@@ -226,7 +226,7 @@
                         type: "post",
                         data: json,
                         success: function (result) {
-                            console.info(result);
+                            //console.info(result);
                             if (result == "success") {
                                 curTr.remove();
                                 //location = location;
@@ -250,10 +250,10 @@
     function enableBatchBtn() {
 
         if ($('table div.icheckbox_square-green.checked').size() < 1) {
-            console.info("0");
+            //console.info("0");
             $("#batchDelBtn").attr("disabled", true);
         } else {
-            console.info("1");
+            //console.info("1");
             $("#batchDelBtn").attr("disabled", false);
         }
     }
@@ -265,7 +265,7 @@
         for (var i = 0; i < cks.length; i++) {
             if (cks[i].checked) {
                 ++len;
-                console.info("len==" + len);
+                //console.info("len==" + len);
             }
         }
         if (len == 0) {
@@ -277,11 +277,11 @@
             if (cks[i].checked) {
                 var id = $(cks[i]).val();
                 ids.push(id);
-                console.info("id==" + id);
+                //console.info("id==" + id);
             }
         }
         var delId = ids.join(",");
-        console.info("de==" + delId);
+        //console.info("de==" + delId);
         $.ajax({
             url: "user/batchDelUser",
             type: "post",
@@ -289,7 +289,8 @@
             success: function (result) {
                 for (var i = 0; i < cks.length; i++) {
                     if (cks[i].checked) {
-                        console.info($(cks[i]).parent().parent().parent().remove());
+                        $(cks[i]).parent().parent().parent().remove();
+                        //console.info();
                     }
                 }
                 success("批量删除成功！");
@@ -358,7 +359,7 @@
         var button = $(event.relatedTarget); // Button that triggered the modal
         var userId = button.attr("value");
         cur = $(event.relatedTarget);
-        $('#updateUser').load("user/selectUserById/" + userId+"/showUser");
+        $('#updateUser').load("user/selectUserById/" + userId + "/showUser");
     });
     $('#uptUser').click(function () {
         // var rePassword = $("input[name='']").val();
@@ -369,7 +370,7 @@
         jsonData.forEach(function(value,key,json){
             console.info(value+""+key+""+json);
         })*/
-        console.log("序列化" + data);
+        //console.log("序列化" + data);
         $.ajax({
             url: "user/updateUser",
             type: "post",
@@ -380,7 +381,7 @@
                 var userId = cur.attr("value");
                 var tr = cur.parent().parent();
                 var up = cur.parent();
-                for(var i=0;i<6;i++){
+                for (var i = 0; i < 6; i++) {
                     up.prev().remove();
                 }
                 var text = "<td style='overflow:hidden;white-space:nowrap;text-overflow:ellipsis;'";

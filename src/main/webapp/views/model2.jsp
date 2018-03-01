@@ -57,8 +57,8 @@
               aria-describedby="sizing-addon1">${user.userProfile}</textarea>
 </div>
 <script>
-$('input').iCheck({
-checkboxClass: 'icheckbox_square-green',
-radioClass: 'iradio_square-green',
-});
+    $('input').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green',
+    });
 </script>

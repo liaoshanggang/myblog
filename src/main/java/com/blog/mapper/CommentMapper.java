@@ -1,6 +1,5 @@
 package com.blog.mapper;
 
-import com.blog.vo.Article;
 import com.blog.vo.Comment;
 import com.blog.vo.Page;
 import com.blog.vo.RdPage;

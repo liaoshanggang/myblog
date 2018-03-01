@@ -232,13 +232,13 @@
     });
 
     function changeImge(img) {
-        console.info(img);
+        //console.info(img);
         img.src = "user/code?r=" + new Date().getTime();
     }
 
     function change(a) {
         var aa = $(a);
-        console.info($(aa).prev());
+        //console.info($(aa).prev());
         $(aa).prev().attr("src", "user/code?r=" + new Date().getTime());
     }
 

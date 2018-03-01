@@ -25,7 +25,7 @@ public class ReplyController {
 
     @RequestMapping("/add")
     public @ResponseBody
-    String saveArticle(Reply reply,Article a, HttpSession session) {
+    String saveArticle(Reply reply, Article a, HttpSession session) {
         BlogUsers logUser = (BlogUsers) session.getAttribute("logUser");
         if (logUser != null) {
             reply.setReplyUserId(logUser.getUserId());

@@ -8,5 +8,5 @@ import com.blog.service.ICollectService;
 @Service("collectService")
 public class CollectServiceImpl implements ICollectService {
 
-	
+
 }

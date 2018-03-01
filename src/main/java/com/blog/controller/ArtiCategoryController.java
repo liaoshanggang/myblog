@@ -19,59 +19,60 @@ import java.util.List;
 @Controller
 @RequestMapping("/category")
 public class ArtiCategoryController {
-	static Logger logger = Logger.getLogger(ArtiCategoryController.class);
-	@Resource
-	IArtiCategoryService iArtiCategoryService;
-	@Resource
-	IArticleService iArticleService;
-	@RequestMapping(value = { "/add" }, method = { RequestMethod.POST ,RequestMethod.GET})
-	public String addArtiCategory(ArtiCategory category, ModelMap modelMap,
-								  HttpSession session) {
-		iArtiCategoryService.addArtiCategory(category);
-		return "redirect:/category/query";
-	}
+    static Logger logger = Logger.getLogger(ArtiCategoryController.class);
+    @Resource
+    IArtiCategoryService iArtiCategoryService;
+    @Resource
+    IArticleService iArticleService;
 
-	@RequestMapping("/query")
-	public String queryArticle(ArtiCategory category, Integer pageNo, ModelMap modelMap, HttpSession session){
-		logger.info(category);
-		Page<ArtiCategory> page = (Page<ArtiCategory>) session.getAttribute("categoryPage");
-		if(page==null || pageNo== null){
-			page = new Page<ArtiCategory>(category);
-			page.setPageNo(1);
-			page.setPageSize(10);
-			int totalRow = iArtiCategoryService.countForSelective(page);
-			page.setTotalRow(totalRow);
-		}else {
-			page.setPageNo(pageNo);
-		}
+    @RequestMapping(value = {"/add"}, method = {RequestMethod.POST, RequestMethod.GET})
+    public String addArtiCategory(ArtiCategory category, ModelMap modelMap,
+                                  HttpSession session) {
+        iArtiCategoryService.addArtiCategory(category);
+        return "redirect:/category/query";
+    }
 
-		List<ArtiCategory> list = iArtiCategoryService.selectSelective(page);
-		modelMap.addAttribute("categoryList", list);
+    @RequestMapping("/query")
+    public String queryArticle(ArtiCategory category, Integer pageNo, ModelMap modelMap, HttpSession session) {
+        logger.info(category);
+        Page<ArtiCategory> page = (Page<ArtiCategory>) session.getAttribute("categoryPage");
+        if (page == null || pageNo == null) {
+            page = new Page<ArtiCategory>(category);
+            page.setPageNo(1);
+            page.setPageSize(10);
+            int totalRow = iArtiCategoryService.countForSelective(page);
+            page.setTotalRow(totalRow);
+        } else {
+            page.setPageNo(pageNo);
+        }
 
-		session.setAttribute("categoryPage", page);
-		return "/manage_category";
-	}
+        List<ArtiCategory> list = iArtiCategoryService.selectSelective(page);
+        modelMap.addAttribute("categoryList", list);
 
-	@RequestMapping("/modify")
-	public @ResponseBody
-	String updateArtiCategoryById(ArtiCategory category) {
-		logger.info(category);
-		iArtiCategoryService.updateArtiCategoryById(category);
-		//如果第二次插入的
-		return "success";
-	}
+        session.setAttribute("categoryPage", page);
+        return "/manage_category";
+    }
 
-	@RequestMapping("/del")
-	public @ResponseBody
-	String deleteArtiCategoryById(ArtiCategory category) {
-		logger.info(category);
-		Article article = new Article();
-		article.setArtiCatgId(category.getCatgId());
-		article.setArtiId(1);
-		iArticleService.updateById(article);
-		iArtiCategoryService.deleteArtiCategoryById(category);
-		//如果第二次插入的
-		return "success";
-	}
+    @RequestMapping("/modify")
+    public @ResponseBody
+    String updateArtiCategoryById(ArtiCategory category) {
+        logger.info(category);
+        iArtiCategoryService.updateArtiCategoryById(category);
+        //如果第二次插入的
+        return "success";
+    }
+
+    @RequestMapping("/del")
+    public @ResponseBody
+    String deleteArtiCategoryById(ArtiCategory category) {
+        logger.info(category);
+        Article article = new Article();
+        article.setArtiCatgId(category.getCatgId());
+        article.setArtiId(1);
+        iArticleService.updateById(article);
+        iArtiCategoryService.deleteArtiCategoryById(category);
+        //如果第二次插入的
+        return "success";
+    }
 
 }

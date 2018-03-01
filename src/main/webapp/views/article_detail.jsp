@@ -9,7 +9,7 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE>
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -77,6 +77,7 @@
             color: #999;
             text-decoration: none;
         }
+
         .detailInfo {
             max-width: 100%;
             border-top: #E6E6E6 1px solid;
@@ -106,7 +107,7 @@
 
         <!-- ===================主要内容开始=================== -->
         <div class="row">
-            <div class="container"style="padding: 0px 0px 40px 0px;">
+            <div class="container" style="padding: 0px 0px 40px 0px;">
                 <div class="wrapper wrapper-content animated fadeInUp" style="padding: 0px;"><%-- article--%>
 
                     <%--博客栏开始--%>

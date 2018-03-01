@@ -40,7 +40,7 @@ public class ArticleController {
 
     @RequestMapping(value = {"/selectShowMore/{moudule}"}, method = {RequestMethod.POST, RequestMethod.GET})
     public @ResponseBody
-    List<Article> selectShowMore(Article article,@PathVariable String moudule, Integer pageNo, ModelMap modelMap, HttpSession session) {
+    List<Article> selectShowMore(Article article, @PathVariable String moudule, Integer pageNo, ModelMap modelMap, HttpSession session) {
         logger.info(article);
         Page<Article> page = (Page<Article>) session.getAttribute("artiPage");
         if (page == null || pageNo == null) {
@@ -58,18 +58,18 @@ public class ArticleController {
             page.setPageNo(pageNo);
         }
         List<Article> articleList = new ArrayList<>();
-        if("archives".equals(moudule)){
-            if(pageNo==1){
+        if ("archives".equals(moudule)) {
+            if (pageNo == 1) {
                 List<Article> articleList1 = iArticleService.selectSelective(page);
                 page.setPageNo(2);
                 List<Article> articleList2 = iArticleService.selectSelective(page);
                 //Java将两个list合并，只需要把list1和list2内容都添加都集合list中即可
                 articleList.addAll(articleList1);
                 articleList.addAll(articleList2);
-            }else{
+            } else {
                 articleList = iArticleService.selectSelective(page);
             }
-        }else{
+        } else {
             articleList = iArticleService.selectSelective(page);
         }
         //List<Article> articleList = iArticleService.selectSelective(page);
@@ -122,9 +122,9 @@ public class ArticleController {
     }
 
     @RequestMapping("/delete")
-    public String delRadio(Article article,int pageNo,ModelMap modelMap) {
+    public String delRadio(Article article, int pageNo, ModelMap modelMap) {
         iArticleService.deleteArticleById(article);
-        modelMap.addAttribute("pageNo",pageNo);
+        modelMap.addAttribute("pageNo", pageNo);
         return "forward:/article/query";
     }
 	
@@ -165,7 +165,7 @@ public class ArticleController {
 
         String accessIp = getAccessIp();
 
-        Article article1 = iArticleService.selectArticleById(article,accessIp);
+        Article article1 = iArticleService.selectArticleById(article, accessIp);
         modelMap.addAttribute("article", article1);
         logger.info(article1);
         if (moudule.equals("modify")) {
@@ -221,19 +221,19 @@ public class ArticleController {
 
     private String getAccessIp() {
         String ip = request.getHeader("x-forwarded-for");
-        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("PRoxy-Client-IP");
         }
-        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("WL-Proxy-Client-IP");
         }
-        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();
         }
         InetAddress a;
         try {
             a = InetAddress.getLocalHost();
-            System.out.println("主机名称: " + a.getHostName()+"ip:"+ip);
+            System.out.println("主机名称: " + a.getHostName() + "ip:" + ip);
         } catch (Exception e) {
         }
         return ip;
@@ -278,10 +278,10 @@ public class ArticleController {
         int totalRow = iCommentService.countForSelective2(page); //page.setTotalRow(totalRow);//总行数
         logger.info(totalRow);
         int num;
-        if(totalRow<=3){
+        if (totalRow <= 3) {
             num = totalRow;
-        }else{
-            num = 3 ;
+        } else {
+            num = 3;
         }
         page.setPageSize(totalRow);
         page.setPageNo(1);

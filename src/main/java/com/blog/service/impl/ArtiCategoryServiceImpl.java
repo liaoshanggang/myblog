@@ -14,37 +14,38 @@ import java.util.List;
 
 @Service("artiCategoryService")
 public class ArtiCategoryServiceImpl implements IArtiCategoryService {
-	@Resource
-	ArtiCategoryMapper artiCategoryMapper;
-	@Override
-	public List<ArtiCategory> selectAllCategory() {
-		return artiCategoryMapper.selectAllCategory();
-	}
+    @Resource
+    ArtiCategoryMapper artiCategoryMapper;
 
-	@Override
-	public void addArtiCategory(ArtiCategory artiCategory) {
-		artiCategoryMapper.addArtiCategory(artiCategory);
-	}
+    @Override
+    public List<ArtiCategory> selectAllCategory() {
+        return artiCategoryMapper.selectAllCategory();
+    }
 
-	@Override
-	public int countForSelective(Page<ArtiCategory> page) {
-		return artiCategoryMapper.countForSelective(page);
-	}
+    @Override
+    public void addArtiCategory(ArtiCategory artiCategory) {
+        artiCategoryMapper.addArtiCategory(artiCategory);
+    }
 
-	@Override
-	public List<ArtiCategory> selectSelective(Page<ArtiCategory> page) {
-		return artiCategoryMapper.selectSelective(page);
-	}
+    @Override
+    public int countForSelective(Page<ArtiCategory> page) {
+        return artiCategoryMapper.countForSelective(page);
+    }
 
-	@Override
-	public void updateArtiCategoryById(ArtiCategory category) {
-		artiCategoryMapper.updateArtiCategoryById(category);
-	}
+    @Override
+    public List<ArtiCategory> selectSelective(Page<ArtiCategory> page) {
+        return artiCategoryMapper.selectSelective(page);
+    }
 
-	@Override
-	public void deleteArtiCategoryById(ArtiCategory category) {
-		artiCategoryMapper.deleteArtiCategoryById(category);
-	}
+    @Override
+    public void updateArtiCategoryById(ArtiCategory category) {
+        artiCategoryMapper.updateArtiCategoryById(category);
+    }
+
+    @Override
+    public void deleteArtiCategoryById(ArtiCategory category) {
+        artiCategoryMapper.deleteArtiCategoryById(category);
+    }
 
 
 }

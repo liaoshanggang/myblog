@@ -18,7 +18,7 @@ public class BlogUsers {
     private String userMobile;
 
     private String userSex;
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date userBirthday;
 
     private String userAddress;

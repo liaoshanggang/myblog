@@ -144,14 +144,14 @@
         else {
             fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
         }
-        console.info("文件类型名称" + filetype + "文件大小" + fileSize);
+        //console.info("文件类型名称" + filetype + "文件大小" + fileSize);
         var data = $image.cropper("getDataURL");
         file = new File([convertBase64UrlToBlob(data)], originalFileName);
         var formData = new FormData();
         formData.append("file", file);  // 文件对象
         //formData.append('file', $('#inputImage')[0].files[0]);
         //var file = $('input[name="file"][type="file"]').prop('files')[0];
-        console.info(formData);
+        //console.info(formData);
         $.ajax({
             url: "file/upload",
             type: "post",

@@ -21,7 +21,7 @@
                 var opt = $("<option></option>").attr("value", "").html("--请选择类别--");
                 select.append(opt);
                 $.each(data, function (i, item) {
-                    console.info(item.catgId + "==" + item.catgName);
+                    //console.info(item.catgId + "==" + item.catgName);
                     var option = $("<option></option>").attr("value", item.catgId)
                         .html(item.catgName);
                     select.append(option);

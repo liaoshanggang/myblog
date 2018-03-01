@@ -155,7 +155,7 @@
         // @param {String} color
         $('.summernote').summernote('foreColor', 'blue'); */
         var markupStr1 = $('.summernote').summernote('code');
-        console.info(markupStr1 + "222222222222");
+        //console.info(markupStr1 + "222222222222");
         var markupStr = 'hello world';
         $('.summernote').summernote('code', markupStr);
     });
@@ -173,7 +173,7 @@
             type: "post",
             data: json,
             success: function (result) {
-                console.info(result);
+                //console.info(result);
                 if (result == "success") {
                     swal({
                         title: "发表成功",

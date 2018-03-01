@@ -46,9 +46,9 @@ public class CommentController {
     @RequestMapping("/query")
     public String queryComment(Comment comment, Integer pageNo, ModelMap modelMap, HttpSession session) {
         logger.info(comment);
-        if(comment.getComtUserId()!=null){
+        if (comment.getComtUserId() != null) {
             List<Reply> replies1 = new ArrayList<>();
-            for (Reply r:replies1) {
+            for (Reply r : replies1) {
                 r.setReplyUserId(comment.getComtUserId());
             }
         }
@@ -69,6 +69,7 @@ public class CommentController {
         session.setAttribute("commentPage2", page);
         return "/manage_comment";
     }
+
     @RequestMapping("/del")
     public @ResponseBody
     String deleteCommentById(Comment comment) {

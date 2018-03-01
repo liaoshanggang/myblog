@@ -94,6 +94,7 @@ public class Comment {
     public void setBlogUsers(BlogUsers blogUsers) {
         this.blogUsers = blogUsers;
     }
+
     private Article article;
 
     public Article getArticle() {

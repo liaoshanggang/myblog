@@ -21,7 +21,7 @@ public class ReplyServiceImpl implements IReplyService {
 
     @Override
     public Integer countForComment(Reply reply) {
-        return replyMapper.countForComment(reply) ;
+        return replyMapper.countForComment(reply);
     }
 
     @Override

@@ -18,11 +18,11 @@
     <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
     <%@include file="../js-common.jsp" %>
     <style>
-        .title {
+        /*.title {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-        }
+        }*/
 
         .loadingdiv {
             height: 35px;
@@ -91,7 +91,7 @@
                 <div class="wrapper wrapper-content animated fadeInUp" style="padding: 0px;">
                     <div class="ibox">
                         <div class="ibox-content shadow">
-                            <input type="hidden" value="0" id="blog_pageNo">
+                            <input type="text" style="display:none;" name="0" id="blog_pageNo">
                             <div class="entry archives" id="archivesList">
                                 <h2>2018</h2>
                             </div>
@@ -137,7 +137,7 @@
         var wInnerH = window.innerHeight; // 设备窗口的高度（不会变）
         var bScrollH = document.body.scrollHeight; // 滚动条总高度 元素内容的高度
         if (wScrollY + wInnerH + 10 >= bScrollH && ajaxstatus && ajaxone == 1) {//在滚动条距离底端50px以内
-            console.info("当前滚动条位置:" + wScrollY + "设备窗口的高度（不会变）" + wInnerH + "滚动条总高度" + bScrollH);
+            //console.info("当前滚动条位置:" + wScrollY + "设备窗口的高度（不会变）" + wInnerH + "滚动条总高度" + bScrollH);
             get_more_blog();
         }
     });
@@ -148,7 +148,7 @@
         }, 5000);*/
         //$("#loadingdiv").css("display","show");
         $("#loadingdiv").show();
-        var blog_pageNo = parseInt($('#blog_pageNo').val());
+        var blog_pageNo = parseInt($('#blog_pageNo').attr("name"));
         //var blog_pageNo = pagenum;
         $.ajax({
             url: "article/selectShowMore/archives",
@@ -162,7 +162,7 @@
             success: function (data) {
                 ajaxone = 1;
                 $("#loadingdiv").hide();
-                console.info(data.length);
+                //console.info(data.length);
                 var a_length = data.length;
                 if (a_length > 0) {
                     //pagenum ++;
@@ -183,9 +183,9 @@
                     }
                     $("#archivesList").append(appendHtml);
                     if (blog_pageNo == 0) {
-                        $('#blog_pageNo').val(blog_pageNo + 2);
+                        $('#blog_pageNo').attr("name", blog_pageNo + 2);
                     } else {
-                        $('#blog_pageNo').val(blog_pageNo + 1);
+                        $('#blog_pageNo').attr("name", blog_pageNo + 1);
                     }
                 } else {
                     ajaxstatus = false;

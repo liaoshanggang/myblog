@@ -21,7 +21,7 @@
     $('#addReply').click(function () {
         alert("sdsf");
         var data = $('#replyForm').serialize();
-        console.log("序列化" + data);
+        //console.log("序列化" + data);
         $.ajax({
             url: "reply/add",
             type: "post",
@@ -29,7 +29,7 @@
             dataType: "json",
             success: function (result) {
                 //$(".show").empty();
-                console.info(result);
+                //console.info(result);
             },
             error: function () {
                 alert("error");

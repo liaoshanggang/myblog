@@ -7,22 +7,24 @@
     对于评论，是一对一文章，采用association 查询出来的是评论（文章）
     对于文章，是一对多评论，采用collection,查询出来的是文章（List评论） -->
     <resultMap id="baseResultMap" type="com.blog.vo.Comment">
-            <id column="COMT_ID" jdbcType="INTEGER" property="comtId" />
-            <result column="COMT_ARTI_ID" jdbcType="INTEGER" property="comtArtiId" />
-            <result column="COMT_CONTENT" jdbcType="VARCHAR" property="comtContent" />
-            <result column="COMT_USER_ID" jdbcType="INTEGER" property="comtUserId" />
-            <result column="COMT_TIME" jdbcType="TIMESTAMP" property="comtTime" />
-            <association property="article" javaType="article" resultMap="com.blog.mapper.ArticleMapper.baseResultMap" />
-            <association property="blogUsers" javaType="blogUsers" resultMap="com.blog.mapper.BlogUsersMapper.baseResultMap" />
-            <collection property="replies" ofType="reply">
-                <id column="REPLY_ID" jdbcType="INTEGER" property="replyId" />
-                <result column="REPLY_COMT_ID" jdbcType="INTEGER" property="replyComtId" />
-                <result column="REPLY_USER_ID" jdbcType="INTEGER" property="replyUserId" />
-                <result column="REPLY_CONTENT" jdbcType="VARCHAR" property="replyContent" />
-                <result column="REPLY_TIME" jdbcType="TIMESTAMP" property="replyTime" />
-                <association property="bu" javaType="blogUsers"
-                             column="re_USER_ID" columnPrefix="re_"  resultMap="com.blog.mapper.BlogUsersMapper.baseResultMap"/>
-            </collection>
+        <id column="COMT_ID" jdbcType="INTEGER" property="comtId"/>
+        <result column="COMT_ARTI_ID" jdbcType="INTEGER" property="comtArtiId"/>
+        <result column="COMT_CONTENT" jdbcType="VARCHAR" property="comtContent"/>
+        <result column="COMT_USER_ID" jdbcType="INTEGER" property="comtUserId"/>
+        <result column="COMT_TIME" jdbcType="TIMESTAMP" property="comtTime"/>
+        <association property="article" javaType="article" resultMap="com.blog.mapper.ArticleMapper.baseResultMap"/>
+        <association property="blogUsers" javaType="blogUsers"
+                     resultMap="com.blog.mapper.BlogUsersMapper.baseResultMap"/>
+        <collection property="replies" ofType="reply">
+            <id column="REPLY_ID" jdbcType="INTEGER" property="replyId"/>
+            <result column="REPLY_COMT_ID" jdbcType="INTEGER" property="replyComtId"/>
+            <result column="REPLY_USER_ID" jdbcType="INTEGER" property="replyUserId"/>
+            <result column="REPLY_CONTENT" jdbcType="VARCHAR" property="replyContent"/>
+            <result column="REPLY_TIME" jdbcType="TIMESTAMP" property="replyTime"/>
+            <association property="bu" javaType="blogUsers"
+                         column="re_USER_ID" columnPrefix="re_"
+                         resultMap="com.blog.mapper.BlogUsersMapper.baseResultMap"/>
+        </collection>
     </resultMap>
     <sql id="where_selectForCommentArticle">
         <where>
@@ -35,14 +37,14 @@
         select a.*,rownum rn from (
         select b.*,c.*,u.*
         from ARTICLE b,COMT c,BLOG_USERS u
-        <include refid="where_selectForCommentArticle" />
+        <include refid="where_selectForCommentArticle"/>
         ORDER BY c.COMT_TIME DESC
         ) a where <![CDATA[rownum<=#{lastIndex}]]>
         ) where rn>=#{firstIndex}
     </select>
     <select id="countForCommentArticle" parameterType="page" resultType="int">
         select count(c.COMT_ID) from ARTICLE b,COMT c,BLOG_USERS u
-        <include refid="where_selectForCommentArticle" />
+        <include refid="where_selectForCommentArticle"/>
         ORDER BY COMT_TIME DESC
     </select>
 
@@ -55,7 +57,8 @@
             </if>
             <if test="queryObject.comtUserId  !=null">
                 and COMT_USER_ID=#{queryObject.comtUserId }
-                <foreach collection="queryObject.replies" item="item" index="index" open="(" separator=" union all " close=")">
+                <foreach collection="queryObject.replies" item="item" index="index" open="(" separator=" union all "
+                         close=")">
                     <if test="item  !=null">
                         and REPLY_USER_ID = #{item.replyUserId}
                     </if>
@@ -84,13 +87,14 @@
         b2.USER_TYPE re_USER_TYPE,
         b2.USER_IMAGE_URL re_USER_IMAGE_URL,
         b2.EDU_BACKGROUND re_EDU_BACKGROUND
-        from COMT c left join (REPLY r left join BLOG_USERS b2 on (r.REPLY_USER_ID = b2.USER_ID)  ) on (c.COMT_ID = r.REPLY_COMT_ID) ,BLOG_USERS b,ARTICLE q
-        <include refid="where_selective" />
-     ORDER BY COMT_TIME DESC
-     ) a where <![CDATA[rownum<=#{lastIndex}]]>
-     ) where rn>=#{firstIndex}
- </select>
- <!-- 根据服务搜索信息查找服务信息记录数 -->
+        from COMT c left join (REPLY r left join BLOG_USERS b2 on (r.REPLY_USER_ID = b2.USER_ID) ) on (c.COMT_ID =
+        r.REPLY_COMT_ID) ,BLOG_USERS b,ARTICLE q
+        <include refid="where_selective"/>
+        ORDER BY COMT_TIME DESC
+        ) a where <![CDATA[rownum<=#{lastIndex}]]>
+        ) where rn>=#{firstIndex}
+    </select>
+    <!-- 根据服务搜索信息查找服务信息记录数 -->
     <!--<select id="countForSelective" parameterType="page" resultType="int">
         select count(DISTINCT c.COMT_ID)-count(DISTINCT r.REPLY_COMT_ID)+count(DISTINCT r.REPLY_ID) from
         COMT c left join REPLY r on c.COMT_ID = r.REPLY_COMT_ID,BLOG_USERS b,BLOG_USERS b2
@@ -99,8 +103,9 @@
     </select>-->
     <select id="countForSelective" parameterType="page" resultType="int">
         select count(DISTINCT c.COMT_ID)-count(DISTINCT r.REPLY_COMT_ID)+count(DISTINCT r.REPLY_ID)
-        from COMT c left join (REPLY r left join BLOG_USERS b2 on (r.REPLY_USER_ID = b2.USER_ID)  ) on (c.COMT_ID = r.REPLY_COMT_ID) ,BLOG_USERS b,ARTICLE q
-        <include refid="where_selective" />
+        from COMT c left join (REPLY r left join BLOG_USERS b2 on (r.REPLY_USER_ID = b2.USER_ID) ) on (c.COMT_ID =
+        r.REPLY_COMT_ID) ,BLOG_USERS b,ARTICLE q
+        <include refid="where_selective"/>
         ORDER BY COMT_TIME DESC
     </select>
 
@@ -130,8 +135,9 @@
         b2.USER_TYPE re_USER_TYPE,
         b2.USER_IMAGE_URL re_USER_IMAGE_URL,
         b2.EDU_BACKGROUND re_EDU_BACKGROUND
-        from COMT c left join (REPLY r left join BLOG_USERS b2 on (r.REPLY_USER_ID = b2.USER_ID)  ) on (c.COMT_ID = r.REPLY_COMT_ID) ,BLOG_USERS b
-        <include refid="where_selective2" />
+        from COMT c left join (REPLY r left join BLOG_USERS b2 on (r.REPLY_USER_ID = b2.USER_ID) ) on (c.COMT_ID =
+        r.REPLY_COMT_ID) ,BLOG_USERS b
+        <include refid="where_selective2"/>
         ORDER BY COMT_TIME DESC
         ) a where <![CDATA[rownum<=#{lastIndex}]]>
         ) where rn>=#{firstIndex}
@@ -140,7 +146,7 @@
     <select id="countForSelective2" parameterType="rdPage" resultType="int">
         select count(DISTINCT c.COMT_ID)-count(DISTINCT r.REPLY_COMT_ID)+count(DISTINCT r.REPLY_ID) from
         COMT c left join REPLY r on c.COMT_ID = r.REPLY_COMT_ID,BLOG_USERS b,BLOG_USERS b2
-        <include refid="where_selective2" />
+        <include refid="where_selective2"/>
         ORDER BY COMT_TIME DESC
     </select>
 

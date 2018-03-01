@@ -31,7 +31,7 @@
             var opt = $("<option></option>").attr("value", "").html("--请修改类别--");
             select.append(opt);
             $.each(data, function (i, item) {
-                console.info(item.catgId + "==" + item.catgName);
+                //console.info(item.catgId + "==" + item.catgName);
                 if (id == item.catgId) {
                     return true;
                 }
@@ -150,7 +150,7 @@
         });
 
         var markupStr1 = $('.summernote').summernote('code');
-        console.info(markupStr1 + "222222222222");
+        //console.info(markupStr1 + "222222222222");
         var markupStr = 'hello world';
         $('.summernote').summernote('code', markupStr);
     });
@@ -160,14 +160,14 @@
         var sHTML = $('.summernote').code();
         var category = $("#category option:selected").val();
         var title = $("#artiTitle").val();
-        console.info(sHTML + "==" + category + "==" + title + "==" + id);
+        //console.info(sHTML + "==" + category + "==" + title + "==" + id);
         var json = {artiContent: sHTML, artiCatgId: category, artiTitle: title, artiId: id};
         $.ajax({
             url: "article/modify",
             type: "post",
             data: json,
             success: function (result) {
-                console.info(result);
+                //console.info(result);
                 if (result == "success") {
                     swal({
                         title: "修改成功",

@@ -16,6 +16,7 @@ import java.util.List;
 public class CommentServiceImpl implements ICommentService {
     @Resource
     CommentMapper commentMapper;
+
     @Override
     public void insertComment(Comment comment) {
         commentMapper.insertComment(comment);

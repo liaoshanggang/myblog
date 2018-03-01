@@ -125,18 +125,18 @@
             $('#boxedlayout').prop('checked', false);
 
             if (localStorageSupport) {
-                localStorage.setItem("boxedlayout",'off');
+                localStorage.setItem("boxedlayout", 'off');
             }
 
             if (localStorageSupport) {
-                localStorage.setItem("fixednavbar",'on');
+                localStorage.setItem("fixednavbar", 'on');
             }
         } else {
             $(".navbar-fixed-top").removeClass('navbar-fixed-top').addClass('navbar-static-top');
             $("body").removeClass('fixed-nav');
 
             if (localStorageSupport) {
-                localStorage.setItem("fixednavbar",'off');
+                localStorage.setItem("fixednavbar", 'off');
             }
         }
     });
@@ -151,7 +151,7 @@
             });
 
             if (localStorageSupport) {
-                localStorage.setItem("fixedsidebar",'on');
+                localStorage.setItem("fixedsidebar", 'on');
             }
         } else {
             $('.sidebar-collapse').slimscroll({destroy: true});
@@ -159,7 +159,7 @@
             $("body").removeClass('fixed-sidebar');
 
             if (localStorageSupport) {
-                localStorage.setItem("fixedsidebar",'off');
+                localStorage.setItem("fixedsidebar", 'off');
             }
         }
     });
@@ -171,7 +171,7 @@
             SmoothlyMenu();
 
             if (localStorageSupport) {
-                localStorage.setItem("collapse_menu",'on');
+                localStorage.setItem("collapse_menu", 'on');
             }
 
         } else {
@@ -179,7 +179,7 @@
             SmoothlyMenu();
 
             if (localStorageSupport) {
-                localStorage.setItem("collapse_menu",'off');
+                localStorage.setItem("collapse_menu", 'off');
             }
         }
     });
@@ -195,22 +195,22 @@
             $('#fixedfooter').prop('checked', false);
 
             if (localStorageSupport) {
-                localStorage.setItem("fixednavbar",'off');
+                localStorage.setItem("fixednavbar", 'off');
             }
 
             if (localStorageSupport) {
-                localStorage.setItem("fixedfooter",'off');
+                localStorage.setItem("fixedfooter", 'off');
             }
 
 
             if (localStorageSupport) {
-                localStorage.setItem("boxedlayout",'on');
+                localStorage.setItem("boxedlayout", 'on');
             }
         } else {
             $("body").removeClass('boxed-layout');
 
             if (localStorageSupport) {
-                localStorage.setItem("boxedlayout",'off');
+                localStorage.setItem("boxedlayout", 'off');
             }
         }
     });
@@ -223,17 +223,17 @@
             $(".footer").addClass('fixed');
 
             if (localStorageSupport) {
-                localStorage.setItem("boxedlayout",'off');
+                localStorage.setItem("boxedlayout", 'off');
             }
 
             if (localStorageSupport) {
-                localStorage.setItem("fixedfooter",'on');
+                localStorage.setItem("fixedfooter", 'on');
             }
         } else {
             $(".footer").removeClass('fixed');
 
             if (localStorageSupport) {
-                localStorage.setItem("fixedfooter",'off');
+                localStorage.setItem("fixedfooter", 'off');
             }
         }
     });
@@ -279,19 +279,19 @@
         var fixedfooter = localStorage.getItem("fixedfooter");
 
         if (collapse == 'on') {
-            $('#collapsemenu').prop('checked','checked')
+            $('#collapsemenu').prop('checked', 'checked')
         }
         if (fixedsidebar == 'on') {
-            $('#fixedsidebar').prop('checked','checked')
+            $('#fixedsidebar').prop('checked', 'checked')
         }
         if (fixednavbar == 'on') {
-            $('#fixednavbar').prop('checked','checked')
+            $('#fixednavbar').prop('checked', 'checked')
         }
         if (boxedlayout == 'on') {
-            $('#boxedlayout').prop('checked','checked')
+            $('#boxedlayout').prop('checked', 'checked')
         }
         if (fixedfooter == 'on') {
-            $('#fixedfooter').prop('checked','checked')
+            $('#fixedfooter').prop('checked', 'checked')
         }
     }
 </script>

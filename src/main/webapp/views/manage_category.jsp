@@ -215,22 +215,22 @@
     }
 
     function update(cur, id) {
-        console.info("我 来了");
-        console.info($(cur).parent().parent());
+        //console.info("我 来了");
+        //console.info($(cur).parent().parent());
         var firstTD = $(cur).parent().parent();
         var name = $(cur).prev().val();
         var json = {catgName: name, catgId: id};
-        console.info(json);
+        //console.info(json);
         $.ajax({
             url: "category/modify",
             type: "post",
             data: json,
             success: function (result) {
-                console.info(result);
+                //console.info(result);
                 if (result == "success") {
-                    console.info(firstTD);
+                    //console.info(firstTD);
                     firstTD.text(name);
-                    firstTD.attr("value",name);//解决第二次点编辑不是新数据
+                    firstTD.attr("value", name);//解决第二次点编辑不是新数据
                     success("保存成功！");
                 }
             },
@@ -241,7 +241,7 @@
 
     function cancel(cur, catgName) {
         //$(cur).parent().remove();
-        console.info(catgName);
+        //console.info(catgName);
         $(cur).parent().parent().text(catgName);
     }
 
@@ -251,12 +251,13 @@
 
             var firstTD = $(this).parent().prev().prev().prev();
             var catgName = firstTD.attr("value");//解决第二次输入框不是原数据的问题
-            console.info(typeof (catgName));
+            //console.info(typeof (catgName));
             var catgId = $(this).attr("value");
-            console.info(catgId + "==" + catgName);
-            console.info(firstTD.html("<div><input type='text'value='" + catgName + "'>" +
+            //console.info(catgId + "==" + catgName);
+            //console.info();
+            firstTD.html("<div><input type='text'value='" + catgName + "'>" +
                 "<input type='button' value='保存' onclick='update(this," + catgId + ")'/>" +
-                "<input type='button' value='取消' onclick='cancel(this,\"" + catgName + "\" )'/></div>"));
+                "<input type='button' value='取消' onclick='cancel(this,\"" + catgName + "\" )'/></div>");
             //console.info(firstTD.html("<div><input type='text'value='" + catgName + "'>" +
             //   "<input type='button' value='保存' onclick='update(this," + catgId + ")'/>" +
             //  "<input type='button' value='取消' onclick='cancel(this,\""+catgName+"\" )'/></div>"));
@@ -285,10 +286,10 @@
                         type: "post",
                         data: json,
                         success: function (result) {
-                            console.info(result);
+                            //console.info(result);
                             if (result == "success") {
                                 //swal("删除!", "改类别已被删除.", "success");
-                                console.info(curTr);
+                                //console.info(curTr);
                                 curTr.remove();
                                 success("删除成功！");
                             }

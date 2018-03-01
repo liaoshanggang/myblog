@@ -43,6 +43,7 @@
         #vertical-timeline::before {
             height: 97%;
         }
+
         /*.nav-tabs a{
             padding: 15px;
         }*/
@@ -66,7 +67,8 @@
                     <div class="ibox shadow">
                         <div class="tabs-container">
                             <ul class="nav nav-tabs"><%--list-style:none;float:left;--%>
-                                <li class="active"><a data-toggle="tab" href="#about_blog" style="padding: 10px 0px 10px 2px;">
+                                <li class="active"><a data-toggle="tab" href="#about_blog"
+                                                      style="padding: 10px 0px 10px 2px;">
                                     <i class="fa fa-book"></i>关于「博客系统」</a></li>
                                 <li class=""><a data-toggle="tab" href="#about_me" style="padding: 10px 0px 10px 2px;">
                                     <i class="fa fa-user"></i>关于「我」</a></li>
@@ -122,32 +124,25 @@
                                 </div>
                                 <div id="about_me" class="tab-pane">
                                     <div class="panel-body">
-                                        <div class="">
-                                            <p>
-                                            <ul>
-                                                <li>90后程序员，主研方向：<font color="#c24f4a">Java</font>、<font color="#c24f4a">微前端</font>、<font
-                                                        color="#c24f4a">Node</font>。
-                                                </li>
-                                                <li>current：Java工程师</li>
-                                                <li>GitHub：https://github.com/liaoshanggang</li>
-                                            </ul>
-                                            <b style="font-style: italic;">个人博客（PersonalBlog）</b>​：
-                                            </p>
-                                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是我最近打造的一款Java博客系统（后续将会出Note版本），包含博客、笔记系统以文件分享。</p>
-                                            <p>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-                                                目前兼容人类正在使用的全部浏览器（IE6/7除外、IE8/9/10不太友好）。</p>
-                                            <p>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-                                                响应式布局、支持全设备访问（后端个别界面应功能要求不是响应式）。</p>
-                                            <p>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 目前最新版本 v1.0（其余版本见说明），欢迎尝鲜。<br></p>
-                                            <p>&nbsp; &nbsp; &nbsp; &nbsp; 欢迎下载尝鲜，有意见或者建议欢迎提出；QQ群：
-                                                <a target="_blank"
-                                                   href="//shang.qq.com/wpa/qunwpa?idkey=a2db8d0fa1aa7f91fabf149d9f868efa1811e0a6839851220a9c2b2ecaf0bce7">
-                                                    <img src="//pub.idqqimg.com/wpa/images/group.png" alt="笔记博客 ~ 交流反馈"
-                                                         title="笔记博客 ~ 交流反馈" border="0">
-                                                </a>&nbsp;<br>
-                                            </p>
-                                            <p><br></p>
-                                        </div>
+                                        <ul>
+                                            <li>90后程序员，主研方向：Java微前端、Node。</li>
+                                            <li>current：Java工程师</li>
+                                            <li>GitHub：https://github.com/liaoshanggang</li>
+                                        </ul>
+                                        <b style="font-style: italic;">个人博客（PersonalBlog）：</b><%--<p>​</p>不能放ul吗？--%>
+                                        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是我最近打造的一款Java博客系统（后续将会出Note版本），包含博客、笔记系统以文件分享。</p>
+                                        <p>&nbsp;&nbsp;&nbsp;
+                                            &nbsp;&nbsp;&nbsp;目前兼容人类正在使用的全部浏览器（IE6/7除外、IE8/9/10不太友好）。</p>
+                                        <p>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;响应式布局、支持全设备访问（后端个别界面应功能要求不是响应式）。</p>
+                                        <p>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;目前最新版本 v1.0（其余版本见说明），欢迎尝鲜。<br></p>
+                                        <p>&nbsp; &nbsp; &nbsp; &nbsp;欢迎下载尝鲜，有意见或者建议欢迎提出；QQ群：
+                                            <a target="_blank"
+                                               href="//shang.qq.com/wpa/qunwpa?idkey=a2db8d0fa1aa7f91fabf149d9f868efa1811e0a6839851220a9c2b2ecaf0bce7">
+                                                <img src="//pub.idqqimg.com/wpa/images/group.png" alt="笔记博客 ~ 交流反馈"
+                                                     title="笔记博客 ~ 交流反馈" border="0">
+                                            </a>&nbsp;<br>
+                                        </p>
+                                        <p><br></p>
                                     </div>
                                 </div>
                                 <div id="about_sys" class="tab-pane">
@@ -174,9 +169,10 @@
             <script src="js/plugins/peity/jquery.peity.min.js"></script>
         </div>
     </div>
-    <script>
+</div>
+<script>
 
-    </script>
+</script>
 </body>
 
 </html>

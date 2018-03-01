@@ -21,6 +21,7 @@ public class TestCommentServiceImpl {
     ICommentService ics;
     @Resource
     IReplyService irs;
+
     @Test
     public void testDeleteCommentById() {
         /*删除20的同时更新回复id*/
@@ -49,8 +50,8 @@ public class TestCommentServiceImpl {
         logger.info("页数" + page);
 
         List<Comment> list = ics.selectForCommentArticle(page);
-        for (Comment c:list) {
-            logger.info("info"+c+"article"+c.getArticle());
+        for (Comment c : list) {
+            logger.info("info" + c + "article" + c.getArticle());
         }
     }
 
@@ -58,7 +59,9 @@ public class TestCommentServiceImpl {
     public void testSelectSelective2() {
         /******************************************************/
         List<Integer> list1 = new ArrayList<>();//存放begin-end
-        Integer count = 0; Integer count2 = 0; Integer count3 = 0;
+        Integer count = 0;
+        Integer count2 = 0;
+        Integer count3 = 0;
         Comment comment = new Comment();
         comment.setComtArtiId(69);
         RdPage<Comment> page = new RdPage<Comment>(comment);
@@ -108,7 +111,7 @@ public class TestCommentServiceImpl {
             //list1.add(i,list1.get(i+1)-list1.get(i));//logger.info("第"+(i+1)+"页显示"+list1.get(i)+"行");
         }
         for (int i = 0; i < arr.length; i++) {
-            logger.info("每页要显示的不同记录数"+arr[i]);
+            logger.info("每页要显示的不同记录数" + arr[i]);
         }
         /***********************************************************************/
         //通过页数来查找对于页要显示的记录数
@@ -130,8 +133,8 @@ public class TestCommentServiceImpl {
         //totalR=3;
         rdPage.setTotalRow(totalR);//总行数
         rdPage.setTotalPage(arr.length);//总页数
-        rdPage.setFirstIndex(list1.get(no-1)-size+1);//本页数据首条记录索引
-        rdPage.setLastIndex(list1.get(no-1));//本页数据最后条记录索引
+        rdPage.setFirstIndex(list1.get(no - 1) - size + 1);//本页数据首条记录索引
+        rdPage.setLastIndex(list1.get(no - 1));//本页数据最后条记录索引
         logger.info("总记录：" + totalRow);
         logger.info("页数" + rdPage);
 
@@ -198,10 +201,10 @@ public class TestCommentServiceImpl {
 
         List<Comment> list = ics.selectSelective(page);
         for (Comment comment1 : list) {
-            logger.info("用户"+comment1.getBlogUsers()+"评论"+comment1+"文章"+comment1.getArticle());
+            logger.info("用户" + comment1.getBlogUsers() + "评论" + comment1 + "文章" + comment1.getArticle());
             List<Reply> replies = comment1.getReplies();
             for (Reply replie : replies) {
-                logger.info("-->用户"+replie.getBu()+"回复"+replie);
+                logger.info("-->用户" + replie.getBu() + "回复" + replie);
             }
         }
     }
@@ -212,7 +215,7 @@ public class TestCommentServiceImpl {
         Comment comment = new Comment();
         comment.setComtUserId(1);
         List<Reply> replies1 = new ArrayList<>();
-        for (Reply r:replies1) {
+        for (Reply r : replies1) {
             r.setReplyUserId(1);
         }
         comment.setReplies(replies1);
@@ -228,10 +231,10 @@ public class TestCommentServiceImpl {
 
         List<Comment> list = ics.selectSelective(page);
         for (Comment comment1 : list) {
-            logger.info("用户"+comment1.getBlogUsers()+"评论"+comment1+"文章"+comment1.getArticle());
+            logger.info("用户" + comment1.getBlogUsers() + "评论" + comment1 + "文章" + comment1.getArticle());
             List<Reply> replies = comment1.getReplies();
             for (Reply replie : replies) {
-                logger.info("-->用户"+replie.getBu()+"回复"+replie);
+                logger.info("-->用户" + replie.getBu() + "回复" + replie);
             }
         }
     }

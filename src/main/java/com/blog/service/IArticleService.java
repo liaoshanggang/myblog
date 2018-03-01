@@ -6,33 +6,34 @@ import com.blog.vo.Article;
 import com.blog.vo.Page;
 
 public interface IArticleService {
-	
-	public void addArticle(Article article);
-	
-	/**
-	 * 
-	 * @param articles
-	 * @return
-	 */
-	public List<Article> selectSelective(Page<Article> articles);
-	
-	/**
-	 * 获得查询文章的总计录数
-	 * @param articles
-	 * @return
-	 */
-	public int countForSelective(Page<Article> articles);
 
-	public void deleteArticleById(Article smdQuestions);
-	
-	public Article selectArticleById(Article article);
-	public Article selectArticleById(Article article,String ip);
+    public void addArticle(Article article);
 
-	public void updateArticleById(Article article);
+    /**
+     * @param articles
+     * @return
+     */
+    public List<Article> selectSelective(Page<Article> articles);
 
-	void updateById(Article article);
+    /**
+     * 获得查询文章的总计录数
+     *
+     * @param articles
+     * @return
+     */
+    public int countForSelective(Page<Article> articles);
 
-	public void updateArtiComtNumber(Article article);
+    public void deleteArticleById(Article smdQuestions);
 
-	List<Article> selectHotArticles();
+    public Article selectArticleById(Article article);
+
+    public Article selectArticleById(Article article, String ip);
+
+    public void updateArticleById(Article article);
+
+    void updateById(Article article);
+
+    public void updateArtiComtNumber(Article article);
+
+    List<Article> selectHotArticles();
 }

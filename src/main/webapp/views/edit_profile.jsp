@@ -170,7 +170,8 @@
                                                 <div class="tab-pane active" id="tab-1">
                                                     <div class="" id="myBlog"></div>
                                                     <input type="hidden" value="0" id="blog_pageNo">
-                                                    <button id="showMore" class="btn btn-primary btn-block m-t" onclick="get_more_blog(this)">
+                                                    <button id="showMore" class="btn btn-primary btn-block m-t"
+                                                            onclick="get_more_blog(this)">
                                                         <i class="fa fa-arrow-down"></i>展示更多
                                                     </button>
                                                 </div>
@@ -198,47 +199,48 @@
 </div>
 <script>
     var hasNext = true;
-    $(function(){
+    $(function () {
         get_more_blog();
     })
-    $(window).scroll(function(event){
+    $(window).scroll(function (event) {
         var wScrollY = window.scrollY; // 当前滚动条位置
         var wInnerH = window.innerHeight; // 设备窗口的高度（不会变）
         var bScrollH = document.body.scrollHeight; // 滚动条总高度 元素内容的高度
-        if (wScrollY + wInnerH +100 >= bScrollH && hasNext) {//在滚动条距离底端50px以内
-            console.info("当前滚动条位置:"+wScrollY+"设备窗口的高度（不会变）"+wInnerH+"滚动条总高度"+bScrollH);
+        if (wScrollY + wInnerH + 100 >= bScrollH && hasNext) {//在滚动条距离底端50px以内
+            //console.info("当前滚动条位置:"+wScrollY+"设备窗口的高度（不会变）"+wInnerH+"滚动条总高度"+bScrollH);
             var showMore = $("#showMore");
             get_more_blog(showMore);
         }
     });
-    function get_more_blog(obj){
-        if(!hasNext){
-            return ;
+
+    function get_more_blog(obj) {
+        if (!hasNext) {
+            return;
         }
         var myBlog = $("#myBlog");
         var blog_pageNo = parseInt($('#blog_pageNo').val());
         $.ajax({
             type: "GET",
             url: 'article/selectShowMore/edit_profile',
-            data: {pageNo:blog_pageNo+1},
+            data: {pageNo: blog_pageNo + 1},
             dataType: 'json',
             async: false,
             success: function (data) {
-                console.info(data.length);
-                if(data.length == 0){//没数据了
+                //console.info(data.length);
+                if (data.length == 0) {//没数据了
                     $(obj).html("已全部加载");
                     hasNext = false;
-                }else{
+                } else {
                     $.each(data, function (i, item) {
                         //console.info(item.artiId+"=="+item.artiTitle+"=="+item.artiTime);
                         var d = new Date(item.artiTime);
-                        var option = $( "<div class=\"ibox-content \">" +
-                            "<h3 class=\"col-md-10\"><a href=\"article/queryById/"+item.artiId+" /detail\"\n" +
-                            "class=\"btn-link \">"+item.artiTitle+"</a></h3>" +
-                            "<small class=\"col-md-2\">"+ d.Format('yyyy-MM-dd hh:mm:ss')+"</small></div>");
+                        var option = $("<div class=\"ibox-content \">" +
+                            "<h3 class=\"col-md-10\"><a href=\"article/queryById/" + item.artiId + " /detail\"\n" +
+                            "class=\"btn-link \">" + item.artiTitle + "</a></h3>" +
+                            "<small class=\"col-md-2\">" + d.Format('yyyy-MM-dd hh:mm:ss') + "</small></div>");
                         myBlog.append(option);
                     });
-                    $('#blog_pageNo').val(blog_pageNo+1);
+                    $('#blog_pageNo').val(blog_pageNo + 1);
                 }
             }
         })
@@ -287,7 +289,7 @@
             //var userPassword = $("#userPassword").val();
             var data = $('#uptMyInfoForm').serialize(); //name=value&p2=v2&....有问题日期
             //var data = {userId:2,userNickname:"李四1"};
-            console.log("序列化" + data);
+            //console.log("序列化" + data);
             $.ajax({
                 url: "user/uptMyInfo",
                 type: "post",

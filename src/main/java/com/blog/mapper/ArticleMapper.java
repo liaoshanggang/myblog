@@ -6,29 +6,30 @@ import org.springframework.stereotype.Repository;
 
 import com.blog.vo.Article;
 import com.blog.vo.Page;
+
 @Repository
 public interface ArticleMapper {
-	public void addArticle(Article article);
-	
-	/**
-	 * 
-	 * @param articles
-	 * @return
-	 */
-	public List<Article> selectSelective(Page<Article> articles);
-	
-	/**
-	 * 获得查询文章的总计录数
-	 * @param articles
-	 * @return
-	 */
-	public int countForSelective(Page<Article> articles);
+    public void addArticle(Article article);
 
-	public void deleteArticleById(Integer artiId);
+    /**
+     * @param articles
+     * @return
+     */
+    public List<Article> selectSelective(Page<Article> articles);
 
-	public Article selectArticleById(Integer integer);
+    /**
+     * 获得查询文章的总计录数
+     *
+     * @param articles
+     * @return
+     */
+    public int countForSelective(Page<Article> articles);
 
-	public void updateArticleById(Article article);
+    public void deleteArticleById(Integer artiId);
+
+    public Article selectArticleById(Integer integer);
+
+    public void updateArticleById(Article article);
 
     void updateById(Article article);
 

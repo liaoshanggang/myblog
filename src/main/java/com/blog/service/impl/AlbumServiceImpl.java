@@ -8,5 +8,5 @@ import com.blog.service.IAlbumService;
 @Service("albumService")
 public class AlbumServiceImpl implements IAlbumService {
 
-	
+
 }

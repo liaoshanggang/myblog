@@ -7,19 +7,33 @@ import java.io.File;
  */
 public class FileInfo {
 
-    /**文件*/
+    /**
+     * 文件
+     */
     public File file;
-    /**文件大小*/
+    /**
+     * 文件大小
+     */
     public String fileSize;
-    /**文件md5*/
+    /**
+     * 文件md5
+     */
     public String fileMD5;
-    /**存在服务器的名称*/
+    /**
+     * 存在服务器的名称
+     */
     public String fullFileName;
-    /**原名称 带后缀*/
+    /**
+     * 原名称 带后缀
+     */
     public String originalFileName;
-    /**原名称*/
+    /**
+     * 原名称
+     */
     public String fileName;
-    /**后缀名*/
+    /**
+     * 后缀名
+     */
     public String suffixName;
 
     public File getFile() {
@@ -27,7 +41,8 @@ public class FileInfo {
     }
 
     public FileInfo setFile(File file) {
-        this.file = file;return this;
+        this.file = file;
+        return this;
     }
 
     public String getFileSize() {
@@ -35,7 +50,8 @@ public class FileInfo {
     }
 
     public FileInfo setFileSize(String fileSize) {
-        this.fileSize = fileSize;return this;
+        this.fileSize = fileSize;
+        return this;
     }
 
     public String getFileMD5() {
@@ -43,7 +59,8 @@ public class FileInfo {
     }
 
     public FileInfo setFileMD5(String fileMD5) {
-        this.fileMD5 = fileMD5;return this;
+        this.fileMD5 = fileMD5;
+        return this;
     }
 
     public String getOriginalFileName() {
@@ -51,7 +68,8 @@ public class FileInfo {
     }
 
     public FileInfo setOriginalFileName(String originalFileName) {
-        this.originalFileName = originalFileName;return this;
+        this.originalFileName = originalFileName;
+        return this;
     }
 
     public String getFileName() {
@@ -59,7 +77,8 @@ public class FileInfo {
     }
 
     public FileInfo setFileName(String fileName) {
-        this.fileName = fileName;return this;
+        this.fileName = fileName;
+        return this;
     }
 
     public String getSuffixName() {
@@ -67,7 +86,8 @@ public class FileInfo {
     }
 
     public FileInfo setSuffixName(String suffixName) {
-        this.suffixName = suffixName;return this;
+        this.suffixName = suffixName;
+        return this;
     }
 
     public String getFullFileName() {
@@ -75,7 +95,8 @@ public class FileInfo {
     }
 
     public FileInfo setFullFileName(String fullFileName) {
-        this.fullFileName = fullFileName;return this;
+        this.fullFileName = fullFileName;
+        return this;
     }
 
     @Override

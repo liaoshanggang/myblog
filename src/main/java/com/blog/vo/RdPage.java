@@ -240,6 +240,7 @@ public class RdPage<T> {
     public void setLastIndex(int lastIndex) {
         this.lastIndex = lastIndex;
     }
+
     @Override
     public String toString() {
         return "Page{" +

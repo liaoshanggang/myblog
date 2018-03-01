@@ -39,8 +39,8 @@
                             <h3>预览图像</h3>
                             <div class="img-preview img-preview-sm img-circle circle-border"></div>
                             <p><h4>
-                                您可以上传新的图像到裁剪容器，并轻松下载新的裁剪图像。
-                                </h4>
+                            您可以上传新的图像到裁剪容器，并轻松下载新的裁剪图像。
+                        </h4>
                             </p>
                             <div class="btn-group">
                                 <label title="上传新图像" for="inputImage" class="btn-lg btn-info">
@@ -68,17 +68,17 @@
                                 <button class="btn btn-warning" id="setDrag10" type="button">新修剪</button>
                                 <button class="btn btn-white" id="zoomIn161" type="button">放大</button>
                                 <button class="btn btn-white" id="zoomOut17" type="button">缩小</button>
-                                <button class="btn btn-white"  type="button">右旋</button>
+                                <button class="btn btn-white" type="button">右旋</button>
                                 <button class="btn btn-white" id="rotateLeft118" type="button">向左旋转</button>
                                 <button class="btn btn-white" id="rotateRight19" type="button">右旋</button>
                                 <button class="btn btn-white" id="setDrag110" type="button">新修剪</button>
                                 <button class="btn btn-white" id="zoomIn61" type="button">放大</button>
                                 <button class="btn btn-white" id="zoomOut71" type="button">缩小</button>
-                                <button class="btn btn-white"  type="button">右旋</button>
+                                <button class="btn btn-white" type="button">右旋</button>
                                 <button class="btn btn-white" id="rotateLeft18" type="button">向左旋转</button>
                                 <button class="btn btn-white" id="rotateRight91" type="button">右旋</button>
                                 <button class="btn btn-white" id="setDrag101" type="button">新修剪</button>
-                                <button class="btn btn-white"  type="button">右旋</button>
+                                <button class="btn btn-white" type="button">右旋</button>
                                 <button class="btn btn-white" type="button">右旋</button>
 
                             </div>
@@ -114,7 +114,7 @@
         },
         done: function (data) {//类型：Function，默认值null。当改变剪裁容器或图片时的事件函数。
             // Output the result data for cropping image.
-            console.info(data);
+            //console.info(data);
         },
     });
     var filefile;
@@ -233,9 +233,10 @@
         else {
             fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
         }
-        console.info("文件类型名称" + filetype + "文件大小" + fileSize);
+        //console.info("文件类型名称" + filetype + "文件大小" + fileSize);
         return originalFileName;
     }
+
     function convertToData(url, canvasdata, cropdata, callback) {
         var cropw = cropdata.width; // 剪切的宽
         var croph = cropdata.height; // 剪切的高

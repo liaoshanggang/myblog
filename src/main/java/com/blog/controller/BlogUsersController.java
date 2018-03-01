@@ -30,12 +30,12 @@ public class BlogUsersController {
     @Autowired
     private HttpServletRequest request;
 
-    @RequestMapping(value = {"/login2/{moudule}"}, method = {RequestMethod.POST, RequestMethod.GET},produces = "text/plain;charset=utf-8")
+    @RequestMapping(value = {"/login2/{moudule}"}, method = {RequestMethod.POST, RequestMethod.GET}, produces = "text/plain;charset=utf-8")
     public @ResponseBody
-    String loginAjax(BlogUsers blogUsers,@PathVariable String moudule, ModelMap modelMap,
+    String loginAjax(BlogUsers blogUsers, @PathVariable String moudule, ModelMap modelMap,
                      HttpSession session, String submitCode) {
         String code = (String) session.getAttribute("validCode");
-        if(code==null){
+        if (code == null) {
             return "error";
         }
         if (StringUtils.isEmpty(submitCode) || !StringUtils.equals(code.toLowerCase(), submitCode.toLowerCase())) {
@@ -49,11 +49,11 @@ public class BlogUsersController {
         BlogUsers user = iBlogUsersService.selectForLogin(blogUsers);
         if (user != null) {
             session.setAttribute("logUser", user);
-            if(moudule.equals("head")){
+            if (moudule.equals("head")) {
                 return true;
-            }else if(moudule.equals("admin")){
+            } else if (moudule.equals("admin")) {
                 return true;
-            }else if(moudule.equals("reg")){
+            } else if (moudule.equals("reg")) {
                 return true;
             }
         }
@@ -61,11 +61,11 @@ public class BlogUsersController {
     }
 
     @RequestMapping(value = {"/login/{moudule}"}, method = {RequestMethod.POST, RequestMethod.GET})
-    public String login(BlogUsers blogUsers,@PathVariable String moudule, ModelMap modelMap,
+    public String login(BlogUsers blogUsers, @PathVariable String moudule, ModelMap modelMap,
                         HttpSession session, String submitCode) {
 
         String code = (String) session.getAttribute("validCode");
-        if(code==null){
+        if (code == null) {
             return "redirect:index.jsp";
         }
         if (StringUtils.isEmpty(submitCode) || !StringUtils.equals(code.toLowerCase(), submitCode.toLowerCase())) {
@@ -75,49 +75,49 @@ public class BlogUsersController {
         BlogUsers user = iBlogUsersService.selectForLogin(blogUsers);
         if (user != null) {
             session.setAttribute("logUser", user);
-            if(moudule.equals("head")){
+            if (moudule.equals("head")) {
                 return getReturn();
-            }else if(moudule.equals("admin")){
+            } else if (moudule.equals("admin")) {
                 return "redirect:/article/query";
             }
         }
         return getReturn();
     }
 
-    public String getReturn(){
+    public String getReturn() {
         String returnStr = "redirect:index.jsp";
         //http://localhost:8901/myblog/login.jsp
         String header_referer = request.getHeader("Referer");
         /*有views和jsp的直接，没有的用redirect+""*/
         String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();//http://localhost:8901
-        String url2 =  request.getServletPath();///user/login/head
+        String url2 = request.getServletPath();///user/login/head
         if (request.getQueryString() != null) {
             url += "?" + request.getQueryString();
         }
         String contextPath = request.getContextPath();///myblog
-        String head = url+contextPath;
+        String head = url + contextPath;
         boolean isContainViews = false;
         boolean isContainJsp = false;
-        if(header_referer.contains("views")){
+        if (header_referer.contains("views")) {
             isContainViews = true;
             //header_referer = header_referer.replace("/views","");
         }
-        if(header_referer.endsWith(".jsp")){
+        if (header_referer.endsWith(".jsp")) {
             isContainJsp = true;
             //header_referer = StringUtils.substringBetween(header_referer, contextPath, ".jsp");
         }/*else{
             header_referer = header_referer.substring(head.length(), header_referer.length());
         }*/
-        if(isContainViews&&isContainJsp){
-            header_referer = header_referer.replace("/views","");
+        if (isContainViews && isContainJsp) {
+            header_referer = header_referer.replace("/views", "");
             header_referer = StringUtils.substringBetween(header_referer, contextPath, ".jsp");
-            returnStr =   header_referer;
-        }else if(isContainJsp){
+            returnStr = header_referer;
+        } else if (isContainJsp) {
             header_referer = StringUtils.substringBetween(header_referer, contextPath, ".jsp");
-            returnStr =  ".."+header_referer;
-        }else if(!isContainViews&&!isContainJsp){
+            returnStr = ".." + header_referer;
+        } else if (!isContainViews && !isContainJsp) {
             header_referer = header_referer.substring(head.length(), header_referer.length());
-            returnStr = "redirect:"+header_referer;
+            returnStr = "redirect:" + header_referer;
         }
         return returnStr;
     }
@@ -146,20 +146,20 @@ public class BlogUsersController {
         }
     }
 
-    @RequestMapping(value = {"/reg"},produces = "text/plain;charset=utf-8")
+    @RequestMapping(value = {"/reg"}, produces = "text/plain;charset=utf-8")
     public @ResponseBody
-    String addBlogUser(BlogUsers user , HttpSession session) {
-        if(user.getUserPassword().length()<5||user.getUserPassword().length()>50){
+    String addBlogUser(BlogUsers user, HttpSession session) {
+        if (user.getUserPassword().length() < 5 || user.getUserPassword().length() > 50) {
             return LoginConstant.REG_ERROR_MESSAGE_USERPASSWORD;
         }
         user.setUserType(2);
         user.setUserImageUrl("user/img/common-20180225-155739.jpg");
         String info = iBlogUsersService.addBlogUser(user);
-        if("success".equals(info)){
-            this.loginMethod(user,"reg",session);
+        if ("success".equals(info)) {
+            this.loginMethod(user, "reg", session);
         }
         //如果第二次插入的
-        return  info;
+        return info;
     }
 
     @RequestMapping("/queryAll")
@@ -210,8 +210,8 @@ public class BlogUsersController {
     }
 
     @RequestMapping("/selectUserById/{userId}/{moudule}")
-    public String selectUserById(@PathVariable String userId,@PathVariable String moudule, ModelMap modelMap) {
-        if(userId==null||userId.equals("undefined")){
+    public String selectUserById(@PathVariable String userId, @PathVariable String moudule, ModelMap modelMap) {
+        if (userId == null || userId.equals("undefined")) {
             return "../home";
         }
         int id = Integer.valueOf(userId);// java.lang.NumberFormatException: For input string: "undefined"
@@ -222,54 +222,57 @@ public class BlogUsersController {
         BlogUsers user = iBlogUsersService.selectUserById(id);
 
         modelMap.addAttribute("user", user);
-        if(moudule.equals("showMe")){
+        if (moudule.equals("showMe")) {
             return "model2";
-        }else if(moudule.equals("showUser")){
+        } else if (moudule.equals("showUser")) {
             return "model";
-        }else if(moudule.equals("uptPic")){
+        } else if (moudule.equals("uptPic")) {
             return "model3";
-        }else {
+        } else {
             return "model4";
         }
     }
+
     @RequestMapping("/updateUser")
-    public @ResponseBody Map<String , Object> updateUser(BlogUsers user) {
+    public @ResponseBody
+    Map<String, Object> updateUser(BlogUsers user) {
         //判断用户名不能相同
-        return getStringObjectMap(user,"updateUser");
+        return getStringObjectMap(user, "updateUser");
     }
 
     @RequestMapping(value = {"/showMe"}, method = {RequestMethod.POST, RequestMethod.GET})
     public String showMe(ModelMap modelMap,
                          HttpSession session) {
         BlogUsers user = (BlogUsers) session.getAttribute("logUser");
-        if(user!=null){
+        if (user != null) {
             BlogUsers curUser = iBlogUsersService.selectUserById(user.getUserId());
-            modelMap.addAttribute("curUser",curUser);
+            modelMap.addAttribute("curUser", curUser);
         }
         return "edit_profile";
     }
 
     @RequestMapping("/uptMyInfo")
-    public @ResponseBody Map<String , Object> uptMyInfo(BlogUsers user) {
+    public @ResponseBody
+    Map<String, Object> uptMyInfo(BlogUsers user) {
         //判断用户名不能相同
-        return getStringObjectMap(user,"uptMyInfo");
+        return getStringObjectMap(user, "uptMyInfo");
     }
 
     public Map<String, Object> getStringObjectMap(BlogUsers user, String moudule) {
         this.iBlogUsersService.updateUser(user);
         //如果第二次插入的
-        Map<String , Object> map = new HashMap<String ,Object>();
-        map.put("userId",user.getUserId());
-        map.put("userName",user.getUserName());
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("userId", user.getUserId());
+        map.put("userName", user.getUserName());
         map.put("userNickname", user.getUserNickname());
         map.put("userEmail", user.getUserEmail());
         map.put("userMobile", user.getUserMobile());
         map.put("eduBackground", user.getEduBackground());
         map.put("userProfile", user.getUserProfile());
-        if(moudule.equals("uptMyInfo")){
-            map.put("userSex",user.getUserSex());
-            map.put("userBirthday",user.getUserBirthday());
-            map.put("userAddress",user.getUserAddress());
+        if (moudule.equals("uptMyInfo")) {
+            map.put("userSex", user.getUserSex());
+            map.put("userBirthday", user.getUserBirthday());
+            map.put("userAddress", user.getUserAddress());
         }
         return map;
     }

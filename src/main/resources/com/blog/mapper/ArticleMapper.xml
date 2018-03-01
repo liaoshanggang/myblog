@@ -1,90 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blog.mapper.ArticleMapper">
-	<!-- 表中有外键，这个表一定是多方！！ -->
-	<!-- 文章是多方，类别是一方 对于文章，是一对一类别，采用association 查询出来的是文章（类别） 对于类别，是多对一文章，采用collection,查询出来的是类别（List文章） -->
-	<resultMap id="baseResultMap" type="com.blog.vo.Article">
-		<id column="ARTI_ID" jdbcType="INTEGER" property="artiId" />
-		<result column="ARTI_TITLE" jdbcType="VARCHAR" property="artiTitle" />
-		<result column="ARTI_CATG_ID" jdbcType="INTEGER" property="artiCatgId" />
-		<result column="ARTI_USER_ID" jdbcType="INTEGER" property="artiUserId" />
-		<result column="ARTI_TIME" jdbcType="TIMESTAMP" property="artiTime" />
-		<result column="ARTI_COMT_NUMBER" jdbcType="INTEGER" property="artiComtNumber" />
-		<result column="ARTI_PAGE_VIEW" jdbcType="INTEGER" property="artiPageView" />
-		<result column="ARTI_CONTENT" jdbcType="CLOB" property="artiContent" />
-		<association property="category" javaType="artiCategory"
-		column="CATG_ID" columnPrefix="so_">
-			<id column="CATG_ID" jdbcType="INTEGER" property="catgId" />
-			<result column="CATG_NAME" jdbcType="VARCHAR" property="catgName" />
-		</association>
-	</resultMap>
-	<!-- <resultMap extends="baseResultMap" id="ResultMapWithBLOBs"
-		type="com.blog.vo.Article">
-		<result column="ARTI_CONTENT" jdbcType="CLOB" property="artiContent" />
-	</resultMap> -->
+    <!-- 表中有外键，这个表一定是多方！！ -->
+    <!-- 文章是多方，类别是一方 对于文章，是一对一类别，采用association 查询出来的是文章（类别） 对于类别，是多对一文章，采用collection,查询出来的是类别（List文章） -->
+    <resultMap id="baseResultMap" type="com.blog.vo.Article">
+        <id column="ARTI_ID" jdbcType="INTEGER" property="artiId"/>
+        <result column="ARTI_TITLE" jdbcType="VARCHAR" property="artiTitle"/>
+        <result column="ARTI_CATG_ID" jdbcType="INTEGER" property="artiCatgId"/>
+        <result column="ARTI_USER_ID" jdbcType="INTEGER" property="artiUserId"/>
+        <result column="ARTI_TIME" jdbcType="TIMESTAMP" property="artiTime"/>
+        <result column="ARTI_COMT_NUMBER" jdbcType="INTEGER" property="artiComtNumber"/>
+        <result column="ARTI_PAGE_VIEW" jdbcType="INTEGER" property="artiPageView"/>
+        <result column="ARTI_CONTENT" jdbcType="CLOB" property="artiContent"/>
+        <association property="category" javaType="artiCategory"
+                     column="CATG_ID" columnPrefix="so_">
+            <id column="CATG_ID" jdbcType="INTEGER" property="catgId"/>
+            <result column="CATG_NAME" jdbcType="VARCHAR" property="catgName"/>
+        </association>
+    </resultMap>
+    <!-- <resultMap extends="baseResultMap" id="ResultMapWithBLOBs"
+        type="com.blog.vo.Article">
+        <result column="ARTI_CONTENT" jdbcType="CLOB" property="artiContent" />
+    </resultMap> -->
 
-	<!-- 根据文章类别 ，标题，内容，日期查询 -->
-	<sql id="where_selective">
-		<where>
-		q.arti_catg_id=o.CATG_ID
-			<if test="queryObject.artiCatgId  !=null">
-				and ARTI_CATG_ID=#{queryObject.artiCatgId }
-			</if>
-			<if
-				test="queryObject.artiTitle !=null and queryObject.artiTitle.trim().length>0">
-				<bind name="pattern1" value="'%'+ queryObject.artiTitle+'%'" />
-				and ARTI_TITLE like #{pattern1}
-			</if>
-			<if
-				test="queryObject.artiContent !=null and queryObject.artiContent.trim().length>0">
-				<bind name="pattern2" value="'%'+ queryObject.artiContent+'%'" />
-				and ARTI_CONTENT like #{pattern2}
-			</if>
-			<if test="keyWords !=null and keyWords.trim().length>0">
-				and instr(q.ARTI_TITLE ||q.ARTI_CONTENT, #{keyWords})>0
-			</if>
-			<!-- <if
-				test="queryObject.beginDate !=null and queryObject.beginDate.trim().length>0">
-			and ARTI_TIME &gt;=  to_date(#{queryObject.beginDate},'yyyy-MM-dd hh24:mi:ss')  
-			</if>
-			<if
-				test="queryObject.endDate !=null and queryObject.endDate.trim().length>0">
-				and ARTI_TIME &lt;=  to_date(#{queryObject.endDate},'yyyy-MM-dd hh24:mi:ss')  
-			</if>  -->
-			<if
-				test="queryObject.beginDate !=null and queryObject.beginDate.trim().length>0">
-			<![CDATA[and ARTI_TIME>=to_timestamp(#{queryObject.beginDate},'yyyy-MM-dd hh24:mi:ss')]]>
-			</if>
-			<if
-				test="queryObject.endDate !=null and queryObject.endDate.trim().length>0">
-				<![CDATA[and ARTI_TIME<=to_timestamp(#{queryObject.endDate},'yyyy-MM-dd hh24:mi:ss')]]>
-			</if>
-		</where>
-	</sql>
+    <!-- 根据文章类别 ，标题，内容，日期查询 -->
+    <sql id="where_selective">
+        <where>
+            q.arti_catg_id=o.CATG_ID
+            <if test="queryObject.artiCatgId  !=null">
+                and ARTI_CATG_ID=#{queryObject.artiCatgId }
+            </if>
+            <if
+                    test="queryObject.artiTitle !=null and queryObject.artiTitle.trim().length>0">
+                <bind name="pattern1" value="'%'+ queryObject.artiTitle+'%'"/>
+                and ARTI_TITLE like #{pattern1}
+            </if>
+            <if
+                    test="queryObject.artiContent !=null and queryObject.artiContent.trim().length>0">
+                <bind name="pattern2" value="'%'+ queryObject.artiContent+'%'"/>
+                and ARTI_CONTENT like #{pattern2}
+            </if>
+            <if test="keyWords !=null and keyWords.trim().length>0">
+                and instr(q.ARTI_TITLE ||q.ARTI_CONTENT, #{keyWords})>0
+            </if>
+            <!-- <if
+                test="queryObject.beginDate !=null and queryObject.beginDate.trim().length>0">
+            and ARTI_TIME &gt;=  to_date(#{queryObject.beginDate},'yyyy-MM-dd hh24:mi:ss')
+            </if>
+            <if
+                test="queryObject.endDate !=null and queryObject.endDate.trim().length>0">
+                and ARTI_TIME &lt;=  to_date(#{queryObject.endDate},'yyyy-MM-dd hh24:mi:ss')
+            </if>  -->
+            <if
+                    test="queryObject.beginDate !=null and queryObject.beginDate.trim().length>0">
+                <![CDATA[and ARTI_TIME>=to_timestamp(#{queryObject.beginDate},'yyyy-MM-dd hh24:mi:ss')]]>
+            </if>
+            <if
+                    test="queryObject.endDate !=null and queryObject.endDate.trim().length>0">
+                <![CDATA[and ARTI_TIME<=to_timestamp(#{queryObject.endDate},'yyyy-MM-dd hh24:mi:ss')]]>
+            </if>
+        </where>
+    </sql>
 
-	<select id="selectSelective" parameterType="page" resultMap="baseResultMap">
-		select * from (
-		select a.*,rownum rn from (
-		select q.ARTI_TITLE ||q.ARTI_CONTENT,q.*,
-		CATG_ID so_CATG_ID,
-		CATG_NAME so_CATG_NAME
-		from article
-		q,arti_category o
-		<!-- SVR_CREATE_DATE BETWEEN to_date(#{beginDate}) AND to_date(#{endDate}) -->
-		<include refid="where_selective" />
-		ORDER BY ARTI_TIME DESC
-		) a where <![CDATA[rownum<=#{lastIndex}]]>
-		) where rn>=#{firstIndex}
-	</select>
-	<!-- 根据服务搜索信息查找服务信息记录数 -->
-	<select id="countForSelective" parameterType="page" resultType="int">
-		select count(q.ARTI_ID) from article
-		q,arti_category o
-		<include refid="where_selective" />
-		ORDER BY ARTI_TIME DESC
-	</select>
+    <select id="selectSelective" parameterType="page" resultMap="baseResultMap">
+        select * from (
+        select a.*,rownum rn from (
+        select q.ARTI_TITLE ||q.ARTI_CONTENT,q.*,
+        CATG_ID so_CATG_ID,
+        CATG_NAME so_CATG_NAME
+        from article
+        q,arti_category o
+        <!-- SVR_CREATE_DATE BETWEEN to_date(#{beginDate}) AND to_date(#{endDate}) -->
+        <include refid="where_selective"/>
+        ORDER BY ARTI_TIME DESC
+        ) a where <![CDATA[rownum<=#{lastIndex}]]>
+        ) where rn>=#{firstIndex}
+    </select>
+    <!-- 根据服务搜索信息查找服务信息记录数 -->
+    <select id="countForSelective" parameterType="page" resultType="int">
+        select count(q.ARTI_ID) from article
+        q,arti_category o
+        <include refid="where_selective"/>
+        ORDER BY ARTI_TIME DESC
+    </select>
 
-	<insert id="addArticle" parameterType="article">
+    <insert id="addArticle" parameterType="article">
 		insert into ARTICLE
 		(ARTI_ID, ARTI_TITLE, ARTI_CATG_ID,
 		ARTI_USER_ID, ARTI_TIME,
@@ -97,42 +97,43 @@
 		sysdate, #{artiComtNumber,jdbcType=INTEGER},
 		#{artiPageView,jdbcType=INTEGER}, #{artiContent,jdbcType=CLOB})
 	</insert>
-	
-	<delete id="deleteArticleById" parameterType="int">
+
+    <delete id="deleteArticleById" parameterType="int">
 		delete
 		ARTICLE
 		where ARTI_ID=#{artiId}
 	</delete>
-	<!--/*select * from ARTICLE where ARTI_ID = #{artiId}*/-->
-	<select id="selectArticleById" parameterType="int" resultMap="baseResultMap">
+    <!--/*select * from ARTICLE where ARTI_ID = #{artiId}*/-->
+    <select id="selectArticleById" parameterType="int" resultMap="baseResultMap">
 
 		select q.*,CATG_ID so_CATG_ID,
 		CATG_NAME so_CATG_NAME from ARTICLE q,arti_category o where q.arti_catg_id=o.CATG_ID AND ARTI_ID = #{artiId}
 	</select>
 
-	<update id="updateArticleById" parameterType="article">
-		update ARTICLE
-		<trim prefix="SET" suffixOverrides=",">
-			<if test="artiTitle != null">ARTI_TITLE=#{artiTitle},</if>
-			<if test="artiCatgId != null">ARTI_CATG_ID=#{artiCatgId},</if>
-			<if test="artiContent != null">ARTI_CONTENT=#{artiContent},</if>
-			<if test="artiPageView != null">ARTI_PAGE_VIEW=#{artiPageView},</if>
-			<if test="artiComtNumber != null">ARTI_COMT_NUMBER=#{artiComtNumber},</if>
-		</trim>
-		where ARTI_ID=#{artiId}
-	</update>
+    <update id="updateArticleById" parameterType="article">
+        update ARTICLE
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="artiTitle != null">ARTI_TITLE=#{artiTitle},</if>
+            <if test="artiCatgId != null">ARTI_CATG_ID=#{artiCatgId},</if>
+            <if test="artiContent != null">ARTI_CONTENT=#{artiContent},</if>
+            <if test="artiPageView != null">ARTI_PAGE_VIEW=#{artiPageView},</if>
+            <if test="artiComtNumber != null">ARTI_COMT_NUMBER=#{artiComtNumber},</if>
+        </trim>
+        where ARTI_ID=#{artiId}
+    </update>
 
-	<!--根据文章类别id更新-->
-	<update id="updateById" parameterType="article">
-		update ARTICLE
-		<trim prefix="SET" suffixOverrides=",">ARTI_CATG_ID=#{artiId,jdbcType=INTEGER},
-		</trim>
-		where ARTI_CATG_ID=#{artiCatgId}
-	</update>
+    <!--根据文章类别id更新-->
+    <update id="updateById" parameterType="article">
+        update ARTICLE
+        <trim prefix="SET" suffixOverrides=",">ARTI_CATG_ID=#{artiId,jdbcType=INTEGER},
+        </trim>
+        where ARTI_CATG_ID=#{artiCatgId}
+    </update>
 
-	<!--根据浏览量查询前10条记录-->
-	<select id="selectHotArticles" resultMap="baseResultMap">
+    <!--根据浏览量查询前10条记录-->
+    <select id="selectHotArticles" resultMap="baseResultMap">
 		SELECT * FROM (SELECT a.* , ROWNUM rn FROM ARTICLE a ORDER BY a.ARTI_PAGE_VIEW DESC ) WHERE
-		 <![CDATA[ rn <= 10 ]]>
-	</select>
+		 <![CDATA[ rn <= 10
+        ]]>
+    </select>
 </mapper>

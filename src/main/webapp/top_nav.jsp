@@ -109,7 +109,8 @@
             %>
             <li><a href="user/logOff"> <i class="fa fa-sign-out"></i> 注销
             </a></li>
-            <li><a href="user/showMe"> <img alt="image" class="img-circle" id="headImg" style="width: 35px;height: 35px;" src="../<%=user.getUserImageUrl()%>">
+            <li><a href="user/showMe"> <img alt="image" class="img-circle" id="headImg"
+                                            style="width: 35px;height: 35px;" src="../<%=user.getUserImageUrl()%>">
             </a></li>
             <%
             } else {
