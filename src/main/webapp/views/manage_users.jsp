@@ -184,9 +184,9 @@
 <!-- Sweet alert -->
 <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
 <script>
-    $(document).ready(function () {
+    $(function () {
         $('input').iCheck({
-            checkboxClass: 'icheckbox_square-green',
+            checkboxClass: 'icheckbox_square-green'
         });
         enableBatchBtn();
         //全选、反选
@@ -250,10 +250,10 @@
     function enableBatchBtn() {
 
         if ($('table div.icheckbox_square-green.checked').size() < 1) {
-            //console.info("0");
+            console.info("0");
             $("#batchDelBtn").attr("disabled", true);
         } else {
-            //console.info("1");
+            console.info("1");
             $("#batchDelBtn").attr("disabled", false);
         }
     }
@@ -269,7 +269,7 @@
             }
         }
         if (len == 0) {
-            alert("请选择要删除的用户信息！");
+            success("请选择要删除的用户信息！");
             return;
         }
         var ids = [];//存所有选中id的值

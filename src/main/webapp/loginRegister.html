@@ -139,6 +139,9 @@
 
     function modal() {
         $('#myModel3').on('shown.bs.modal', function (e) {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-green'
+            });
 // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
             $(this).css('display', 'block');
             var modalHeight = $(window).height() / 2 - $('#myModel3 .modal-dialog').height() / 2;
@@ -241,7 +244,14 @@
         //console.info($(aa).prev());
         $(aa).prev().attr("src", "user/code?r=" + new Date().getTime());
     }
-
+    $(document).ready(function () {
+        /*$('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green'
+        });*/
+        /*$('input').iCheck({
+            checkboxClass: 'icheckbox_square-green'
+        });*/
+    });
 
     //注册
     $("#agreeCB").on('ifChecked', function () {
@@ -359,14 +369,4 @@
         toastr.info(msg);
     }
 </script>
-<script>
-    $(document).ready(function () {
-        /*$('.i-checks').iCheck({
-            checkboxClass: 'icheckbox_square-green',
-            radioClass: 'iradio_square-green',
-        });*/
-        $('input').iCheck({
-            checkboxClass: 'icheckbox_square-green',
-        });
-    });
-</script>
+
