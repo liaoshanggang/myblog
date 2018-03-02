@@ -27,7 +27,7 @@
     <%@include file="../js-common.jsp" %>
     <!-- Nestable List -->
     <script src="js/plugins/nestable/jquery.nestable.js"></script>
-    <title>前台主页</title>
+    <title>${article.artiTitle }</title>
     <script>
         window.onbeforeunload = function () {
             var scrollPos;
@@ -150,13 +150,24 @@
                                 <div class="detailInfo">${article.artiContent }
                                     <div class="post-copyright">
                                         <p>转载请注明：
-                                            <a href="">一个看起来不像博客的博客</a> » <a href="">${article.artiTitle }</a>
+                                            <a href="article/queryById/${article.artiId }/detail">一个看起来不像博客的博客</a> »
+                                            <a href="article/queryById/${article.artiId }/detail">${article.artiTitle }</a>
                                         </p>
                                     </div>
-                                    <div class="small pull-left">
-                                        <button class="btn btn-xs btn-white"><i
+                                    <div class="small pull-left">分享到：
+                                        <div class="bdsharebuttonbox">
+                                            <a href="#" class="bds_more" data-cmd="more"></a>
+                                            <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+                                            <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                            <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+                                            <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                            <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                            <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">
+                                            </a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+                                        </div>
+                                        <%--<button class="btn btn-xs btn-white"><i
                                                 class="fa fa-share" ></i> Share
-                                        </button>
+                                        </button>--%>
                                     </div>
                                     <div class="small pull-right">
                                         标签：
@@ -178,7 +189,7 @@
                                 <div class="row">
                                     <div class="social-avatar" style="background-color: #F7F7F7;">
                                         <h3>
-                                            <a href="#">
+                                            <a href="javascript:void(0);">
                                                 ${logUser.userName}
                                             </a><span>发表我的评论</span></h3>
                                     </div>
@@ -206,7 +217,7 @@
                                         <c:forEach var="comment" items="${commentList}" varStatus="status">
                                             <div class="social-feed-box">
                                                 <div class="social-avatar">
-                                                    <a href="" class="pull-left">
+                                                    <a href="javascript:void(0);" class="pull-left">
                                                         <img alt="评论者头像" class="img-circle"
                                                              src="../${comment.getBlogUsers().getUserImageUrl()}">
                                                     </a>
@@ -224,7 +235,7 @@
                                                                     type="button" value="${comment.comtId}">删除
                                                             </button>
                                                         </div>
-                                                        <a href="#">${comment.getBlogUsers().getUserName()}</a>
+                                                        <a href="javascript:void(0);">${comment.getBlogUsers().getUserName()}</a>
                                                         <small class="text-muted">
                                                             <fmt:formatDate value='${comment.comtTime}'
                                                                             pattern='yyyy-MM-dd HH:mm:ss'/> 评论：
@@ -244,12 +255,12 @@
                                                                             type="button" value="${reply.replyId}">删除
                                                                     </button>
                                                                 </div>
-                                                                <a href="" class="pull-left">
+                                                                <a href="javascript:void(0);" class="pull-left">
                                                                     <img alt="回复者头像" class="img-circle"
                                                                          src="../${reply.getBu().getUserImageUrl()}">
                                                                 </a>
                                                                 <div class="media-body">
-                                                                    <a href="#">${reply.getBu().getUserName()}</a>
+                                                                    <a href="javascript:void(0);">${reply.getBu().getUserName()}</a>
                                                                     <small class="text-muted"><fmt:formatDate
                                                                             value='${reply.replyTime}'
                                                                             pattern='yyyy-MM-dd HH:mm:ss'/> 回复：
@@ -567,6 +578,7 @@
     })
 </script>
 <!-- 底部 -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","weixin","sqq","renren","copy"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","weixin","sqq","renren","copy"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
 </body>
 
 </html>
