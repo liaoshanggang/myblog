@@ -11,4 +11,5 @@ public interface IVisitorService {
 
     Integer countPageViewByAid(Visitor visitor);
 
+    boolean countArticleThumbUp(Visitor visitor);
 }

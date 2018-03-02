@@ -74,7 +74,7 @@
             padding: 6px 15px 5px;
             border-radius: 2px;
             text-align: center;
-            margin-top: 10px;
+            margin: 10px 0px;
         }
 
         .post-copyright a {
@@ -86,16 +86,28 @@
             max-width: 100%;
             border-top: #E6E6E6 1px solid;
             border-bottom: #E6E6E6 1px solid;
-            padding: 10px;
-
-            white-space: pre-wrap;
+            padding: 20px 0px 5px 0px;
+            margin: 20px 0px;
             word-wrap: break-word;
-            /*height: 5em;*/
-            /*margin: 1em;*/
-            /*overflow:hidden;*/
         }
+
+        /*white-space: pre-wrap;*/
+        /*height: 5em;*/
+        /*margin: 1em;*/
+        /*overflow:hidden;*/
         .social-feed-box a{
             href:"javascript:void(0)";
+        }
+        .post-like{
+            margin-top:45px;
+            padding: 10px;
+        }
+        .post-like a{
+            padding:10px 10px 5px 20px;
+            background-color:#eb5745;
+            border-radius:4px;
+            color: #FFFFFF;text-decoration: none;
+            outline: none;
         }
     </style>
 </head>
@@ -122,8 +134,8 @@
                         <!-- 博客全文开始 -->
                         <div class="ibox">
                             <div class="ibox-content">
-                                <div class="text-center article-title" style="width:100%;word-wrap: break-word">
-                                    <h1 id="title"> ${article.artiTitle }
+                                <div class="text-center" style="width:100%;word-wrap: break-word">
+                                    <h1 id=""> ${article.artiTitle }
                                     </h1>
                                     <span class="text-muted pull-center">
                                         <i class="fa fa-clock-o"><fmt:formatDate value='${article.artiTime}'
@@ -135,33 +147,34 @@
                                      </span>
                                 </div>
                                 <!-- <div style="overflow:auto"> -->
-                                <hr>
                                 <div class="detailInfo">${article.artiContent }
+                                    <div class="post-copyright">
+                                        <p>转载请注明：
+                                            <a href="">一个看起来不像博客的博客</a> » <a href="">${article.artiTitle }</a>
+                                        </p>
+                                    </div>
+                                    <div class="small pull-left">
+                                        <button class="btn btn-xs btn-white"><i
+                                                class="fa fa-share" ></i> Share
+                                        </button>
+                                    </div>
+                                    <div class="small pull-right">
+                                        标签：
+                                        <button class="btn btn-white btn-xs" type="button">模型
+                                        </button>
+                                        <button class="btn btn-white btn-xs" type="button">出版
+                                        </button>
+                                        <button class="btn btn-white btn-xs" type="button">现代
+                                        </button>
+                                    </div>
+                                    <div class="pull-center text-center post-like">
+                                        <a href="javascript:void(0);" class="btn-lg" id="thumbUp">
+                                        <i class="fa fa-thumbs-up"style="font-size:30px;"></i>
+                                            赞（<span id="thumbUpNum" name="${thumbUpNum}">${thumbUpNum}</span>）
+                                    </a>
+                                    </div>
                                 </div>
-                                <hr>
-                                <div class="post-copyright">
-                                    <p>转载请注明：
-                                        <a href="">一个看起来不像博客的博客</a> » <a href="">${article.artiTitle }</a>
-                                    </p>
-                                </div>
-                                <div class="small text-left">
-                                    <button class="btn btn-md btn-white"><i
-                                            class="fa fa-share"></i> Share
-                                    </button>
-                                </div>
-                                <div class="small text-right">
-                                    标签：
-                                    <button class="btn btn-white btn-xs" type="button">模型
-                                    </button>
-                                    <button class="btn btn-white btn-xs" type="button">出版
-                                    </button>
-                                    <button class="btn btn-white btn-xs" type="button">现代
-                                    </button>
-                                </div>
-                                <hr>
-                                <div class="pull-center text-center"><a class="btn btn-lg btn-white">
-                                    <i class="fa fa-thumbs-up"></i>赞（10）
-                                </a></div>
+
                                 <div class="row">
                                     <div class="social-avatar" style="background-color: #F7F7F7;">
                                         <h3>
@@ -170,11 +183,11 @@
                                             </a><span>发表我的评论</span></h3>
                                     </div>
                                     <div class="social-body">
-                                        <form action="" name="a1" id="commentForm"><%--javascript:void(0);--%>
+                                        <form action="" method="post" name="a1" id="commentForm"><%--javascript:void(0);--%>
                                             <input type="hidden" class="form-control" name="comtArtiId"
                                                    value="${article.artiId}"/>
                                             <textarea class="form-control" name="comtContent" placeholder="写点什么..."
-                                                      required></textarea>
+                                                      required="required"></textarea>
                                             <button id="addComment" class="form-control btn btn-white"
                                                     style="background-color: #F8F8F8;" name="${commentPage.pageNo}">提交评论
                                             </button>
@@ -182,7 +195,7 @@
                                     </div>
                                 </div>
 
-                                网友最新评论 (${commentPage.getTotalRow()})<input class="pull-right btn btn-white"
+                                网友最新互动 (${commentPage.getTotalRow()})<input class="pull-right btn btn-white"
                                                                             type="button" id="toggle"
                                                                             value="隐藏>>>回复<<<">
                                 <hr>
@@ -205,7 +218,7 @@
                                                             <button class="btn btn-white btn-xs showReplyInput "
                                                                     value="${comment.comtId}"
                                                                     name="${commentPage.pageNo}">
-                                                                <i class="fa fa-comments"></i> <span>回复</span>
+                                                                <i class="fa fa-comments"></i> <span class="showR">回复</span>
                                                             </button>
                                                             <button class="btn btn-danger btn-outline btn-xs delComment"
                                                                     type="button" value="${comment.comtId}">删除
@@ -367,7 +380,42 @@
             $(".toggleReply").hide().fadeOut(1000);
         }
     });
+    var hasThumbUp = false;
+    $('#thumbUp').click(function () {
+        if(hasThumbUp){
+            success("你已赞过该文章了");
+            return ;
+        }
+        var artiId = $("[name='comtArtiId']").val();
+        var json = {artiId: artiId};
+        console.info(artiId);
+        $.ajax({
+            url: "visitor/thumbUp",
+            type: "post",
+            data: json,
+            //dataType: "json",
+            success: function (result) {
+                console.info(typeof(result)+result);
+                if(result!="error"){
+                    hasThumbUp = false;
+                    $("#thumbUpNum").text(result);
+                } else{
+                    $("#thumbUp").css("cursor","not-allowed");
+                    hasThumbUp = true;
+                    success("你已赞过该文章了");
+                }
+            },
+            error: function () {
+                alert("失败");
+            }
+        });
+    });
+
     $('#addComment').click(function () {
+        if(!$("[name='comtContent']").text()){
+            //success("请填写评论内容！");
+            return ;
+        }
         var data = $('#commentForm').serialize();
         console.log("序列化" + data);
         $.ajax({
@@ -390,6 +438,7 @@
         var span = $(this).find("span");
         var reply = span.text();
         if (reply == "回复") {
+            $(".showR").text("回复");//点当前回复时把其他取消回复变为回复
             span.text("取消回复");
         } else {
             span.text("回复");
@@ -401,7 +450,7 @@
         $(".show").empty();
         $('#showInput' + replyComtId).empty();
         $('#showInput' + replyComtId).append("<div class=\"social-body\">\n" +
-            "    <form action=\"javascript:void(0);\" name=\"a1\" id=\"replyForm\"><%--javascript:void(0);--%>\n" +
+            "    <form action=\"\" name=\"a1\" id=\"replyForm\"><%--javascript:void(0);--%>\n" +
             "        <input type=\"hidden\" class=\"form-control\" name=\"replyComtId\"\n" +
             "               value=\"" + replyComtId + "\"/>\n" +
             "        <input type=\"hidden\" class=\"form-control\" name=\"artiId\"\n" +
@@ -414,7 +463,10 @@
             "    </form>\n" +
             "</div><script>\n" +
             "    $('#addReply').click(function () {\n" +
-            "        var data = $('#replyForm').serialize();\n" +
+            "        if(!$(\"[name='replyContent']\").text()){\n" +
+            "            //success(\"请填写回复内容！\");\n" +
+            "            return ;\n" +
+            "        }var data = $('#replyForm').serialize();\n" +
             "        console.log(\"序列化\" + data);\n" +
             "        $.ajax({\n" +
             "            url: \"reply/add\",\n" +
@@ -462,6 +514,7 @@
                             //console.info(curTr);
                             curTr.remove();
                             success("删除成功！");
+                            location=location;
                         }
                     },
                     error: function () {
@@ -502,6 +555,7 @@
                             //console.info(curTr);
                             curTr.remove();
                             success("删除成功！");
+                            location=location;
                         }
                     },
                     error: function () {

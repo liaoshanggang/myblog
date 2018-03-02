@@ -7,7 +7,9 @@ import javax.annotation.Resource;
 
 import com.blog.service.IVisitorService;
 import com.blog.vo.Visitor;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.poi.util.SystemOutLogger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -25,6 +27,14 @@ public class TestArticleServiceImpl {
     IArticleService ias;
     @Resource
     IVisitorService ivs;
+
+    @Test
+    public void test(){
+        int i = 2;
+        String s = Integer.toString(i);
+        System.out.println(s);
+        logger.info(s);
+    }
 
     @Test
     public void testAddVisitor() {

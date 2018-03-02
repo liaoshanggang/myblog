@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.blog.service.ICommentService;
+import com.blog.service.IVisitorService;
 import com.blog.vo.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,8 @@ public class ArticleController {
     IArticleService iArticleService;
     @Resource
     ICommentService iCommentService;
+    @Resource
+    IVisitorService iVisitorService;
 
     @RequestMapping(value = {"/selectShowMore/{moudule}"}, method = {RequestMethod.POST, RequestMethod.GET})
     public @ResponseBody
@@ -164,9 +167,13 @@ public class ArticleController {
         article.setArtiId(artiId);
 
         String accessIp = getAccessIp();
-
-        Article article1 = iArticleService.selectArticleById(article, accessIp);
+        /*按点击次数计算访问量，不管ip是不是同一个*/
+        Article article1 = iArticleService.selectArticleById(article);
         modelMap.addAttribute("article", article1);
+        Visitor v = new Visitor();
+        v.setArtiId(artiId);
+        Integer thumbUpNum = iVisitorService.countPageViewByAid(v);
+        modelMap.addAttribute("thumbUpNum",thumbUpNum);
         logger.info(article1);
         if (moudule.equals("modify")) {
             logger.info(moudule);
