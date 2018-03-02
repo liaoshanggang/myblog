@@ -154,8 +154,9 @@
                                             <a href="article/queryById/${article.artiId }/detail">${article.artiTitle }</a>
                                         </p>
                                     </div>
-                                    <div class="small pull-left">分享到：
+                                    <div class="small pull-left">
                                         <div class="bdsharebuttonbox">
+                                            <span style="float:left;position: relative;top: 5px;">分享到：</span>
                                             <a href="#" class="bds_more" data-cmd="more"></a>
                                             <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
                                             <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
@@ -172,10 +173,6 @@
                                     <div class="small pull-right">
                                         标签：
                                         <button class="btn btn-white btn-xs" type="button">模型
-                                        </button>
-                                        <button class="btn btn-white btn-xs" type="button">出版
-                                        </button>
-                                        <button class="btn btn-white btn-xs" type="button">现代
                                         </button>
                                     </div>
                                     <div class="pull-center text-center post-like">
@@ -197,7 +194,7 @@
                                         <form action="" method="post" name="a1" id="commentForm"><%--javascript:void(0);--%>
                                             <input type="hidden" class="form-control" name="comtArtiId"
                                                    value="${article.artiId}"/>
-                                            <textarea class="form-control" name="comtContent" placeholder="写点什么..."
+                                            <textarea class="form-control" id="comtContent" name="comtContent" placeholder="写点什么..."
                                                       required="required"></textarea>
                                             <button id="addComment" class="form-control btn btn-white"
                                                     style="background-color: #F8F8F8;" name="${commentPage.pageNo}">提交评论
@@ -329,23 +326,66 @@
 
                     </div>
                     <%--博客栏结束--%>
-                    <div class="col-md-3" style="padding-left:0px;">
-                        <div class="panel">
-                            <div class="panel-heading">
-                                <h1>
-                                    <i class="fa fa-info-circle"></i><%--<a
-                                href="views/templet.jsp">后台管理主页</a>--%>
-                                </h1>
-                            </div>
-                            <div class="panel-body">
-                                <p>Lorem存有悲坐阿梅德，consectetur
-                                    adipiscing ELIT。前庭是租赁。
-                                    最新的足球教练池，并设置毕业分类宣传。
-                                </p>
-                            </div>
 
+                    <div class="col-md-3" style="padding-left:0px;">
+                        <div class="ibox" id="showBg">
+                            <div class="tabs-container">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#tab-4" aria-expanded="false">
+                                        <h3 class="font-bold">会员中心</h3></a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="tab-4" class="tab-pane active">
+                                        <div class="panel-body" style="padding: 10px;">
+                                            <p class="text-center">
+                                                <a href="javascript:void(0);alert('很抱歉，未实现QQ第三方登录！');"
+                                                   class="btn btn-white btn-md">
+                                                    <i class="fa fa-qq"></i> 网站用户 </a>
+                                                <a href="login.jsp" class="btn btn-white btn-md">
+                                                    <i class="fa fa-user-o"></i> 网站管理</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h3 class="font-bold no-margins">搜一下
+                                    <span class="pull-right">
+                                        <a href="search" target="_blank" class="btn-link">
+                                            <i><strong>前往</strong> <i class="fa fa-angle-double-right"></i></i>
+                                        </a>
+                                    </span></h3>
+                            </div>
+                            <div class="ibox-content" style="padding: 5px;">
+                                <div class="search-form">
+                                    <form action="showHome" method="get">
+                                        <div class="input-group">
+                                            <input type="text" placeholder="键入Enter键以搜索" name="keyWords"
+                                                   class="btn btn-facebook btn-outline form-control input-md">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-success btn-facebook btn-outline" type="submit">
+                                                    搜索
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h3 class="font-bold no-margins">热门文章</h3>
+                            </div>
+                            <div class="ibox-content no-padding" style="display: block;">
+                                <ul class="list-group" id="showHot">
+                                </ul>
+                            </div>
                         </div>
                     </div>
+
 
                 </div>
             </div>
@@ -359,6 +399,27 @@
 <script src="js/plugins/toastr/toastr.min.js"></script>
 <!-- Sweet alert -->
 <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+<script>
+    $(function () {
+        /*var logUser = "<%=session.getAttribute("logUser")%>";
+        //console.info(logUser+"类型"+typeof(logUser));
+        if (logUser == "null") {
+        } else {
+            $("#tab-4").children().children().empty().append("<a class='btn-link'><h3>欢迎来到我的博客！</h3><a>");
+        }*/
+
+        $.get("article/selectHot", function (data) {
+            var showHot = $("#showHot");
+            $.each(data, function (i, item) {
+                //console.info(item.artiId+"=="+item.artiTitle);
+                var option = $("<li class=\"title list-group-item\" style=\"padding-left:25px\"><a href=\"article/queryById/" + item.artiId + " /detail\"\n" +
+                    "  class=\"btn-link\">" + item.artiTitle + "</a></li>");
+                showHot.append(option);
+            });
+        }, "json");
+    })
+
+</script>
 <script type="text/javascript">
     $(function(){
         var logUser = "<%=session.getAttribute("logUser")%>";
@@ -376,9 +437,13 @@
         if(logUser!="null" && userType==1){
             $(".delComment").show();
             $(".delReply").show();
+            $("#showBg").empty();
+            $("#showBg").append("<div class=\"ibox-content\"><a class='' href=\"article/query\"><h1>\n" +
+                "<i class=\"fa fa-info-circle\"></i>管理文章</h1></a></div>");
         }else{
             $(".delComment").hide();
             $(".delReply").hide();
+            $("#tab-4").children().children().empty().append("<a class='btn-link'><h3>欢迎来到我的博客！</h3><a>");
         }
     })
     //展开
@@ -423,7 +488,7 @@
     });
 
     $('#addComment').click(function () {
-        if(!$("[name='comtContent']").text()){
+        if($("[name='comtContent']").text()==""){
             //success("请填写评论内容！");
             return ;
         }
@@ -474,7 +539,7 @@
             "    </form>\n" +
             "</div><script>\n" +
             "    $('#addReply').click(function () {\n" +
-            "        if(!$(\"[name='replyContent']\").text()){\n" +
+            "        if($(\"[name='replyContent']\").text()==''){\n" +
             "            //success(\"请填写回复内容！\");\n" +
             "            return ;\n" +
             "        }var data = $('#replyForm').serialize();\n" +
