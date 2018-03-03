@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blog.mapper.CollectMapper">
-
+    <resultMap id="baseResultMap" type="collect">
+        <id column="COLT_ID" jdbcType="INTEGER" property="coltId" />
+        <result column="COLT_USER_ID" jdbcType="INTEGER" property="coltUserId" />
+        <result column="COLT_TITLE" jdbcType="VARCHAR" property="coltTitle" />
+        <result column="LINK_URL" jdbcType="VARCHAR" property="linkUrl" />
+        <result column="COLT_DESCRIPTION" jdbcType="VARCHAR" property="coltDescription" />
+    </resultMap>
+    <select id="selectCollectByUserUrl" parameterType="collect" resultMap="baseResultMap">
+        select *
+        from COLLECTION
+        where COLT_USER_ID = #{coltUserId,jdbcType=INTEGER} and LINK_URL = #{linkUrl,jdbcType=VARCHAR}
+    </select>
+    <insert id="insertCollect" parameterType="collect">
+    insert into COLLECTION (COLT_ID, COLT_USER_ID, COLT_TITLE,
+      LINK_URL, COLT_DESCRIPTION)
+    values (COLLECTION_SEQ.nextval, #{coltUserId,jdbcType=INTEGER}, #{coltTitle,jdbcType=VARCHAR},
+      #{linkUrl,jdbcType=VARCHAR}, #{coltDescription,jdbcType=VARCHAR})
+  </insert>
 </mapper>

@@ -7,6 +7,10 @@
         <result column="VISITOR_IP" jdbcType="VARCHAR" property="visitorIp"/>
         <result column="ARTI_ID" jdbcType="INTEGER" property="artiId"/>
     </resultMap>
+    <!--根据文章id查找该访问者-->
+    <select id="selectVisitorByAidIp" parameterType="visitor" resultMap="baseResultMap">
+        select v.* from VISITOR v where v.ARTI_ID = #{artiId} and v.VISITOR_IP = #{visitorIp}
+    </select>
 
     <!--根据文章id查找该访问者-->
     <select id="selectVisitorByAid" parameterType="visitor" resultMap="baseResultMap">

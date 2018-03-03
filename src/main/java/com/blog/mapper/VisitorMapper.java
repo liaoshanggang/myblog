@@ -7,6 +7,7 @@ import java.util.List;
 
 @Repository
 public interface VisitorMapper {
+    Visitor selectVisitorByAidIp(Visitor visitor);
 
     List<Visitor> selectVisitorByAid(Visitor visitor);
 

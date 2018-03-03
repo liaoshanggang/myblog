@@ -33,7 +33,13 @@ public class VisitorServiceImpl implements IVisitorService {
 
     @Override
     public boolean countArticleThumbUp(Visitor v) {
-        List<Visitor> visitors = visitorMapper.selectVisitorByAid(v);
+        Visitor visitor = visitorMapper.selectVisitorByAidIp(v);
+        if(visitor==null){
+            visitorMapper.addVisitor(v);
+            return false;
+        }
+        return true;
+       /* List<Visitor> visitors = visitorMapper.selectVisitorByAid(v);
         boolean flag = false;
         String ip = v.getVisitorIp();
         int artiId = v.getArtiId();
@@ -52,6 +58,6 @@ public class VisitorServiceImpl implements IVisitorService {
                 visitorMapper.addVisitor(v);
             }
         }
-        return flag;
+        return flag;*/
     }
 }
