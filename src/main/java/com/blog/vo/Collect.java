@@ -1,11 +1,9 @@
 package com.blog.vo;
 
-import java.math.BigDecimal;
-
 public class Collect {
-    private BigDecimal coltId;
+    private Integer coltId;
 
-    private BigDecimal coltUserId;
+    private Integer coltUserId;
 
     private String coltTitle;
 
@@ -13,19 +11,19 @@ public class Collect {
 
     private String coltDescription;
 
-    public BigDecimal getColtId() {
+    public Integer getColtId() {
         return coltId;
     }
 
-    public void setColtId(BigDecimal coltId) {
+    public void setColtId(Integer coltId) {
         this.coltId = coltId;
     }
 
-    public BigDecimal getColtUserId() {
+    public Integer getColtUserId() {
         return coltUserId;
     }
 
-    public void setColtUserId(BigDecimal coltUserId) {
+    public void setColtUserId(Integer coltUserId) {
         this.coltUserId = coltUserId;
     }
 

@@ -171,8 +171,8 @@
                                         </button>--%>
                                     </div>
                                     <div class="small pull-right">
-                                        标签：
-                                        <button class="btn btn-white btn-xs" type="button">模型
+                                        <button class="btn btn-white btn-xs" type="button" id="addCollect">
+                                            <a><i class="fa fa-bookmark-o"></i>收藏</a>
                                         </button>
                                     </div>
                                     <div class="pull-center text-center post-like">
@@ -395,13 +395,72 @@
         <%@include file="../bottom.html" %>
     </div>
 </div>
+<style>
+    .fixed-btn {
+        position: fixed;
+        right: 1%;
+        bottom: 5%;
+        width: 40px;
+        border: 1px solid #eee;
+        background-color: white;
+        font-size: 24px;
+        z-index: 1040;
+        -webkit-backface-visibility: hidden;
+    }
+    .fixed-btn .go-top {
+        border-bottom: 1px solid #eee;
+    }
+    .fixed-btn a {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        color: #64854c;
+        text-decoration: none;
+    }
+    .fixed-btn a i {
+        vertical-align: middle;
+    }
+    .fixed-btn .writer {
+        background-color: #96b97d;
+        font-size: 18px;
+        color: white;
+    }
+    .fixed-btn .modal.fade.in {
+        top: auto;
+        bottom: 0;
+        height: 188px;
+        width: 128px;
+        padding: 10px;
+        margin: 0;
+        right: 65px;
+        left: auto;
+        text-align: center;
+    }
+</style>
+<div class="fixed-btn">
+    <a class="go-top" id="toTop" href="javascript:void(0)" title="返回顶部" style="display: inline-block;"> <i class="fa fa-angle-up"></i></a>
+    <%--<a class="qrcode" href="javascript:void(0)" title="关注我们"><i class="fa fa-qrcode"></i></a>--%>
+    <%--<a class="writer" target="_blank" href="//mail.qq.com/cgi-bin/qm_share?t=qm_mailme&amp;email=ssbDyoOAgfLU3crf09venNHd3w" style="font-size: 12px;" title="Bug 反馈"><i class="fa fa-envelope-o" style="font-size: 20px;"></i></a>--%>
+    <%--<!-- qrcode modal -->--%>
+    <%--<div id="bottom-qrcode" class="modal panel-modal hide fade in" style="display: none;">--%>
+        <%--<h4>微信关注</h4>--%>
+        <%--<div class="panel-body"><img alt="微信关注" width="128" height="128" src="/wp-content/themes/runoob/assets/images/qrcode.png"></div>--%>
+    <%--</div>--%>
+</div>
 <!-- Toastr script -->
 <script src="js/plugins/toastr/toastr.min.js"></script>
 <!-- Sweet alert -->
 <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
-<script>
+<script><%--<%=session.getAttribute("logUser")%>--%>
     $(function () {
-        /*var logUser = "<%=session.getAttribute("logUser")%>";
+        $(function(){
+           $("#toTop").click(function(){
+               $("html").animate({"scrollTop": "0px"},100); //IE,FF
+              $("body").animate({"scrollTop": "0px"},100); //Webkit
+              });
+        })
+        /*var logUser = "";
         //console.info(logUser+"类型"+typeof(logUser));
         if (logUser == "null") {
         } else {
@@ -486,7 +545,27 @@
             }
         });
     });
-
+    $('#addCollect').click(function () {
+        var artiId = $("[name='comtArtiId']").val();
+        var data = {artiId:artiId};
+        $.ajax({
+            url: "collect/add",
+            type: "post",
+            data: data,
+            /*dataType: "json",*/
+            success: function (result) {
+                if(result=="exit"){
+                    success("你已收藏过了");
+                }
+                if(result=="success"){
+                    success("收藏成功！请到个人中心查看");
+                }
+            },
+            error: function () {
+                alert("请登陆后评论");
+            }
+        });
+    });
     $('#addComment').click(function () {
         if($("[name='comtContent']").text()==""){
             //success("请填写评论内容！");
