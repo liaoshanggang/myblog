@@ -1,5 +1,7 @@
 package com.blog.vo;
 
+import java.util.Date;
+
 public class Collect {
     private Integer coltId;
 
@@ -10,6 +12,16 @@ public class Collect {
     private String linkUrl;
 
     private String coltDescription;
+
+    private Date coltTime;
+
+    public Date getColtTime() {
+        return coltTime;
+    }
+
+    public void setColtTime(Date coltTime) {
+        this.coltTime = coltTime;
+    }
 
     public Integer getColtId() {
         return coltId;
@@ -49,5 +61,18 @@ public class Collect {
 
     public void setColtDescription(String coltDescription) {
         this.coltDescription = coltDescription == null ? null : coltDescription.trim();
+    }
+
+    public Collect() {
+        super();
+    }
+
+    public Collect(Integer coltId, Integer coltUserId, String coltTitle, String linkUrl, String coltDescription, Date coltTime) {
+        this.coltId = coltId;
+        this.coltUserId = coltUserId;
+        this.coltTitle = coltTitle;
+        this.linkUrl = linkUrl;
+        this.coltDescription = coltDescription;
+        this.coltTime = coltTime;
     }
 }

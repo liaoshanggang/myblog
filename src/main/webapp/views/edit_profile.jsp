@@ -14,9 +14,15 @@
     <title>修改个人资料</title>
 
     <%@include file="../css-common.jsp" %>
+    <%@include file="../js-common.jsp" %>
     <!-- Toastr style -->
     <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
-    <%@include file="../js-common.jsp" %>
+    <!-- Sweet Alert -->
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <!-- Toastr script -->
+    <script src="js/plugins/toastr/toastr.min.js"></script>
+    <!-- Sweet alert -->
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <style>
         .title {
             overflow: hidden;
@@ -152,10 +158,10 @@
                                         <div class="panel-heading">
                                             <div class="panel-options">
                                                 <ul class="nav nav-tabs">
-                                                    <li class="active" style="width: 33.33%"><a class="" href="#tab-1"
+                                                    <li class="active" style="width: 33.33%"><a class="" href="#showBlog"
                                                                                                 data-toggle="tab">站长博客</a>
                                                     </li>
-                                                    <li class="" style="width: 33.33%"><a class="" href="#tab-2"
+                                                    <li class="" style="width: 33.33%"><a class="" href="#showColt"
                                                                                           data-toggle="tab">我的收藏</a>
                                                     </li>
                                                     <li class="" style="width: 33.33%"><a class="" href="#tab-2"
@@ -167,15 +173,22 @@
                                         <div class="panel-body">
 
                                             <div class="tab-content">
-                                                <div class="tab-pane active" id="tab-1">
+                                                <div class="tab-pane active" id="showBlog">
                                                     <div class="" id="myBlog"></div>
                                                     <input type="hidden" value="0" id="blog_pageNo">
                                                     <button id="showMore" class="btn btn-primary btn-block m-t"
                                                             onclick="get_more_blog(this)">
-                                                        <i class="fa fa-arrow-down"></i>展示更多
+                                                        <i class="fa fa-arrow-down"></i>点击更多
                                                     </button>
                                                 </div>
-                                                <div class="tab-pane" id="tab-2"></div>
+                                                <div class="tab-pane" id="showColt">
+                                                    <div class="" id="myColt"></div>
+                                                    <input type="hidden" value="0" id="colt_pageNo">
+                                                    <button id="showMoreColt" class="btn btn-primary btn-block m-t"
+                                                            onclick="get_more_colt(this)">
+                                                        <i class="fa fa-arrow-down"></i>点击更多
+                                                    </button>
+                                                </div>
                                                 <div class="tab-pane" id="tab-3"></div>
                                             </div>
 
@@ -193,27 +206,173 @@
         <!-- ===================主要内容结束=================== -->
         <!-- 底部 -->
         <%@include file="../bottom.html" %>
-        <!-- Toastr script -->
-        <script src="js/plugins/toastr/toastr.min.js"></script>
+    </div>
+</div>
+<!-- 修改用户信息模态框 -->
+<div class="modal inmodal fade" id="showColt2" tabindex="-1"
+     role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">更新用户信息</h4>
+            </div>
+            <form id="uptColtForm" action="" method="post">
+                <div class="modal-body" id="updateColt"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                    <input id="uptColt" type="button" class="btn btn-primary" value="确认修改">
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 <script>
-    var hasNext = true;
+    var hasNext = true;var hasNextColt = true;
+    var pagenum = 1, ajaxone = 1;var pagenum1 = 1, ajaxone1 = 1;
     $(function () {
-        get_more_blog();
-    })
-    $(window).scroll(function (event) {
-        var wScrollY = window.scrollY; // 当前滚动条位置
-        var wInnerH = window.innerHeight; // 设备窗口的高度（不会变）
-        var bScrollH = document.body.scrollHeight; // 滚动条总高度 元素内容的高度
-        if (wScrollY + wInnerH + 100 >= bScrollH && hasNext) {//在滚动条距离底端50px以内
-            //console.info("当前滚动条位置:"+wScrollY+"设备窗口的高度（不会变）"+wInnerH+"滚动条总高度"+bScrollH);
-            var showMore = $("#showMore");
-            get_more_blog(showMore);
+        $('#blog_pageNo').val(0);//防止点其他页面回来时不刷新缓存
+        $('#colt_pageNo').val(0);
+        if (ajaxone == 1 && pagenum == 1) {
+            get_more_blog();
         }
+        if (ajaxone1 == 1 && pagenum1 == 1) {
+            get_more_colt();
+        }
+    })
+
+    function get_more_colt(obj) {
+        ajaxone1++;
+        if (!hasNextColt) {
+            return;
+        }
+        var myColt = $("#myColt");
+        var colt_pageNo = parseInt($('#colt_pageNo').val());
+        $.ajax({
+            type: "GET",
+            url: 'collect/query',
+            data: {pageNo: colt_pageNo + 1},
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                ajaxone1 = 1;
+                //console.info(data.length);
+                if (data.length == 0) {//没数据了
+                    $(obj).html("已全部加载");
+                    hasNextColt = false;
+                } else {
+                    pagenum1++;
+                    $.each(data, function (i, item) {
+                        //console.info(item.artiId+"=="+item.artiTitle+"=="+item.artiTime);
+                        var d = new Date(item.coltTime);
+                        var option = $("<div class=\"ibox-content \">" +
+                            "<h3 class=\"col-md-8\"><a href=\"" + item.linkUrl + "\"\n" +
+                            "class=\"btn-link \">" + item.coltTitle + "</a></h3>" +
+                            "<small class=\"col-md-2\">" + d.Format('yyyy-MM-dd hh:mm:ss') + "</small>" +
+                            "<a><span data-toggle=\"modal\" data-target=\"#showColt2\" class=\"col-md-1 glyphicon glyphicon-edit editColt\" value=\""+item.coltId+"\"></span></a>" +
+                            "<a><span onclick='delColt(this)' class=\"col-md-1 glyphicon glyphicon-trash delColt\"value=\""+item.coltId+"\"></span></a></div>");
+                        myColt.append(option);//onclick='update(this," + catgId + ")'onclick='showColt(this)'
+                    });
+                    $('#colt_pageNo').val(colt_pageNo + 1);
+                }
+            }
+        })
+    }
+    var cur;
+    $('#showColt2').on('show.bs.modal', function (event) {
+        var span = $(event.relatedTarget); // Button that triggered the modal
+        var coltId = span.attr("value");
+        cur = $(event.relatedTarget);
+        $('#updateColt').load("collect/selectCollectById/" + coltId);
     });
+    $('#uptColt').click(function () {
+        var data = $('#uptColtForm').serialize(); //name=value&p2=v2&....
+        console.log("序列化" + data);
+        var item = data.split("&");
+        for(i=0;i<item.length;i++){
+            var q = item[i].split("=");
+            if(q[1]===""||q[1]===null){
+                success("填写不能为空！");
+                return ;
+            }
+        }
+        $.ajax({
+            url: "collect/updateCollect",
+            type: "post",
+            data: data,
+            /*dataType: "json",*/
+            success: function (result) {
+                $('#showColt2').modal('hide');
+                cur.parent().prev().prev().find("a").text(result.coltTitle);
+                cur.parent().prev().prev().find("a").attr("href",result.linkUrl);
+                success("更新成功！");
+            },
+            error: function () {
+            }
+        });
+
+    });
+    function delColt(cur) {
+        //$(".delColt").click(function () {
+        //var cur = $(this);
+        console.info(cur);
+        swal({
+            title: "你确定要删除吗？",
+            text: "",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ED5565",//DD6B55
+            confirmButtonText: "是的，删除它！",
+            cancelButtonText: "不，取消！",
+            allowOutsideClick: true,
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function (isConfirm) {
+            if (isConfirm) {
+                //swal("删除!", "你的虚构文件已被删除.", "success");
+                var curTr = $(cur).parent().parent();
+                var coltId = $(cur).attr("value");
+                var json = {coltId: coltId};
+                $.ajax({
+                    url: "collect/del",
+                    type: "post",
+                    data: json,
+                    success: function (result) {
+                        //console.info(result);
+                        if (result == "success") {
+                            //swal("删除!", "改类别已被删除.", "success");
+                            //console.info(curTr);
+                            curTr.remove();
+                            success("删除成功！");
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            } else {
+                //swal("取消", "该类别未删除！:):):)", "error");
+            }
+        });
+    }
+
+    //})
+
+
+    // $(window).scroll(function (event) {
+    //     var wScrollY = window.scrollY; // 当前滚动条位置
+    //     var wInnerH = window.innerHeight; // 设备窗口的高度（不会变）
+    //     var bScrollH = document.body.scrollHeight; // 滚动条总高度 元素内容的高度
+    //     if (wScrollY + wInnerH + 100 >= bScrollH && hasNext&& ajaxone == 1) {//在滚动条距离底端50px以内
+    //         //console.info("当前滚动条位置:"+wScrollY+"设备窗口的高度（不会变）"+wInnerH+"滚动条总高度"+bScrollH);
+    //         var showMore = $("#showMore");
+    //         get_more_blog(showMore);
+    //     }
+    // });
 
     function get_more_blog(obj) {
+        ajaxone++;
         if (!hasNext) {
             return;
         }
@@ -226,11 +385,13 @@
             dataType: 'json',
             async: false,
             success: function (data) {
+                ajaxone = 1;
                 //console.info(data.length);
                 if (data.length == 0) {//没数据了
                     $(obj).html("已全部加载");
                     hasNext = false;
                 } else {
+                    pagenum++;
                     $.each(data, function (i, item) {
                         //console.info(item.artiId+"=="+item.artiTitle+"=="+item.artiTime);
                         var d = new Date(item.artiTime);
@@ -247,6 +408,61 @@
     }
 
 </script>
+
+<%--<script>
+    window.onload = function () {
+        var oDox = $(".blank-panel");
+        var aLi = $(".nav-tabs > li");
+        var aDiv = $(".tab-content > div");
+
+        for (var i = 0; i < aLi.length; i++) {
+            aLi[i].index = i;
+            aLi[i].onclick = function () {
+                for (var i = 0; i < aLi.length; i++) {
+                    aLi[i].className = "";
+                    aDiv[i].style.display = "none";
+                    setCookie("index", this.index, 1)
+                }
+                this.className = "active";
+                aDiv[this.index].style.display = "block";
+            }
+        }
+        //判断是有cookie值
+        if (getCookie("index")) {
+            for (var i = 0; i < aLi.length; i++) {
+                aLi[i].className = '';
+                aDiv[i].style.display = 'none'
+            }
+            aLi[getCookie('index')].className = 'active';
+            aDiv[getCookie('index')].style.display = 'block';
+        }
+
+        ///设置cookie
+        function setCookie(name, value, iDay) {
+            if (iDay) {
+                var oDate = new Date();
+                oDate.setDate(oDate.getDate() + iDay);
+                document.cookie = name + '=' + value + ';path=/;expires=' + oDate;
+            } else {
+                document.cookie = name + '=' + value + ';path=/';
+            }
+        };
+
+        //获取cookie
+        function getCookie(name) {
+            var arr = document.cookie.split("; ");
+            for (var i = 0; i < arr.length; i++) {
+                var arr1 = arr[i].split("=");
+                if (arr1[0] == name) {
+                    return arr1[1];
+                }
+
+            }
+
+            return "";
+        }
+    }
+</script>--%>
 <!-- 修改用户信息模态框 -->
 <div class="modal inmodal fade" id="showMe" tabindex="-1"
      role="dialog" aria-hidden="true">

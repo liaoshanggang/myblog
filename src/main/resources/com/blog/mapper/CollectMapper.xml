@@ -7,7 +7,36 @@
         <result column="COLT_TITLE" jdbcType="VARCHAR" property="coltTitle" />
         <result column="LINK_URL" jdbcType="VARCHAR" property="linkUrl" />
         <result column="COLT_DESCRIPTION" jdbcType="VARCHAR" property="coltDescription" />
+        <result column="COLT_TIME" jdbcType="TIMESTAMP" property="coltTime" />
     </resultMap>
+
+    <!-- 根据类别名称，日期查询 -->
+    <sql id="where_selective">
+        <where>
+            <if test="queryObject.coltTitle !=null and queryObject.coltTitle.trim().length>0">
+                <bind name="pattern2" value="'%'+ queryObject.coltTitle+'%'"/>
+                and COLT_TITLE like #{pattern2}
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectSelective" parameterType="page" resultMap="baseResultMap">
+        select * from (
+        select a.*,rownum rn from (
+        select o.*
+        from COLLECTION o
+        <include refid="where_selective"/>
+        ORDER BY COLT_TIME DESC
+        ) a where <![CDATA[rownum<=#{lastIndex}]]>
+        ) where rn>=#{firstIndex}
+    </select>
+    <!-- 根据服务搜索信息查找服务信息记录数 -->
+    <select id="countForSelective" parameterType="page" resultType="int">
+        select count(o.COLT_ID) from COLLECTION o
+        <include refid="where_selective"/>
+        ORDER BY COLT_TIME DESC
+    </select>
+
     <select id="selectCollectByUserUrl" parameterType="collect" resultMap="baseResultMap">
         select *
         from COLLECTION
@@ -15,8 +44,37 @@
     </select>
     <insert id="insertCollect" parameterType="collect">
     insert into COLLECTION (COLT_ID, COLT_USER_ID, COLT_TITLE,
-      LINK_URL, COLT_DESCRIPTION)
+      LINK_URL, COLT_DESCRIPTION,COLT_TIME)
     values (COLLECTION_SEQ.nextval, #{coltUserId,jdbcType=INTEGER}, #{coltTitle,jdbcType=VARCHAR},
-      #{linkUrl,jdbcType=VARCHAR}, #{coltDescription,jdbcType=VARCHAR})
+      #{linkUrl,jdbcType=VARCHAR}, #{coltDescription,jdbcType=VARCHAR} ,sysdate)
   </insert>
+
+    <delete id="deleteCollectById" parameterType="collect">
+        delete
+        COLLECTION
+        where COLT_ID =#{coltId}
+    </delete>
+
+    <select id="selectCollectById" parameterType="int" resultMap="baseResultMap">
+        select *
+        from COLLECTION
+        where COLLECTION.COLT_ID=#{id}
+    </select>
+
+    <!-- 根据客观题试题Id更新选项 -->
+    <update id="updateCollect" parameterType="collect">
+        update COLLECTION
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="coltTitle != null">
+                COLT_TITLE = #{coltTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="linkUrl != null">
+                LINK_URL = #{linkUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="coltDescription != null">
+                COLT_DESCRIPTION = #{coltDescription,jdbcType=VARCHAR},
+            </if>
+        </trim>
+        where COLT_ID = #{coltId,jdbcType=INTEGER}
+    </update>
 </mapper>

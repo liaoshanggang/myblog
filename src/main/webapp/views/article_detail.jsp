@@ -560,9 +560,12 @@
                 if(result=="success"){
                     success("收藏成功！请到个人中心查看");
                 }
+                if(result=="error"){
+                    success("请登陆后收藏！");
+                }
             },
             error: function () {
-                alert("请登陆后评论");
+                success("收藏失败");
             }
         });
     });
