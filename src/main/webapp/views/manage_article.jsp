@@ -38,7 +38,7 @@
         }
     </style>
 </head>
-<body class="">
+<body class="" style="background-color:#20222a">
 
 <div id="wrapper">
     <%-- <jsp:include page="left_nav.html" flush="true"/> --%>

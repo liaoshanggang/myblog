@@ -28,7 +28,7 @@
 </head>
 <body class="">
 
-<div id="wrapper">
+<div id="wrapper" style="background-color:#20222a">
     <%-- <jsp:include page="left_nav.html" flush="true"/> --%>
     <!-- 左边导航栏开始 -->
     <%@include file="../left_nav.jsp" %>
