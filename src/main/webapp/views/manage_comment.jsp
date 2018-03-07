@@ -37,7 +37,7 @@
                 <h2>主标题</h2>
                 <ol class="breadcrumb">
                     <li><a href="index.jsp">前台展示页</a></li>
-                    <li class="active"><strong>本页</strong></li>
+                    <li class="active" id="mgr_comment"><strong>评论管理</strong></li>
                 </ol>
             </div>
             <div class="col-sm-8">
@@ -320,6 +320,7 @@
 <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
 <script>
     window.onload = function () {
+        $("[name='mgr_comment']").find("a").addClass("enterBorder");
         var oDox = $(".tabs-container");
         var aLi = $(".nav-tabs > li");
         var aDiv = $(".tab-content > div");

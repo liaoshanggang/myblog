@@ -43,7 +43,7 @@
                 <h2>主标题</h2>
                 <ol class="breadcrumb">
                     <li><a href="../index.jsp">前台展示页</a></li>
-                    <li class="active"><strong>本页</strong></li>
+                    <li class="active" id="mgr_users"><strong>用户管理</strong></li>
                 </ol>
             </div>
             <div class="col-sm-8">
