@@ -127,8 +127,11 @@
                             <div>
                                 <div>
                                     <c:if test="${not empty categoryPage}">
-                                        <ul class="pagination">
-                                            <li><a href="category/query?pageNo=1">«</a></li>
+                                        <ul class="pager pagination pagination-lg">
+                                            <li><a href="category/query?pageNo=1">首页</a></li>
+                                            <c:if test="${categoryPage.pageNo gt 1 &&  categoryPage.pageNo le categoryPage.totalPage}">
+                                                <li><a href="category/query?pageNo=${categoryPage.pageNo-1}">«上一页</a></li>
+                                            </c:if>
                                             <c:if test="${categoryPage.pageNo gt 3}">
                                                 <li><a href="javascript:void(0)">....</a></li>
                                             </c:if>
@@ -158,7 +161,10 @@
                                             <c:if test="${categoryPage.pageNo+2 lt categoryPage.totalPage}">
                                                 <li><a href="javascript:void(0)">....</a></li>
                                             </c:if>
-                                            <li><a href="category/query?pageNo=${categoryPage.totalPage}">»</a>
+                                            <c:if test="${categoryPage.pageNo ge 1 && categoryPage.pageNo lt categoryPage.totalPage }">
+                                                <li><a href="category/query?pageNo=${categoryPage.pageNo+1}">下一页»</a></li>
+                                            </c:if>
+                                            <li><a href="category/query?pageNo=${categoryPage.totalPage}">尾页</a>
                                             </li>
                                         </ul>
                                     </c:if>

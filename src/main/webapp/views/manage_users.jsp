@@ -128,8 +128,11 @@
                             <div>
                                 <div>
                                     <c:if test="${not empty userPage}">
-                                        <ul class="pagination">
-                                            <li><a href="user/queryAll?pageNo=1">«</a></li>
+                                        <ul class="pager pagination pagination-lg">
+                                            <li><a href="user/queryAll?pageNo=1">首页</a></li>
+                                            <c:if test="${userPage.pageNo gt 1 &&  userPage.pageNo le userPage.totalPage}">
+                                                <li><a href="user/queryAll?pageNo=${userPage.pageNo-1}">«上一页</a></li>
+                                            </c:if>
                                             <c:if test="${userPage.pageNo gt 3}">
                                                 <li><a href="javascript:void(0)">....</a></li>
                                             </c:if>
@@ -159,7 +162,10 @@
                                             <c:if test="${userPage.pageNo+2 lt userPage.totalPage}">
                                                 <li><a href="javascript:void(0)">....</a></li>
                                             </c:if>
-                                            <li><a href="user/queryAll?pageNo=${userPage.totalPage}">»</a>
+                                            <c:if test="${userPage.pageNo ge 1 && userPage.pageNo lt userPage.totalPage }">
+                                                <li><a href="user/queryAll?pageNo=${userPage.pageNo+1}">下一页»</a></li>
+                                            </c:if>
+                                            <li><a href="user/queryAll?pageNo=${userPage.totalPage}">尾页</a>
                                             </li>
                                         </ul>
                                     </c:if>

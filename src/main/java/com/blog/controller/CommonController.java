@@ -3,12 +3,14 @@ package com.blog.controller;
 import com.blog.service.IArticleService;
 import com.blog.vo.Article;
 import com.blog.vo.Page;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -22,8 +24,36 @@ public class CommonController {
     @Resource
     IArticleService iArticleService;
 
+    @RequestMapping("/ajaxSearch")
+    public @ResponseBody
+    List<Article> searchAjaxArticle(Article article, String keyWords) {
+        String whitespace = StringUtils.deleteWhitespace(keyWords);
+        keyWords = whitespace;
+        Page<Article> page = new Page<Article>(article);
+        page.setPageNo(1);
+        page.setPageSize(10);
+        if (keyWords != null) {
+            page.setKeyWords(keyWords);
+        }
+        int totalRow = iArticleService.countForSelective(page);
+        page.setTotalRow(totalRow);
+        List<Article> list = iArticleService.selectSelective(page);
+        for (Article a : list) {
+            String str = StripHT(a.getArtiContent());
+            if (str.length() >= 200) {
+                a.setArtiContent(str.substring(0, 180));
+            } else {
+                a.setArtiContent(str);
+            }
+        }
+        return list;
+    }
+
     @RequestMapping(value = {"/search"}, method = {RequestMethod.POST, RequestMethod.GET})
     public String searchArticle(Article article, Integer pageNo, String keyWords, ModelMap modelMap, HttpSession session) {
+        session.setAttribute("keyWord", keyWords);
+        String whitespace = StringUtils.deleteWhitespace(keyWords);
+        keyWords = whitespace;
         Page<Article> page = (Page<Article>) session.getAttribute("artiPage");
         if (page == null || pageNo == null) {
             page = new Page<Article>(article);

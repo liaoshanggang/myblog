@@ -23,7 +23,10 @@
     <%@include file="../css-common.jsp" %>
     <!-- Toastr style -->
     <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="js/plugins/jquery-ui/jquery-ui.css" rel="stylesheet">
     <%@include file="../js-common.jsp" %>
+    <!-- iCheck -->
+    <script src="js/plugins/jquery-ui/jquery-ui.js"></script>
     <style>
         .shadow {
             box-shadow: 0px 0px 5px #888888;
@@ -31,6 +34,11 @@
 
         .shadowInput {
             box-shadow: 0px 5px 10px #999999;
+        }
+        .title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     </style>
 </head>
@@ -74,26 +82,29 @@
                     <div class="ibox float-e-margins shadow">
                         <div class="ibox-content">
                             <c:if test="${not empty artiPage}">
-                                <h2>本次为你找到${artiPage.getTotalRow()}个搜索结果匹配：<span
+                                <h2 class="title" title="${artiPage.keyWords}">本次为你找到${artiPage.getTotalRow()}个搜索结果匹配：<span
                                         class="text-navy">${artiPage.keyWords}</span>
                                 </h2>
                             </c:if>
                             <%--<small>请求时间（0.23秒</small>--%>
-
                             <div class="search-form">
                                 <form action="search" method="get">
                                     <div class="input-group">
-                                        <input type="text" placeholder="键入Enter键以搜索" name="keyWords"
-                                               class="form-control input-lg shadowInput">
+                                        <c:if test="${not empty artiPage}">
+                                            <input type="text" placeholder="键入Enter键以搜索" name="keyWords"
+                                                   autocomplete="off"
+                                                   class="form-control input-lg shadowInput" id="keyword"
+                                                   value="${keyWord}">
+                                        </c:if>
                                         <div class="input-group-btn">
                                             <button class="btn btn-primary btn-lg shadowInput" type="submit">
                                                 搜索
                                             </button>
                                         </div>
                                     </div>
-
                                 </form>
                             </div>
+
                             <c:forEach var="article" items="${articleList}" varStatus="status">
                                 <div class="hr-line-dashed"></div>
                                 <div class="search-result">
@@ -180,6 +191,38 @@
     </div>
 </div>
 <script>
+    $(document).ready(function () {
+        $("#keyword").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "ajaxSearch",
+                    dataType: "json",
+                    data: {
+                        "keyWords": request.term
+                    },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.category.catgName + " " + item.artiTitle + "",
+                                value: item.category.catgName + " " + item.artiTitle + ""
+                            }
+                        }));
+                    },
+                    select: function (event, ui) {
+                        log(ui.item ?
+                            "Selected: " + ui.item.label :
+                            "Nothing selected, input was " + this.value);
+                    },
+                    open: function () {
+                        $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+                    },
+                    close: function () {
+                        $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+                    }
+                });
+            }
+        });
+    });
     $(".search-result").hover(
         function () {
             $(this).addClass("animated pulse");

@@ -279,10 +279,13 @@
                                 <div class="row">
                                     <div class="social-body">
                                         <c:if test="${not empty commentPage}">
-                                            <ul class="pagination">
+                                            <ul class="pager pagination pagination-lg">
                                                     <%--article/queryById/${article.artiId }/detail--%>
-                                                <li><a href="article/queryById/${article.artiId }/detail?pageNo=1">«</a>
+                                                <li><a href="article/queryById/${article.artiId }/detail?pageNo=1">首页</a>
                                                 </li>
+                                                <c:if test="${commentPage.pageNo gt 1 &&  commentPage.pageNo le commentPage.totalPage}">
+                                                    <li><a href="article/queryById/${article.artiId }/detail?pageNo=${commentPage.pageNo-1}">«上一页</a></li>
+                                                </c:if>
                                                 <c:if test="${commentPage.pageNo gt 3}">
                                                     <li><a href="javascript:void(0)">....</a></li>
                                                 </c:if>
@@ -312,8 +315,11 @@
                                                 <c:if test="${commentPage.pageNo+2 lt commentPage.totalPage}">
                                                     <li><a href="javascript:void(0)">....</a></li>
                                                 </c:if>
+                                                <c:if test="${commentPage.pageNo ge 1 && commentPage.pageNo lt commentPage.totalPage }">
+                                                    <li><a href="article/queryById/${article.artiId }/detail?pageNo=${commentPage.pageNo+1}">下一页»</a></li>
+                                                </c:if>
                                                 <li>
-                                                    <a href="article/queryById/${article.artiId }/detail?pageNo=${commentPage.totalPage}">»</a>
+                                                    <a href="article/queryById/${article.artiId }/detail?pageNo=${commentPage.totalPage}">尾页</a>
                                                 </li>
                                             </ul>
                                         </c:if>

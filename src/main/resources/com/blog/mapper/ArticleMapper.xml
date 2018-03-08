@@ -41,7 +41,7 @@
                 and ARTI_CONTENT like #{pattern2}
             </if>
             <if test="keyWords !=null and keyWords.trim().length>0">
-                and instr(q.ARTI_TITLE ||q.ARTI_CONTENT, #{keyWords})>0
+                and instr(CATG_NAME||q.ARTI_TITLE ||q.ARTI_CONTENT, #{keyWords})>0
             </if>
             <!-- <if
                 test="queryObject.beginDate !=null and queryObject.beginDate.trim().length>0">
@@ -65,7 +65,7 @@
     <select id="selectSelective" parameterType="page" resultMap="baseResultMap">
         select * from (
         select a.*,rownum rn from (
-        select q.ARTI_TITLE ||q.ARTI_CONTENT,q.*,
+        select CATG_NAME||q.ARTI_TITLE ||q.ARTI_CONTENT,q.*,
         CATG_ID so_CATG_ID,
         CATG_NAME so_CATG_NAME
         from article

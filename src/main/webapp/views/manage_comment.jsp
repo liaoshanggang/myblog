@@ -138,8 +138,11 @@
                                     <div>
                                         <div>
                                             <c:if test="${not empty commentPage2}">
-                                                <ul class="pagination">
-                                                    <li><a href="comment/query?pageNo=1">«</a></li>
+                                                <ul class="pager pagination pagination-lg">
+                                                    <li><a href="comment/query?pageNo=1">首页</a></li>
+                                                    <c:if test="${commentPage2.pageNo gt 1 &&  commentPage2.pageNo le commentPage2.totalPage}">
+                                                        <li><a href="comment/query?pageNo=${commentPage2.pageNo-1}">«上一页</a></li>
+                                                    </c:if>
                                                     <c:if test="${commentPage2.pageNo gt 3}">
                                                         <li><a href="javascript:void(0)">....</a></li>
                                                     </c:if>
@@ -169,7 +172,10 @@
                                                     <c:if test="${commentPage2.pageNo+2 lt commentPage2.totalPage}">
                                                         <li><a href="javascript:void(0)">....</a></li>
                                                     </c:if>
-                                                    <li><a href="comment/query?pageNo=${commentPage2.totalPage}">»</a>
+                                                    <c:if test="${commentPage2.pageNo ge 1 && commentPage2.pageNo lt commentPage2.totalPage }">
+                                                        <li><a href="comment/query?pageNo=${commentPage2.pageNo+1}">下一页»</a></li>
+                                                    </c:if>
+                                                    <li><a href="comment/query?pageNo=${commentPage2.totalPage}">尾页</a>
                                                     </li>
                                                 </ul>
                                             </c:if>
@@ -258,8 +264,11 @@
                                     <div>
                                         <div>
                                             <c:if test="${not empty commentPage2}">
-                                                <ul class="pagination">
-                                                    <li><a href="comment/query?pageNo=1">«</a></li>
+                                                <ul class="pager pagination pagination-lg">
+                                                    <li><a href="comment/query?pageNo=1">首页</a></li>
+                                                    <c:if test="${commentPage2.pageNo gt 1 &&  commentPage2.pageNo le commentPage2.totalPage}">
+                                                        <li><a href="comment/query?pageNo=${commentPage2.pageNo-1}">«上一页</a></li>
+                                                    </c:if>
                                                     <c:if test="${commentPage2.pageNo gt 3}">
                                                         <li><a href="javascript:void(0)">....</a></li>
                                                     </c:if>
@@ -289,7 +298,10 @@
                                                     <c:if test="${commentPage2.pageNo+2 lt commentPage2.totalPage}">
                                                         <li><a href="javascript:void(0)">....</a></li>
                                                     </c:if>
-                                                    <li><a href="comment/query?pageNo=${commentPage2.totalPage}">»</a>
+                                                    <c:if test="${commentPage2.pageNo ge 1 && commentPage2.pageNo lt commentPage2.totalPage }">
+                                                        <li><a href="comment/query?pageNo=${commentPage2.pageNo+1}">下一页»</a></li>
+                                                    </c:if>
+                                                    <li><a href="comment/query?pageNo=${commentPage2.totalPage}">尾页</a>
                                                     </li>
                                                 </ul>
                                             </c:if>
