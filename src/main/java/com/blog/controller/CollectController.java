@@ -35,6 +35,10 @@ public class CollectController {
         BlogUsers logUser = (BlogUsers) session.getAttribute("logUser");
         if (logUser != null) {
             String header_referer = request.getHeader("Referer");
+            String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();//http://localhost:8901
+            String contextPath = request.getContextPath();///myblog
+            String head = url + contextPath + "/";
+            header_referer = header_referer.substring(head.length(), header_referer.length());
             collect.setLinkUrl(header_referer);
             Article a2 = iArticleService.selectArticleById(a);
             collect.setColtTitle(a2.getArtiTitle());
