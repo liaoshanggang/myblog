@@ -1,115 +1,162 @@
 package com.blog.vo;
 
-import java.io.File;
+import java.util.Date;
 
-/**
- * 文件上传包装类
- */
 public class FileInfo {
+    private Integer fileId;
 
-    /**
-     * 文件
-     */
-    public File file;
-    /**
-     * 文件大小
-     */
-    public String fileSize;
-    /**
-     * 文件md5
-     */
-    public String fileMD5;
-    /**
-     * 存在服务器的名称
-     */
-    public String fullFileName;
-    /**
-     * 原名称 带后缀
-     */
-    public String originalFileName;
-    /**
-     * 原名称
-     */
-    public String fileName;
-    /**
-     * 后缀名
-     */
-    public String suffixName;
+    private String fileName;
 
-    public File getFile() {
-        return file;
+    private String fileExt;
+
+    private String filePath;
+
+    private String fileIconUrl;
+
+    private Integer fileSize;
+
+    private Date fileModifyDate;
+
+    private Date fileCreateDate;
+
+    private Integer isDelete;
+
+    private Integer isFolder;
+
+    private Integer parentId;
+
+    private String fileDescription;
+
+    public Integer getFileId() {
+        return fileId;
     }
 
-    public FileInfo setFile(File file) {
-        this.file = file;
-        return this;
-    }
-
-    public String getFileSize() {
-        return fileSize;
-    }
-
-    public FileInfo setFileSize(String fileSize) {
-        this.fileSize = fileSize;
-        return this;
-    }
-
-    public String getFileMD5() {
-        return fileMD5;
-    }
-
-    public FileInfo setFileMD5(String fileMD5) {
-        this.fileMD5 = fileMD5;
-        return this;
-    }
-
-    public String getOriginalFileName() {
-        return originalFileName;
-    }
-
-    public FileInfo setOriginalFileName(String originalFileName) {
-        this.originalFileName = originalFileName;
-        return this;
+    public void setFileId(Integer fileId) {
+        this.fileId = fileId;
     }
 
     public String getFileName() {
         return fileName;
     }
 
-    public FileInfo setFileName(String fileName) {
+    public void setFileName(String fileName) {
+        this.fileName = fileName == null ? null : fileName.trim();
+    }
+
+    public String getFileExt() {
+        return fileExt;
+    }
+
+    public void setFileExt(String fileExt) {
+        this.fileExt = fileExt == null ? null : fileExt.trim();
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath == null ? null : filePath.trim();
+    }
+
+    public String getFileIconUrl() {
+        return fileIconUrl;
+    }
+
+    public void setFileIconUrl(String fileIconUrl) {
+        this.fileIconUrl = fileIconUrl == null ? null : fileIconUrl.trim();
+    }
+
+    public Integer getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(Integer fileSize) {
+        this.fileSize = fileSize;
+    }
+
+    public Date getFileModifyDate() {
+        return fileModifyDate;
+    }
+
+    public void setFileModifyDate(Date fileModifyDate) {
+        this.fileModifyDate = fileModifyDate;
+    }
+
+    public Date getFileCreateDate() {
+        return fileCreateDate;
+    }
+
+    public void setFileCreateDate(Date fileCreateDate) {
+        this.fileCreateDate = fileCreateDate;
+    }
+
+    public Integer getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
+    }
+
+    public Integer getIsFolder() {
+        return isFolder;
+    }
+
+    public void setIsFolder(Integer isFolder) {
+        this.isFolder = isFolder;
+    }
+
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getFileDescription() {
+        return fileDescription;
+    }
+
+    public void setFileDescription(String fileDescription) {
+        this.fileDescription = fileDescription == null ? null : fileDescription.trim();
+    }
+
+    public FileInfo() {
+        super();
+    }
+
+    public FileInfo(Integer fileId, String fileName, String fileExt, String filePath, String fileIconUrl, Integer fileSize, Date fileModifyDate, Date fileCreateDate, Integer isDelete, Integer isFolder, Integer parentId, String fileDescription) {
+        this.fileId = fileId;
         this.fileName = fileName;
-        return this;
-    }
-
-    public String getSuffixName() {
-        return suffixName;
-    }
-
-    public FileInfo setSuffixName(String suffixName) {
-        this.suffixName = suffixName;
-        return this;
-    }
-
-    public String getFullFileName() {
-        return fullFileName;
-    }
-
-    public FileInfo setFullFileName(String fullFileName) {
-        this.fullFileName = fullFileName;
-        return this;
+        this.fileExt = fileExt;
+        this.filePath = filePath;
+        this.fileIconUrl = fileIconUrl;
+        this.fileSize = fileSize;
+        this.fileModifyDate = fileModifyDate;
+        this.fileCreateDate = fileCreateDate;
+        this.isDelete = isDelete;
+        this.isFolder = isFolder;
+        this.parentId = parentId;
+        this.fileDescription = fileDescription;
     }
 
     @Override
     public String toString() {
-        return "UploadFile{" +
-                "(文件)file=" + file +
-                ",(文件大小)fileSize='" + fileSize + '\'' +
-                ",(文件md5)fileMD5='" + fileMD5 + '\'' +
-                ",(文件存在服务器名称)fullFileName='" + fullFileName + '\'' +
-                ",(文件原名称带后缀)originalFileName='" + originalFileName + '\'' +
-                ",(文件原名称)fileName='" + fileName + '\'' +
-                ",(文件后缀)suffixName='" + suffixName + '\'' +
+        return "FileInfo{" +
+                "fileId=" + fileId +
+                ", fileName='" + fileName + '\'' +
+                ", fileExt='" + fileExt + '\'' +
+                ", filePath='" + filePath + '\'' +
+                ", fileIconUrl='" + fileIconUrl + '\'' +
+                ", fileSize=" + fileSize +
+                ", fileModifyDate=" + fileModifyDate +
+                ", fileCreateDate=" + fileCreateDate +
+                ", isDelete=" + isDelete +
+                ", isFolder=" + isFolder +
+                ", parentId=" + parentId +
+                ", fileDescription='" + fileDescription + '\'' +
                 '}';
     }
 }
-

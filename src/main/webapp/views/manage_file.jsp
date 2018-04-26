@@ -12,6 +12,7 @@
     <title>后台管理主页</title>
 
     <%@include file="../css-common.jsp" %>
+    <%@include file="../js-common.jsp" %>
 </head>
 
 <body class="" style="background-color:#20222a">
@@ -33,6 +34,9 @@
                     <li><a href="index.jsp">前台展示页</a></li>
                     <li class="active" id="mgr_file"><strong>文件管理</strong></li>
                 </ol>
+                <ol class="breadcrumb">
+                    <li id="path">${path}</li>
+                </ol>
             </div>
             <div class="col-sm-8">
                 <div class="title-action">
@@ -49,24 +53,41 @@
                     <div class="ibox float-e-margins">
                         <div class="ibox-content">
                             <div class="file-manager">
-                                <h5>Show:</h5>
-                                <a href="#" class="file-control active">Ale</a>
-                                <a href="#" class="file-control">Documents</a>
-                                <a href="#" class="file-control">Audio</a>
-                                <a href="#" class="file-control">Images</a>
+                                <div class="search-form">
+                                    <form action="showHome" method="get">
+                                        <div class="input-group">
+                                            <input type="text" placeholder="键入Enter键以搜索" name="keyWords"
+                                                   class="btn btn-facebook btn-outline form-control input-md">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-success btn-facebook btn-outline" type="submit">
+                                                    搜索
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <button class="btn btn-success btn-outline btn-sm" type="button" value="102">
+                                    新建文件夹
+                                </button>
+                                <button class="btn btn-success btn-outline btn-sm" type="button" value="102">
+                                    离线下载
+                                </button>
                                 <div class="hr-line-dashed"></div>
-                                <button class="btn btn-primary btn-block">Upload Files</button>
+                                <label title="上传新文件" for="uploadFile" class="btn btn-md btn-success">
+                                    <input type="file" id="uploadFile" class="hide">
+                                    上传文件
+                                </label>
                                 <div class="hr-line-dashed"></div>
-                                <h5>Folders</h5>
+                                <h5>文件夹</h5>
                                 <ul class="folder-list" style="padding: 0">
-                                    <li><a href=""><i class="fa fa-folder"></i> Files</a></li>
-                                    <li><a href="views/album.jsp"><i class="fa fa-folder"></i> Pictures</a></li>
-                                    <li><a href=""><i class="fa fa-folder"></i> Web pages</a></li>
-                                    <li><a href=""><i class="fa fa-folder"></i> Illustrations</a></li>
-                                    <li><a href=""><i class="fa fa-folder"></i> Films</a></li>
-                                    <li><a href=""><i class="fa fa-folder"></i> Books</a></li>
+                                    <li><a href=""><i class="fa fa-folder"></i> 档</a></li>
+                                    <li><a href="views/album.jsp"><i class="fa fa-folder"></i> 图片</a></li>
+                                    <li><a href=""><i class="fa fa-folder"></i> 网页</a></li>
+                                    <li><a href=""><i class="fa fa-folder"></i> 插图</a></li>
+                                    <li><a href=""><i class="fa fa-folder"></i> 电影</a></li>
+                                    <li><a href=""><i class="fa fa-folder"></i> 图书</a></li>
                                 </ul>
-                                <h5 class="tag-title">Tags</h5>
+                                <%--<h5 class="tag-title">Tags</h5>
                                 <ul class="tag-list" style="padding: 0">
                                     <li><a href="">Family</a></li>
                                     <li><a href="">Work</a></li>
@@ -76,7 +97,7 @@
                                     <li><a href="">Music</a></li>
                                     <li><a href="">Photography</a></li>
                                     <li><a href="">Film</a></li>
-                                </ul>
+                                </ul>--%>
                                 <div class="clearfix"></div>
                             </div>
                         </div>
@@ -84,123 +105,25 @@
                 </div>
                 <div class="col-lg-9 animated fadeInRight">
                     <div class="row">
-                        <div class="col-lg-12">
-                            <div class="file-box">
-                                <div class="file">
-
-                                    <span class="corner"></span>
-
-                                    <div class="icon">
-                                        <a href="#"><i class="fa fa-file"></i> </a>
-                                    </div>
-                                    <div class="file-name">
-                                        <a href="#"> Document_2014.doc
-                                            <br/>
-                                            <small>Added: Jan 11, 2014</small>
-                                        </a>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div class="file-box">
-                                <div class="file">
-
-                                    <span class="corner"></span>
-
-                                    <div class="image">
-                                        <a href="#"> <img alt="image" class="img-responsive" src="img/p1.jpg"> </a>
-                                    </div>
-                                    <div class="file-name">
-                                        <a href="#">Italy street.jpg
-                                            <br/>
-                                            <small>Added: Jan 6, 2014</small>
-                                        </a>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="file-box">
-                                <div class="file">
-                                    <a href="#">
-                                        <span class="corner"></span>
-
-                                        <div class="image">
-                                            <img alt="image" class="img-responsive" src="img/p2.jpg">
-                                        </div>
-                                        <div class="file-name">
-                                            My feel.png
-                                            <br/>
-                                            <small>Added: Jan 7, 2014</small>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="file-box">
-                                <div class="file">
-                                    <a href="#">
-                                        <span class="corner"></span>
-
-                                        <div class="icon">
-                                            <i class="fa fa-music"></i>
-                                        </div>
-                                        <div class="file-name">
-                                            Michal Jackson.mp3
-                                            <br/>
-                                            <small>Added: Jan 22, 2014</small>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="file-box">
-                                <div class="file">
-                                    <a href="#">
-                                        <span class="corner"></span>
-
-                                        <div class="image">
-                                            <img alt="image" class="img-responsive" src="img/p3.jpg">
-                                        </div>
-                                        <div class="file-name">
-                                            Document_2014.doc
-                                            <br/>
-                                            <small>Added: Fab 11, 2014</small>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="file-box">
-                                <div class="file">
-                                    <a href="#">
-                                        <span class="corner"></span>
-
-                                        <div class="icon">
-                                            <i class="img-responsive fa fa-film"></i>
-                                        </div>
-                                        <div class="file-name">
-                                            Monica's birthday.mpg4
-                                            <br/>
-                                            <small>Added: Fab 18, 2014</small>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="file-box">
-                                <a href="#">
-                                    <div class="file">
-                                        <span class="corner"></span>
-
-                                        <div class="icon">
-                                            <i class="fa fa-bar-chart-o"></i>
-                                        </div>
-                                        <div class="file-name">
-                                            Annual report 2014.xls
-                                            <br/>
-                                            <small>Added: Fab 22, 2014</small>
+                        <div class="col-lg-12" id="files">
+                            <c:forEach var="fileInfo" items="${fileInfos}" varStatus="status">
+                                    <div class="file-box">
+                                        <div class="file">
+                                            <span class="corner"></span>
+                                            <div class="image">
+                                                <a href="#"> <img alt="image" class="img-responsive" src="${fileInfo.fileIconUrl}"> </a>
+                                            </div>
+                                            <div class="file-name">
+                                                <a href="fileInfo/queryByPath?path=${fileInfo.filePath}">
+                                                        ${fileInfo.fileName}${fileInfo.fileExt}
+                                                    <br/>
+                                                    <small><fmt:formatDate value='${fileInfo.fileCreateDate}'
+                                                                           pattern='yyyy-MM-dd HH:mm:ss'/></small>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </a>
-                            </div>
-
+                            </c:forEach>
                         </div>
                     </div>
                 </div>
@@ -213,15 +136,76 @@
     </div>
 </div>
 
-
-<%@include file="../js-common.jsp" %>
-
 <script>
     $(document).ready(function () {
         $('.file-box').each(function () {
             animationHover(this, 'pulse');
         });
     });
+
+    var filefile;
+    var $uploadFile = $("#uploadFile");
+    if (window.FileReader) {
+        $uploadFile.change(function () {
+            var fileReader = new FileReader(),
+                files = this.files,
+                file;
+
+            if (!files.length) {//只要不是0就继续，是0退出
+                return;
+            }
+
+            file = files[0];
+            filefile = files[0];
+            //readAsBinaryString
+            //readAsDataURL方法会使用base-64进行编码，编码的资料由data字串开始，后面跟随的是MIME type，然后再加上base64字串，逗号之后就是编码过的图像文件的内容。
+            fileReader.readAsDataURL(file);//将文件以Data URL形式读入页面
+            fileReader.onload = function () {//文件读取成功完成时触发
+                console.info("file"+file);
+                //console.info(filefile);
+                var path = $("#path").text();
+                var formData = new FormData();
+                formData.append("file", file);
+                $.ajax({
+                    url: "fileInfo/upload?path="+path,
+                    type: "post",
+                    data: formData,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,//如果要发送 DOM 树信息或其它不希望转换的信息，请设置为 false。
+                    success: function (result) {
+                        console.info(result);
+                        var files = $("#files");
+                        var obj = JSON.parse(result);
+                        console.info(obj.fileIconUrl);
+                        var date = new Date(obj.fileCreateDate);
+                        var content = "<div class=\"file-box\">\n" +
+                            "                                        <div class=\"file\">\n" +
+                            "                                            <span class=\"corner\"></span>\n" +
+                            "                                            <div class=\"image\">\n" +
+                            "                                                <a href=\"#\"> <img alt=\"image\" class=\"img-responsive\" src=\'"+obj.fileIconUrl+"\'> </a>\n" +
+                            "                                            </div>\n" +
+                            "                                            <div class=\"file-name\">\n" +
+                            "                                                <a href=\"fileInfo/queryByPath?path="+obj.filePath+"\">\n" +obj.fileName+obj.fileExt+
+                            "                                                    <br/><small>\n"+date.getFullYear()+"-"+date.getMonth()+"-"+date.getDay()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+
+                            "                                                </small></a>\n" +
+                            "                                            </div>\n" +
+                            "                                        </div>\n" +
+                            "                                    </div>";
+                        //console.info(content);
+                        files.append(content);
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+            };
+        });
+    } else {
+        $inputImage.addClass("hide");
+    }
+
 </script>
 </body>
 

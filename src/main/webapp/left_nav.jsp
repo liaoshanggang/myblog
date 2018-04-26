@@ -56,7 +56,7 @@
                 </a>
             </li>
             <li class="left_nav_li" name="mgr_file">
-                <a href="views/manage_file.jsp">
+                <a href="fileInfo/queryByPath?path=user/files">
                     <span class="glyphicon glyphicon-file" style="color: rgb(255, 255, 255);"></span>
                     <span class="nav-label">文件管理</span>
                 </a>

@@ -28,7 +28,7 @@ drop table blog_users;
 drop table arti_category;
 drop table article;
 drop table comt;
-drop table reply;
+drop table REPLY2;
 drop table album;
 drop table visitor;
 drop table collection;
