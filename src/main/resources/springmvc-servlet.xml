@@ -58,8 +58,15 @@
         <property name="maxUploadSize" value="-1"/>
     </bean>-->
 
-    <bean id="multipartResolver"
+    <!--<bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="uploadTempDir" value="/blog/"/>&lt;!&ndash;上传后的目录名字 &ndash;&gt;
+        <property name="maxUploadSize" value="-1"/>&lt;!&ndash;默认是-1，表示无限制。&ndash;&gt;
+        <property name="maxInMemorySize" value="10240"/>
+    </bean>-->
+    <bean id="multipartResolver"
+          class="com.blog.controller.CustomMultipartResolver">
         <property name="defaultEncoding" value="UTF-8"/>
         <property name="uploadTempDir" value="/blog/"/><!--上传后的目录名字 -->
         <property name="maxUploadSize" value="-1"/><!--默认是-1，表示无限制。-->
