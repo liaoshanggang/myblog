@@ -115,7 +115,21 @@ CREATE TABLE collection (
 	link_url varchar(255)NOT NULL,								--链接地址
 	colt_description varchar(255) not null
   );					--收藏描述
-
+--file_info(file_id，文件名，文件路径，文件图标存储路径，文件描述)
+CREATE TABLE file_info (
+	file_id integer not null primary key,					  --文件ID
+	file_name varchar(255) not null,						  --文件名
+	file_ext varchar(8),									  --文件扩展名
+	file_path varchar(255) not null,						  --文件路径
+	file_icon_url varchar(255)NOT NULL,					 	  --文件图标存储路径
+	file_size integer,										  --文件大小
+	file_modify_date timestamp default systimestamp not null, --文件更新时间
+	file_create_date timestamp default systimestamp not null, --文件上传时间
+	is_delete number(1),								  	  --0代表没有删除，1代表删除了
+	is_folder number(1),								      --0代表不是文件夹，1代表是文件夹
+	parent_id integer,
+	file_description varchar(255)
+  );
 drop sequence blog_users_seq ;
 drop sequence arti_category_seq ;
 drop sequence article_seq ;
@@ -124,7 +138,9 @@ drop sequence reply_seq ;
 drop sequence album_seq ;
 drop sequence visitor_seq ;
 drop sequence collection_seq ;
+drop sequence file_info_seq ;
 
+create sequence file_info_seq start with 1;
 create sequence blog_users_seq start with 1;
 create sequence arti_category_seq start with 1;
 create sequence article_seq start with 1;
