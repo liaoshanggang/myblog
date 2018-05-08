@@ -84,6 +84,22 @@
                                                 </div>
                                                 <div class="vertical-timeline-content">
                                                     <a class="btn-link"><h2 class="">
+                                                        <span class="vertical-date">2018年X月X日</span>
+                                                        （使用<em>Spring Boot</em>的未来第一版），<em>v2.0</em>
+                                                    </h2></a>
+                                                    <p><i class="fa fa-asterisk"></i>
+                                                        由spring转向Spring Boot，相关配置升级优化，模板引擎由jsp转向Thymeleaf。</p>
+                                                    <p><i class="fa fa-asterisk"></i>
+                                                        系统进行优化，简化了许多配置</p>
+                                                    <p><i class="fa fa-asterisk"></i>
+                                                        系统进行大改进，前后端完全分离</p>
+                                                </div>
+                                            </div>
+                                            <div class="vertical-timeline-block">
+                                                <div class="vertical-timeline-icon white-bg">
+                                                </div>
+                                                <div class="vertical-timeline-content">
+                                                    <a class="btn-link"><h2 class="">
                                                         <span class="vertical-date">2018年2月15日</span>
                                                         （使用<em>Spring</em>的第一版），<em>v1.0</em>
                                                     </h2></a>
@@ -125,8 +141,8 @@
                                 <div id="about_me" class="tab-pane">
                                     <div class="panel-body">
                                         <ul>
-                                            <li>90后程序员，主研方向：Java微前端、Node。</li>
-                                            <li>current：Java工程师</li>
+                                            <li>90后程序员，主研方向：Java、微前端、Node。</li>
+                                            <li>current：Java开发工程师</li>
                                             <li>GitHub：https://github.com/liaoshanggang</li>
                                         </ul>
                                         <b style="font-style: italic;">个人博客（PersonalBlog）：</b><%--<p>​</p>不能放ul吗？--%>
