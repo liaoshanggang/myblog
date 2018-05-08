@@ -57,7 +57,7 @@
     <a href="article/query"> <span class="nav-label">文章管理</span> </a>
     <a href="category/query"> <span class="nav-label">类别管理</span> </a>
     <a href="comment/query"> <span class="nav-label">评论管理</span> </a>
-    <a href="views/manage_file.jsp"> <span class="nav-label">文件管理</span> </a>
+    <a href="fileInfo/queryByPath?path=user/files"> <span class="nav-label">文件管理</span> </a>
     <a href="user/queryAll"> <span class="nav-label">用户管理</span> </a>
 </div>
 <div class="fixed-btn collapse" id="showMenu">
