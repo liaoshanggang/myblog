@@ -326,6 +326,7 @@
                             window.location.href = "article/query";
                             //}, 2000);
                         } else {
+                            $("#img").attr("src", "user/code?r=" + new Date().getTime());
                             success(result);
                         }
                     },
