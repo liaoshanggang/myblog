@@ -184,6 +184,8 @@
                             //     window.location.href = "showHome";
                             // }, 2000);
                         } else {
+                            //console.info($('#img'));
+                            $("#img").attr("src", "user/code?r=" + new Date().getTime());
                             success(result);
                         }
                     },
