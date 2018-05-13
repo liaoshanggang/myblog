@@ -136,8 +136,14 @@
                 <div class="modal-body" id="regModalBody">
                     <div class="form-group" style="margin-bottom:0px;height:55px;">
                         <div class="input-group m-b" style="margin-bottom:0px;"><span class="input-group-addon">用&nbsp;&nbsp;户&nbsp;&nbsp;名</span>
-                            <input id="userName1" type="text" class="form-control" name="userName" placeholder="请输入用户名"
+                            <input id="userName1" type="text" class="form-control" name="userName" placeholder="请输入手机号"
                                    required="">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom:0px;height:55px;">
+                        <div class="input-group m-b" style="margin-bottom:0px;"><span class="input-group-addon">验&nbsp;&nbsp;证&nbsp;&nbsp;码</span>
+                            <input id="smsCode" type="text" class="form-control" name="smsCode" placeholder="请输入手机验证码" required="" aria-required="true">
+                            <span class="input-group-addon btn" id="getCode">获取短信验证码</span>
                         </div>
                     </div>
                     <div class="form-group" style="margin-bottom:0px;height:55px;">
@@ -182,6 +188,89 @@
 <script src="dist/localization/messages_zh.js"></script>
 <script src="dist/jquery.particleground.min.js"></script>
 <script>
+    //验证码点击事件
+    /*var btnDisable = false;
+    var getCode = $('#getCode');
+    getCode.click(function(){
+        //防止等待时间重复发送
+        if(btnDisable){
+            return ;
+        }
+        //1、执行请求验证码逻辑
+        //2、设置定时器
+        timeWait(60);
+        //3、恢复按钮可用
+        btnDisable = true;
+    })
+
+    function timeWait(time) {
+    setTimeout(function () {
+        if(time>=0){
+            getCode.attr('disabled',true);
+            getCode.text(time+"s后重试");
+            time--;
+            timeWait(time);
+        }else{
+            getCode.attr('disabled',false);
+            getCode.text("获取短信验证码");
+            btnDisable = false;
+        }
+    },1000)
+    }*/
+
+    var countdown=60;
+    var isSecond = false;
+    $('#getCode').click(function(){
+        if(isSecond){
+            return;
+        }
+        //1、执行请求验证码逻辑
+        var userName = $("#userName1").val();
+        var json = {userName: userName};
+        $.ajax({
+            url: "user/getCode",
+            type: "post",
+            data: json,
+            success: function (result) {
+                console.info(result+typeof(result));
+                var smsCode = result.split(',');
+                console.info(smsCode[1]);
+                if(smsCode[0]=="success"){
+                    $('#smsCode').attr("value",smsCode[1]);//test
+                    success("获取短信验证码成功！");
+                    return ;
+                }
+                success(result);
+            },
+            error: function () {
+            }
+        });
+
+        var obj = $("#getCode");
+        setTime(obj);
+    })
+    function setTime(obj) { //发送验证码倒计时
+        if (countdown == 0) {
+            obj.attr('disabled',false);
+            //obj.removeattr("disabled");
+            obj.text("免费获取验证码");
+            //console.info("免费获取验证码");
+            countdown = 60;
+            isSecond = false;
+            return;
+        } else {
+            isSecond = true;
+            obj.attr('disabled',true);
+            obj.text("重新发送(" + countdown + ")");
+            //console.info("重新发送(" + countdown + ")");
+            countdown--;
+            setTimeout(function() {
+                setTime(obj);
+            },1000);
+        }
+
+    }
+
     //注册
     $('#regModel').on('shown.bs.modal', function (e) {
         // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
@@ -214,12 +303,13 @@
             var rePassword = $("#rePassword").val();
             var userName = $("#userName1").val();
             var userPassword = $("#userPassword1").val();
+            var smsCode = $("#smsCode").val();
             // 执行一些动作...
             //console.log("模态框%o","关闭");
-            console.log("表单数据：%o", {"userName": userName, "userPassword": userPassword});
+            console.log("表单数据：%o", {"userName": userName, "userPassword": userPassword,"smsCode":smsCode});
             //var data = $('#regModel').serialize(); //name=value&p2=v2&....
             //console.log("序列化"+data);
-            var json = {userName: userName, userPassword: userPassword};
+            var json = {userName: userName, userPassword: userPassword,"smsCode":smsCode};
             $.ajax({
                 url: "user/reg",
                 type: "post",
@@ -256,7 +346,8 @@
         rules: {
             userName: {
                 required: true,
-                minlength: 2
+                minlength: 11,
+                isMobile : true
             },
             userPassword1: {
                 required: true,
@@ -268,13 +359,17 @@
                 minlength: 5,
                 maxlength: 50,
                 equalTo: "#userPassword1"
+            },smsCode: {
+                required: true,
+                minlength: 5
             },
             agree: {required: true}
         },
         messages: {
             userName: {
-                required: "请输入用户名",
-                minlength: "用户名必需由两个字母组成"
+                required : "请输入手机号",
+                minlength : "确认手机不能小于11个字符",
+                isMobile : "请正确填写您的手机号码"
             },
             userPassword1: {
                 required: "请输入密码",
@@ -286,6 +381,10 @@
                 minlength: "密码长度不能小于 5 个字母",
                 maxlength: "密码长度不能大于 50 个字母",
                 equalTo: "两次密码输入不一致"
+            },
+            smsCode: {
+                required: "请输入验证码",
+                minlength: "短信验证码长度为 5 个字母"
             },
             email: "请输入一个正确的邮箱",
             agree: "请接受条款和政策"

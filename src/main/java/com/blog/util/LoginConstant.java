@@ -21,4 +21,7 @@ public interface LoginConstant {
 
     String REG_ERROR_CODE_100006 = "100006";
     String REG_ERROR_MESSAGE_USERPASSWORD = "密码不符合要求，请重新输入！";
+
+    String REG_ERROR_CODE_100007 = "100007";
+    String REG_ERROR_MESSAGE_VALIDATECODE = "短信验证码错误，请重新输入！";
 }

@@ -1,5 +1,6 @@
 package com.blog.controller;
 
+import com.blog.api.IndustrySMS;
 import com.blog.service.IBlogUsersService;
 import com.blog.util.LoginConstant;
 import com.blog.vo.BlogUsers;
@@ -146,12 +147,44 @@ public class BlogUsersController {
         }
     }
 
+    @RequestMapping(value="/getCode", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
+    public @ResponseBody
+    String getCode(BlogUsers user,HttpServletRequest request, HttpServletResponse response,HttpSession session) {
+        //判断用户名不能相同
+        //将验证码写到本地文件中
+        String result = null;
+        String toto = user.getUserName();
+        ValidateCode vCode = new ValidateCode();
+        String code = vCode.getCode();
+        String to = "18877388845";
+        //result = IndustrySMS.execute(to, code);
+        // 获取开发者账号信息
+        // AccountInfo.execute();
+        result = "00000";
+        if(result.equals("00000")){
+            //request.setAttribute("msg","验证码发送成功");
+            session.setAttribute("regCode", vCode.getCode());
+            result = "success,"+code;
+            return result;
+        }
+        return result;
+    }
+
     @RequestMapping(value = {"/reg"}, produces = "text/plain;charset=utf-8")
     public @ResponseBody
-    String addBlogUser(BlogUsers user, HttpSession session) {
+    String addBlogUser(BlogUsers user, HttpSession session, String smsCode) {
         if (user.getUserPassword().length() < 5 || user.getUserPassword().length() > 50) {
             return LoginConstant.REG_ERROR_MESSAGE_USERPASSWORD;
         }
+
+        String code = (String) session.getAttribute("regCode");
+        if (code == null) {
+            return "error";
+        }
+        if (StringUtils.isEmpty(smsCode) || !StringUtils.equals(code.toLowerCase(), smsCode.toLowerCase())) {
+            return LoginConstant.REG_ERROR_MESSAGE_VALIDATECODE;
+        }
+
         user.setUserType(2);
         user.setUserImageUrl("user/img/common-20180225-155739.jpg");
         String info = iBlogUsersService.addBlogUser(user);
@@ -276,4 +309,5 @@ public class BlogUsersController {
         }
         return map;
     }
+
 }
