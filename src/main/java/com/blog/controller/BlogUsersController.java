@@ -186,6 +186,7 @@ public class BlogUsersController {
         }
 
         user.setUserType(2);
+        user.setUserNickname("默认昵称");
         user.setUserImageUrl("user/img/common-20180225-155739.jpg");
         String info = iBlogUsersService.addBlogUser(user);
         if ("success".equals(info)) {
