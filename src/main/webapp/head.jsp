@@ -3,6 +3,10 @@
 <!-- 头部开始 -->
 <%@page import="com.blog.vo.BlogUsers" %>
 <style>
+    /*覆盖*/
+    .theme-config{
+        display: none;
+    }
     .enterBorder {
         border-bottom: solid 3px #5FB878;
     }
@@ -84,7 +88,7 @@
 
 <!-- 头部开始 -->
 <div class="row border-bottom">
-    <nav id="nav1" class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0;background-color:#393D49">
+    <nav id="nav1" class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0;background-color:#20222a"><%--#393D49--%>
         <div class="navbar-header">
             <!-- href="#"没有效果 -->
             <a href="showHome" class="navbar-minimalize minimalize-styl-2 btn"><i

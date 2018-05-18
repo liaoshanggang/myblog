@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <style>
+    /*覆盖*/
+    .theme-config{
+        display: none;
+    }
     .my-nav-header {
         padding: 33px 25px;
     }

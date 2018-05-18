@@ -53,33 +53,33 @@
                                 <button class="btn btn-white" id="zoomIn" type="button">放大</button>
                                 <button class="btn btn-white" id="zoomOut" type="button">缩小</button>
                                 <button class="btn btn-white" id="rotateLeft" type="button">向左旋转</button>
-                                <button class="btn btn-white" id="rotateRight" type="button">右旋</button>
+                                <button class="btn btn-white" id="rotateRight" type="button">向右旋转</button>
                                 <button class="btn btn-warning" id="setDrag" type="button">新修剪</button>
-                                <button class="btn btn-white" id="zoomIn1" type="button">放大</button>
-                                <button class="btn btn-white" id="zoomOut2" type="button">缩小</button>
-                                <button class="btn btn-white" id="rotateLeft3" type="button">向左旋转</button>
-                                <button class="btn btn-white" id="rotateRight4" type="button">右旋</button>
+                                <button class="btn btn-white" id="zoomIn1" type="button">锁定</button>
+                                <button class="btn btn-white" id="zoomOut2" type="button">解锁</button>
+                                <button class="btn btn-white" id="rotateLeft3" type="button">向左移动</button>
+                                <button class="btn btn-white" id="rotateRight4" type="button">向右移动</button>
                                 <button class="btn btn-warning" id="setDrag5" type="button">新修剪</button>
-                                <button class="btn btn-white" id="zoomIn6" type="button">放大</button>
-                                <button class="btn btn-white" id="zoomOut7" type="button">缩小</button>
-                                <button class="btn btn-white" type="button">右旋</button>
-                                <button class="btn btn-white" id="rotateLeft8" type="button">向左旋转</button>
-                                <button class="btn btn-white" id="rotateRight9" type="button">右旋</button>
+                                <button class="btn btn-white" id="zoomIn6" type="button">撤销</button>
+                                <button class="btn btn-white" id="zoomOut7" type="button">保留</button>
+                                <button class="btn btn-white" id="zoomOut17" type="button">向上移动</button>
+                                <button class="btn btn-white" type="button">向下移动</button>
+                                <button class="btn btn-warning" id="rotateLeft118" type="button">新修剪</button>
+                                <button class="btn btn-white" id="rotateRight9" type="button">移动</button>
+                                <button class="btn btn-white" id="zoomIn161" type="button">裁剪</button>
+                                <button class="btn btn-white" type="button">上下拉升</button>
+                                <button class="btn btn-white" id="rotateLeft8" type="button">左右拉升</button>
                                 <button class="btn btn-warning" id="setDrag10" type="button">新修剪</button>
-                                <button class="btn btn-white" id="zoomIn161" type="button">放大</button>
-                                <button class="btn btn-white" id="zoomOut17" type="button">缩小</button>
-                                <button class="btn btn-white" type="button">右旋</button>
-                                <button class="btn btn-white" id="rotateLeft118" type="button">向左旋转</button>
-                                <button class="btn btn-white" id="rotateRight19" type="button">右旋</button>
-                                <button class="btn btn-white" id="setDrag110" type="button">新修剪</button>
-                                <button class="btn btn-white" id="zoomIn61" type="button">放大</button>
-                                <button class="btn btn-white" id="zoomOut71" type="button">缩小</button>
-                                <button class="btn btn-white" type="button">右旋</button>
-                                <button class="btn btn-white" id="rotateLeft18" type="button">向左旋转</button>
+                                <button class="btn btn-white" id="rotateRight19" type="button">刷新</button>
+                                <button class="btn btn-white" id="setDrag110" type="button">刷新</button>
+                                <button class="btn btn-white" id="zoomIn61" type="button">上下收缩</button>
+                                <button class="btn btn-white" id="zoomOut71" type="button">左右收缩</button>
+                                <button class="btn btn-warning" type="button">新修剪</button>
+                                <%--<button class="btn btn-white" id="rotateLeft18" type="button">向左旋转</button>
                                 <button class="btn btn-white" id="rotateRight91" type="button">右旋</button>
                                 <button class="btn btn-white" id="setDrag101" type="button">新修剪</button>
                                 <button class="btn btn-white" type="button">右旋</button>
-                                <button class="btn btn-white" type="button">右旋</button>
+                                <button class="btn btn-white" type="button">右旋</button>--%>
 
                             </div>
                         </div>
