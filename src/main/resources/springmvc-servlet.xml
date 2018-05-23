@@ -27,20 +27,38 @@
         对于不同的web服务器的默认Servlet名称是不同，tomcat的默认Servlet名称为"default" -->
     <mvc:default-servlet-handler/>
 
-     <!--<mvc:interceptors>-->
+     <mvc:interceptors>
     <!-- 全局拦截器 -->
     <!-- <bean class="com.blog.controller.MyHandlerInterceptor"/> -->
-<!--         <mvc:interceptor>
+         <mvc:interceptor>
             <mvc:mapping path="/**"/>
-             <mvc:exclude-mapping path="/user/**"/>
+             <mvc:exclude-mapping path="/user/login2/*"/>
+             <mvc:exclude-mapping path="/user/login/*"/>
+             <mvc:exclude-mapping path="/user/logOff"/>
+             <mvc:exclude-mapping path="/user/code"/>
+             <mvc:exclude-mapping path="/user/getCode"/>
+             <mvc:exclude-mapping path="/user/reg"/>
+             <mvc:exclude-mapping path="/user/selectUserById/**"/>
+             <mvc:exclude-mapping path="/user/updateUser"/>
+             <mvc:exclude-mapping path="/user/showMe"/>
+             <mvc:exclude-mapping path="/user/uptMyInfo"/>
+             <mvc:exclude-mapping path="/visitor/thumbUp"/>
+             <mvc:exclude-mapping path="/file/upload"/>
+             <mvc:exclude-mapping path="/comment/query"/>
+             <mvc:exclude-mapping path="/collect/**"/>
+             <mvc:exclude-mapping path="/category/query"/>
+             <mvc:exclude-mapping path="/article/selectShowMore/**"/>
+             <mvc:exclude-mapping path="/article/selectHot"/>
+             <mvc:exclude-mapping path="/article/query"/>
+             <mvc:exclude-mapping path="/article/queryById/**"/>
              <mvc:exclude-mapping path="/ajaxSearch"/>
              <mvc:exclude-mapping path="/search"/>
              <mvc:exclude-mapping path="/showHome"/>
              <mvc:exclude-mapping path="/showFile"/>
              <mvc:exclude-mapping path="/playback"/>
              <bean class="com.blog.controller.SecureInterceptor"></bean>
-    </mvc:interceptor>
-</mvc:interceptors>-->
+        </mvc:interceptor>
+        </mvc:interceptors>
     <!-- <mvc:resources location="/WEB-INF/views/commons/error/" mapping="/error/**"></mvc:resources> -->
     <!-- 配置试图解析器：把请求处理类的返回值，加工成最终的视图路径 -->
     <!--对模型视图名称的解析，即在模型视图名称添加前后缀 p:prefix="/views/" p:suffix=".jsp" 视图解析器，其作用会Controller方法返回的字符串解析为对应的视图名:prefix

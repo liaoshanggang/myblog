@@ -45,7 +45,7 @@ public class ArticleController {
     public @ResponseBody
     List<Article> selectShowMore(Article article, @PathVariable String moudule, Integer pageNo, ModelMap modelMap, HttpSession session) {
         logger.info(article);
-        Page<Article> page = (Page<Article>) session.getAttribute("artiPage");
+        Page<Article> page = (Page<Article>) session.getAttribute("artiPageMore");
         if (page == null || pageNo == null) {
             page = new Page<Article>(article);
             page.setPageNo(1);
@@ -76,7 +76,7 @@ public class ArticleController {
             articleList = iArticleService.selectSelective(page);
         }
         //List<Article> articleList = iArticleService.selectSelective(page);
-        session.setAttribute("artiPage", page);
+        session.setAttribute("artiPageMore", page);
         /*try {
             Thread.sleep(5000);
 
