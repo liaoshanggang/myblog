@@ -11,7 +11,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  * 安全访问拦截器
  */
 public class SecureInterceptor extends HandlerInterceptorAdapter {
-    static Logger logger = Logger.getLogger(MyHandlerInterceptor.class);
+    static Logger logger = Logger.getLogger(SecureInterceptor.class);
 
     @Override
     public boolean preHandle(HttpServletRequest request,
@@ -19,10 +19,12 @@ public class SecureInterceptor extends HandlerInterceptorAdapter {
         logger.info("1、preHandle():" + request.getRequestURL());
         HttpSession session = request.getSession();
         if (session.getAttribute("logUser") == null) {
+            // 未登录，重定向到登录页面
             response.sendRedirect(request.getContextPath() + "/login.jsp");
             logger.info(request.getContextPath() + "/login.jsp");
             return false;
         }
+        // 已登录，继续向后调用
         return true;
     }
 }

@@ -48,7 +48,8 @@
             background-position: left top;
             background-color: #242645;
             background-size: 100%;
-            background-image: url(img/blog/Starry.jpg);
+            /*background-image: url(img/blog/Starry.jpg);*/
+            background-image: url(img/blog/walk.png);
         }
     </style>
 </head>

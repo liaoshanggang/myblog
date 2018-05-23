@@ -29,11 +29,11 @@ public class JspFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         String url = httpServletRequest.getRequestURI();
         logger.info("==================" + url);
-        if (url != null && url.endsWith(".jsp")) {
+        /*if (url != null && url.endsWith(".jsp")) {
             httpServletResponse.sendRedirect(httpServletRequest
                     .getContextPath());
             return;
-        }
+        }*/
         chain.doFilter(request, response);
 
     }

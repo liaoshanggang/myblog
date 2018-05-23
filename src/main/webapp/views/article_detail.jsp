@@ -95,18 +95,21 @@
         /*height: 5em;*/
         /*margin: 1em;*/
         /*overflow:hidden;*/
-        .social-feed-box a{
-            href:"javascript:void(0)";
+        .social-feed-box a {
+            href: "javascript:void(0)";
         }
-        .post-like{
-            margin-top:45px;
+
+        .post-like {
+            margin-top: 45px;
             padding: 10px;
         }
-        .post-like a{
-            padding:10px 10px 5px 20px;
-            background-color:#eb5745;
-            border-radius:4px;
-            color: #FFFFFF;text-decoration: none;
+
+        .post-like a {
+            padding: 10px 10px 5px 20px;
+            background-color: #eb5745;
+            border-radius: 4px;
+            color: #FFFFFF;
+            text-decoration: none;
             outline: none;
         }
     </style>
@@ -177,9 +180,9 @@
                                     </div>
                                     <div class="pull-center text-center post-like">
                                         <a href="javascript:void(0);" class="btn-lg" id="thumbUp">
-                                        <i class="fa fa-thumbs-up"style="font-size:30px;"></i>
+                                            <i class="fa fa-thumbs-up" style="font-size:30px;"></i>
                                             赞（<span id="thumbUpNum" name="${thumbUpNum}">${thumbUpNum}</span>）
-                                    </a>
+                                        </a>
                                     </div>
                                 </div>
 
@@ -191,10 +194,12 @@
                                             </a><span>发表我的评论</span></h3>
                                     </div>
                                     <div class="social-body">
-                                        <form action="" method="post" name="a1" id="commentForm"><%--javascript:void(0);--%>
+                                        <form action="" method="post" name="a1"
+                                              id="commentForm"><%--javascript:void(0);--%>
                                             <input type="hidden" class="form-control" name="comtArtiId"
                                                    value="${article.artiId}"/>
-                                            <textarea class="form-control" id="comtContent" name="comtContent" placeholder="写点什么..."
+                                            <textarea class="form-control" id="comtContent" name="comtContent"
+                                                      placeholder="写点什么..."
                                                       required="required"></textarea>
                                             <button id="addComment" class="form-control btn btn-white"
                                                     style="background-color: #F8F8F8;" name="${commentPage.pageNo}">提交评论
@@ -220,13 +225,14 @@
                                                     </a>
                                                     <div class="media-body">
                                                         <div class="btn-group pull-right">
-                                                            <%--<button class="btn btn-white btn-xs"><i
-                                                                    class="fa fa-thumbs-up"></i> 赞
-                                                            </button>--%>
+                                                                <%--<button class="btn btn-white btn-xs"><i
+                                                                        class="fa fa-thumbs-up"></i> 赞
+                                                                </button>--%>
                                                             <button class="btn btn-white btn-xs showReplyInput "
                                                                     value="${comment.comtId}"
                                                                     name="${commentPage.pageNo}">
-                                                                <i class="fa fa-comments"></i> <span class="showR">回复</span>
+                                                                <i class="fa fa-comments"></i> <span
+                                                                    class="showR">回复</span>
                                                             </button>
                                                             <button class="btn btn-danger btn-outline btn-xs delComment"
                                                                     type="button" value="${comment.comtId}">删除
@@ -281,10 +287,13 @@
                                         <c:if test="${not empty commentPage}">
                                             <ul class="pager pagination pagination-lg">
                                                     <%--article/queryById/${article.artiId }/detail--%>
-                                                <li><a href="article/queryById/${article.artiId }/detail?pageNo=1">首页</a>
+                                                <li>
+                                                    <a href="article/queryById/${article.artiId }/detail?pageNo=1">首页</a>
                                                 </li>
                                                 <c:if test="${commentPage.pageNo gt 1 &&  commentPage.pageNo le commentPage.totalPage}">
-                                                    <li><a href="article/queryById/${article.artiId }/detail?pageNo=${commentPage.pageNo-1}">«上一页</a></li>
+                                                    <li>
+                                                        <a href="article/queryById/${article.artiId }/detail?pageNo=${commentPage.pageNo-1}">«上一页</a>
+                                                    </li>
                                                 </c:if>
                                                 <c:if test="${commentPage.pageNo gt 3}">
                                                     <li><a href="javascript:void(0)">....</a></li>
@@ -316,7 +325,9 @@
                                                     <li><a href="javascript:void(0)">....</a></li>
                                                 </c:if>
                                                 <c:if test="${commentPage.pageNo ge 1 && commentPage.pageNo lt commentPage.totalPage }">
-                                                    <li><a href="article/queryById/${article.artiId }/detail?pageNo=${commentPage.pageNo+1}">下一页»</a></li>
+                                                    <li>
+                                                        <a href="article/queryById/${article.artiId }/detail?pageNo=${commentPage.pageNo+1}">下一页»</a>
+                                                    </li>
                                                 </c:if>
                                                 <li>
                                                     <a href="article/queryById/${article.artiId }/detail?pageNo=${commentPage.totalPage}">尾页</a>
@@ -413,9 +424,11 @@
         z-index: 1040;
         -webkit-backface-visibility: hidden;
     }
+
     .fixed-btn .go-top {
         border-bottom: 1px solid #eee;
     }
+
     .fixed-btn a {
         display: inline-block;
         width: 40px;
@@ -424,14 +437,17 @@
         color: #64854c;
         text-decoration: none;
     }
+
     .fixed-btn a i {
         vertical-align: middle;
     }
+
     .fixed-btn .writer {
         background-color: #96b97d;
         font-size: 18px;
         color: white;
     }
+
     .fixed-btn .modal.fade.in {
         top: auto;
         bottom: 0;
@@ -445,13 +461,14 @@
     }
 </style>
 <div class="fixed-btn">
-    <a class="go-top" id="toTop" href="javascript:void(0)" title="返回顶部" style="display: inline-block;"> <i class="fa fa-angle-up"></i></a>
+    <a class="go-top" id="toTop" href="javascript:void(0)" title="返回顶部" style="display: inline-block;"> <i
+            class="fa fa-angle-up"></i></a>
     <%--<a class="qrcode" href="javascript:void(0)" title="关注我们"><i class="fa fa-qrcode"></i></a>--%>
     <%--<a class="writer" target="_blank" href="//mail.qq.com/cgi-bin/qm_share?t=qm_mailme&amp;email=ssbDyoOAgfLU3crf09venNHd3w" style="font-size: 12px;" title="Bug 反馈"><i class="fa fa-envelope-o" style="font-size: 20px;"></i></a>--%>
     <%--<!-- qrcode modal -->--%>
     <%--<div id="bottom-qrcode" class="modal panel-modal hide fade in" style="display: none;">--%>
-        <%--<h4>微信关注</h4>--%>
-        <%--<div class="panel-body"><img alt="微信关注" width="128" height="128" src="/wp-content/themes/runoob/assets/images/qrcode.png"></div>--%>
+    <%--<h4>微信关注</h4>--%>
+    <%--<div class="panel-body"><img alt="微信关注" width="128" height="128" src="/wp-content/themes/runoob/assets/images/qrcode.png"></div>--%>
     <%--</div>--%>
 </div>
 <!-- Toastr script -->
@@ -459,53 +476,53 @@
 <!-- Sweet alert -->
 <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
 <script><%--<%=session.getAttribute("logUser")%>--%>
+$(function () {
     $(function () {
-        $(function(){
-           $("#toTop").click(function(){
-               $("html").animate({"scrollTop": "0px"},100); //IE,FF
-              $("body").animate({"scrollTop": "0px"},100); //Webkit
-              });
-        })
-        /*var logUser = "";
-        //console.info(logUser+"类型"+typeof(logUser));
-        if (logUser == "null") {
-        } else {
-            $("#tab-4").children().children().empty().append("<a class='btn-link'><h3>欢迎来到我的博客！</h3><a>");
-        }*/
-
-        $.get("article/selectHot", function (data) {
-            var showHot = $("#showHot");
-            $.each(data, function (i, item) {
-                //console.info(item.artiId+"=="+item.artiTitle);
-                var option = $("<li class=\"title list-group-item\" style=\"padding-left:25px\"><a href=\"article/queryById/" + item.artiId + " /detail\"\n" +
-                    "  class=\"btn-link\">" + item.artiTitle + "</a></li>");
-                showHot.append(option);
-            });
-        }, "json");
+        $("#toTop").click(function () {
+            $("html").animate({"scrollTop": "0px"}, 100); //IE,FF
+            $("body").animate({"scrollTop": "0px"}, 100); //Webkit
+        });
     })
+    /*var logUser = "";
+    //console.info(logUser+"类型"+typeof(logUser));
+    if (logUser == "null") {
+    } else {
+        $("#tab-4").children().children().empty().append("<a class='btn-link'><h3>欢迎来到我的博客！</h3><a>");
+    }*/
+
+    $.get("article/selectHot", function (data) {
+        var showHot = $("#showHot");
+        $.each(data, function (i, item) {
+            //console.info(item.artiId+"=="+item.artiTitle);
+            var option = $("<li class=\"title list-group-item\" style=\"padding-left:25px\"><a href=\"article/queryById/" + item.artiId + " /detail\"\n" +
+                "  class=\"btn-link\">" + item.artiTitle + "</a></li>");
+            showHot.append(option);
+        });
+    }, "json");
+})
 
 </script>
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         var logUser = "<%=session.getAttribute("logUser")%>";
         //console.info(logUser+"类型"+typeof(logUser));
         var n = logUser.split(",");
         var userType;
-        for(var i=0;i<n.length;i++){
+        for (var i = 0; i < n.length; i++) {
             n2 = n[i].split("=");
-            if(n2[0].match("userType")){
+            if (n2[0].match("userType")) {
                 userType = n2[1];
                 break;
             }
         }
-        console.info("类型"+userType);
-        if(logUser!="null" && userType==1){
+        console.info("类型" + userType);
+        if (logUser != "null" && userType == 1) {
             $(".delComment").show();
             $(".delReply").show();
             $("#showBg").empty();
             $("#showBg").append("<div class=\"ibox-content\"><a class='' href=\"article/query\"><h1>\n" +
                 "<i class=\"fa fa-info-circle\"></i>管理文章</h1></a></div>");
-        }else{
+        } else {
             $(".delComment").hide();
             $(".delReply").hide();
             $("#tab-4").children().children().empty().append("<a class='btn-link'><h3>欢迎来到我的博客！</h3><a>");
@@ -523,9 +540,9 @@
     });
     var hasThumbUp = false;
     $('#thumbUp').click(function () {
-        if(hasThumbUp){
+        if (hasThumbUp) {
             success("你已赞过该文章了");
-            return ;
+            return;
         }
         var artiId = $("[name='comtArtiId']").val();
         var json = {artiId: artiId};
@@ -536,12 +553,12 @@
             data: json,
             //dataType: "json",
             success: function (result) {
-                console.info(typeof(result)+result);
-                if(result!="error"){
+                console.info(typeof(result) + result);
+                if (result != "error") {
                     hasThumbUp = false;
                     $("#thumbUpNum").text(result);
-                } else{
-                    $("#thumbUp").css("cursor","not-allowed");
+                } else {
+                    $("#thumbUp").css("cursor", "not-allowed");
                     hasThumbUp = true;
                     success("你已赞过该文章了");
                 }
@@ -553,20 +570,20 @@
     });
     $('#addCollect').click(function () {
         var artiId = $("[name='comtArtiId']").val();
-        var data = {artiId:artiId};
+        var data = {artiId: artiId};
         $.ajax({
             url: "collect/add",
             type: "post",
             data: data,
             /*dataType: "json",*/
             success: function (result) {
-                if(result=="exit"){
+                if (result == "exit") {
                     success("你已收藏过了");
                 }
-                if(result=="success"){
+                if (result == "success") {
                     success("收藏成功！请到个人中心查看");
                 }
-                if(result=="error"){
+                if (result == "error") {
                     success("请登陆后收藏！");
                 }
             },
@@ -576,10 +593,10 @@
         });
     });
     $('#addComment').click(function () {
-        if($("[name='comtContent']").text()==""){
-            //success("请填写评论内容！");
-            return ;
-        }
+        /*if ($("[name='comtContent']").text() == "") {
+            success("请填写评论内容！");
+            return;
+        }*/
         var data = $('#commentForm').serialize();
         console.log("序列化" + data);
         $.ajax({
@@ -627,10 +644,11 @@
             "    </form>\n" +
             "</div><script>\n" +
             "    $('#addReply').click(function () {\n" +
-            "        if($(\"[name='replyContent']\").text()==''){\n" +
+/*            "        if($(\"[name='replyContent']\").text()==''){\n" +
             "            //success(\"请填写回复内容！\");\n" +
             "            return ;\n" +
-            "        }var data = $('#replyForm').serialize();\n" +
+            "        }" +*/
+            "var data = $('#replyForm').serialize();\n" +
             "        console.log(\"序列化\" + data);\n" +
             "        $.ajax({\n" +
             "            url: \"reply/add\",\n" +
@@ -667,7 +685,7 @@
                 var curTr = $(cur).parent().parent().parent().parent();
                 var id = $(cur).attr("value");
                 var comtArtiId = $("[name='comtArtiId']").val();
-                var json = {comtId: id,comtArtiId:comtArtiId};
+                var json = {comtId: id, comtArtiId: comtArtiId};
                 $.ajax({
                     url: "comment/del",
                     type: "post",
@@ -678,7 +696,7 @@
                             //console.info(curTr);
                             curTr.remove();
                             success("删除成功！");
-                            location=location;
+                            location = location;
                         }
                     },
                     error: function () {
@@ -708,7 +726,7 @@
                 var curTr = $(cur).parent().parent();
                 var id = $(cur).attr("value");
                 var artiId = $("[name='comtArtiId']").val();
-                var json = {replyId: id,artiId:artiId};
+                var json = {replyId: id, artiId: artiId};
                 $.ajax({
                     url: "reply/del",
                     type: "post",
@@ -719,7 +737,7 @@
                             //console.info(curTr);
                             curTr.remove();
                             success("删除成功！");
-                            location=location;
+                            location = location;
                         }
                     },
                     error: function () {
@@ -731,7 +749,29 @@
     })
 </script>
 <!-- 底部 -->
-<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","weixin","sqq","renren","copy"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","weixin","sqq","renren","copy"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<script>
+    window._bd_share_config = {
+    "common": {
+        "bdSnsKey": {},
+        "bdText": "",
+        "bdMini": "1",
+        "bdMiniList": false,
+        "bdPic": "",
+        "bdStyle": "0",
+        "bdSize": "16"
+    },
+    "share": {},
+    "image": {
+        "viewList": ["qzone", "tsina", "tqq", "weixin", "sqq", "renren", "copy"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+    },
+    "selectShare": {
+        "bdContainerClass": null,
+        "bdSelectMiniList": ["qzone", "tsina", "tqq", "weixin", "sqq", "renren", "copy"]
+    }
+};
+with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
 </body>
 
 </html>
