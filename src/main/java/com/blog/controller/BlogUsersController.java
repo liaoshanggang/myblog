@@ -157,7 +157,7 @@ public class BlogUsersController {
         ValidateCode vCode = new ValidateCode();
         String code = vCode.getCode();
         String to = "18877388845";
-        //result = IndustrySMS.execute(to, code);
+        //result = IndustrySMS.execute(toto, code);
         // 获取开发者账号信息
         // AccountInfo.execute();
         result = "00000";

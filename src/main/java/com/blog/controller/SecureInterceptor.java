@@ -28,8 +28,8 @@ public class SecureInterceptor extends HandlerInterceptorAdapter {
             response.sendRedirect(request.getContextPath() + "/login.jsp");
             logger.info(request.getContextPath() + "/login.jsp");
             return false;
-        }else if(logUser.getUserType()==1){
-            return true;
+        }else if(logUser.getUserType()==0&&url.contains("bg_mgt")){
+            return false;
         }else{
             // 普通会员已登录，继续向后调用
             //request.getRequestDispatcher("/login").forward(request,response);

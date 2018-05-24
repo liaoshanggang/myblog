@@ -520,7 +520,7 @@ $(function () {
             $(".delComment").show();
             $(".delReply").show();
             $("#showBg").empty();
-            $("#showBg").append("<div class=\"ibox-content\"><a class='' href=\"article/query\"><h1>\n" +
+            $("#showBg").append("<div class=\"ibox-content\"><a class='' href=\"bg_mgt\"><h1>\n" +
                 "<i class=\"fa fa-info-circle\"></i>管理文章</h1></a></div>");
         } else {
             $(".delComment").hide();

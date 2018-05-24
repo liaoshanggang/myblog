@@ -123,4 +123,9 @@ public class CommonController {
     public String showFile(ModelMap modelMap, HttpSession session) {
         return "upload/upload";
     }
+
+    @RequestMapping("bg_mgt")
+    public String backStageManagement() {
+        return "manage";
+    }
 }
