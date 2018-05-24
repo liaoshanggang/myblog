@@ -49,7 +49,9 @@
             background-color: #242645;
             background-size: 100%;
             /*background-image: url(img/blog/Starry.jpg);*/
-            background-image: url(img/blog/walk.png);
+            background-image: url(img/blog/bg004.jpg);
+            /*background-size:100% 100%;
+            background-attachment: fixed;*/
         }
     </style>
 </head>
@@ -218,7 +220,14 @@
         }
     },1000)
     }*/
-
+    function isPoneAvailable(str) {
+        var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+        if (!myreg.test(str)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
     var countdown=60;
     var isSecond = false;
     $('#getCode').click(function(){
@@ -227,6 +236,14 @@
         }
         //1、执行请求验证码逻辑
         var userName = $("#userName1").val();
+        if(!isPoneAvailable(userName)){
+            success("请正确输入手机号");
+            return ;
+        }
+        /*if(userName==""){//防止没填手机号
+            success("请输入手机号");
+            return;
+        }*/
         var json = {userName: userName};
         $.ajax({
             url: "user/getCode",

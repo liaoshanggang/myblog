@@ -43,6 +43,7 @@ public class IndustrySMS
 
 	public static String execute(String to,String code)
 	{
+		smsContent = "【有声博客】您的验证码为"+code+"，请于1分钟内正确输入，如非本人操作，请忽略此短信。";
 		String tmpSmsContent = null;
 		try{
 			tmpSmsContent = URLEncoder.encode(smsContent, "UTF-8");
