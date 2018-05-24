@@ -9,6 +9,16 @@ public class ArtiCategory {
 
     private Date catgTime;
 
+    private int articleNum;
+
+    public int getArticleNum() {
+        return articleNum;
+    }
+
+    public void setArticleNum(int articleNum) {
+        this.articleNum = articleNum;
+    }
+
     public Date getCatgTime() {
         return catgTime;
     }

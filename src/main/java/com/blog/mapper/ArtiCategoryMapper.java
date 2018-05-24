@@ -19,4 +19,6 @@ public interface ArtiCategoryMapper {
     void updateArtiCategoryById(ArtiCategory category);
 
     void deleteArtiCategoryById(ArtiCategory category);
+
+    int countArticleNum(ArtiCategory category);
 }

@@ -35,7 +35,7 @@ public class TestArticleServiceImpl {
         System.out.println(s);
         logger.info(s);
     }
-
+    @Deprecated
     @Test
     public void testAddVisitor() {
         String ip = "192.168.1.3";
@@ -65,7 +65,7 @@ public class TestArticleServiceImpl {
         ias.updateArticleById(article);
         Article article1 = ias.selectArticleById(article);
     }
-
+    @Deprecated
     @Test
     public void testUpdateArticleById() {
         Article article = new Article();
@@ -93,7 +93,7 @@ public class TestArticleServiceImpl {
         article.setArtiId(3);
         ias.deleteArticleById(article);
     }
-
+    @Deprecated
     @Test
     public void testAddArticle() {
         String artiTitle = "标题11";

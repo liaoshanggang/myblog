@@ -21,7 +21,7 @@ public class TestCommentServiceImpl {
     ICommentService ics;
     @Resource
     IReplyService irs;
-
+    @Deprecated
     @Test
     public void testDeleteCommentById() {
         /*删除20的同时更新回复id*/

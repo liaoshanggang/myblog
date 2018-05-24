@@ -44,7 +44,7 @@ public class TestBlogUsersServiceImpl {
         }
 
     }
-
+    @Deprecated
     @Test
     public void testAddBlogUser() {
         for (int i = 0; i < 30; i++) {
@@ -59,7 +59,7 @@ public class TestBlogUsersServiceImpl {
         }
 
     }
-
+    @Deprecated
     @Test
     public void testDeleteUserById() {
 

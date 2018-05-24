@@ -1,5 +1,6 @@
 package com.blog.service.impl;
 
+import com.blog.mapper.ArtiCategoryMapper;
 import com.blog.service.IArtiCategoryService;
 import com.blog.service.IArticleService;
 import com.blog.vo.ArtiCategory;
@@ -23,7 +24,17 @@ public class TestArtiCategoryServiceImpl {
     IArtiCategoryService iacs;
     @Resource
     IArticleService iac;
+    @Resource
+    ArtiCategoryMapper artiCategoryMapper;
 
+    @Test
+    public void testCountArticleNum(){
+        ArtiCategory category = new ArtiCategory();
+        category.setCatgId(5);
+        int i = artiCategoryMapper.countArticleNum(category);
+        logger.info(i);
+    }
+    @Deprecated
     @Test
     public void testDeleteArtiCategoryById() {
         /*删除20的同时更新文章类别id*/
@@ -35,7 +46,7 @@ public class TestArtiCategoryServiceImpl {
         iac.updateById(article);
         iacs.deleteArtiCategoryById(category);
     }
-
+    @Deprecated
     @Test
     public void testUpdateArtiCategoryById() {
         Integer catgId = 14;
@@ -52,7 +63,7 @@ public class TestArtiCategoryServiceImpl {
             logger.info(artiCategory.getCatgId() + "===" + artiCategory.getCatgName());
         }
     }
-
+    @Deprecated
     @Test
     public void testAddArtiCategory() {
         Integer catgId = null;

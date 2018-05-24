@@ -74,4 +74,10 @@
         </trim>
         where CATG_ID=#{catgId}
     </update>
+
+    <!-- 根据类别id统计文章记录数 -->
+    <select id="countArticleNum" parameterType="int" resultType="int">
+        select count(a.ARTI_ID) from ARTICLE a
+        WHERE a.ARTI_CATG_ID = #{catgId}
+    </select>
 </mapper>

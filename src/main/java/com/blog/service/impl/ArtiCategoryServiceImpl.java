@@ -9,6 +9,7 @@ import com.blog.vo.Page;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,7 +35,15 @@ public class ArtiCategoryServiceImpl implements IArtiCategoryService {
 
     @Override
     public List<ArtiCategory> selectSelective(Page<ArtiCategory> page) {
-        return artiCategoryMapper.selectSelective(page);
+        List<ArtiCategory> categoryList = artiCategoryMapper.selectSelective(page);
+        List<ArtiCategory> list = new ArrayList<>();
+        for (ArtiCategory category: categoryList) {
+            int i = artiCategoryMapper.countArticleNum(category);
+            category.setArticleNum(i);
+            list.add(category);
+        }
+        return list;
+        //return artiCategoryMapper.selectSelective(page);
     }
 
     @Override

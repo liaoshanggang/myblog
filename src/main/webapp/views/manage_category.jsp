@@ -73,7 +73,7 @@
                                     <form id="addForm" method="get" action="category/add" class="col-lg-4 pull-left">
                                         <div class="input-group">
                                             <input type="text" class="form-control col-lg-2"
-                                                   name="catgName" placeholder="请输入新类别">
+                                                   name="catgName" placeholder="请输入新类别" required>
                                             <div id="addCatg" class="input-group-btn">
                                                 <button type="submit" class="btn btn-outline btn-primary">新增类别
                                                 </button>
@@ -107,7 +107,7 @@
                                             <fmt:formatDate value='${category.catgTime}'
                                                             pattern='yyyy-MM-dd HH:mm:ss'/>
                                         </td>
-                                        <td class="">Mark</td>
+                                        <td class="">${category.articleNum}</td>
                                         <td class="">
                                             <button class="btn btn-success btn-outline btn-xs updateCatg" type="button"
                                                     value="${category.catgId}">
@@ -261,9 +261,9 @@
             var catgId = $(this).attr("value");
             //console.info(catgId + "==" + catgName);
             //console.info();
-            firstTD.html("<div><input type='text'value='" + catgName + "'>" +
-                "<input type='button' value='保存' onclick='update(this," + catgId + ")'/>" +
-                "<input type='button' value='取消' onclick='cancel(this,\"" + catgName + "\" )'/></div>");
+            firstTD.html("<div><input type='text'style=\"border:1px solid #1C84C6;border-radius:5px;\" value='" + catgName + "'>" +
+                "<input type='button' class='btn btn-success btn-outline btn-xs' value='保存' onclick='update(this," + catgId + ")'/>" +
+                "<input type='button' class='btn btn-success btn-outline btn-xs'  value='取消' onclick='cancel(this,\"" + catgName + "\" )'/></div>");
             //console.info(firstTD.html("<div><input type='text'value='" + catgName + "'>" +
             //   "<input type='button' value='保存' onclick='update(this," + catgId + ")'/>" +
             //  "<input type='button' value='取消' onclick='cancel(this,\""+catgName+"\" )'/></div>"));
