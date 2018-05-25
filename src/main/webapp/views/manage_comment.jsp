@@ -409,7 +409,7 @@
     }
     $(".uptComment").click(function () {
         //console.info($(this).parent());//td
-        var pHtml = $(this).parent().parent().next().find("p");;
+        var pHtml = $(this).parent().parent().next().find("p");
         var comtContent = pHtml.attr("value");//解决第二次输入框不是原数据的问题
         console.info(typeof (comtContent));
         var comtId = $(this).attr("value");
@@ -434,6 +434,12 @@
                 if (result == "success") {
                     //console.info(firstTD);
                     pHtml.text(comtContent);
+                    $(".delComment").each(function(){//切换选项卡不一致
+                        console.info(typeof ($(this).attr("value"))+typeof (id));
+                        if($(this).attr("value")==id){
+                            $(this).parent().parent().next().find("p").text(comtContent);
+                        }
+                    });
                     pHtml.attr("value", comtContent);//解决第二次点编辑不是新数据
                     success("保存成功！");
                 }
@@ -476,6 +482,12 @@
                 if (result == "success") {
                     //console.info(firstTD);
                     pHtml.text(replyContent);
+                    $(".delReply").each(function(){//切换选项卡不一致
+                        console.info(typeof ($(this).attr("value"))+typeof (id));
+                        if($(this).attr("value")==id){
+                            $(this).parent().parent().next().find("p").text(replyContent);
+                        }
+                    });
                     pHtml.attr("value", replyContent);//解决第二次点编辑不是新数据
                     success("保存成功！");
                 }
@@ -513,6 +525,12 @@
                         if (result == "success") {
                             //console.info(curTr);
                             curTr.remove();
+                            $(".delReply").each(function(){//切换选项卡不一致
+                                console.info(typeof ($(this).attr("value"))+typeof (id));
+                                if($(this).attr("value")==id){
+                                    $(this).parent().parent().parent().remove();
+                                }
+                            });
                             success("删除成功！");
                         }
                     },
@@ -556,6 +574,12 @@
                         if (result == "success") {
                             //console.info(curTr);
                             curTr.remove();
+                            $(".delComment").each(function(){//切换选项卡不一致
+                                console.info(typeof ($(this).attr("value"))+typeof (id));
+                                if($(this).attr("value")==id){
+                                    $(this).parent().parent().parent().remove();
+                                }
+                            });
                             success("删除成功！");
                         }
                     },
