@@ -145,7 +145,7 @@
                                                     <a href="category/query?pageNo=${categoryPage.pageNo-1}">${categoryPage.pageNo-1}</a>
                                                 </li>
                                             </c:if>
-                                            <li class="active"><a
+                                            <li class="active" style="color:black ;font-weight:bold;"><a
                                                     href="category/query?pageNo=${categoryPage.pageNo}">${categoryPage.pageNo}</a>
                                             </li>
                                             <c:if test="${categoryPage.pageNo+1 le categoryPage.totalPage}">

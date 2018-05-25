@@ -308,7 +308,7 @@
                                                         <a href="article/queryById/${article.artiId }/detail?pageNo=${commentPage.pageNo-1}">${commentPage.pageNo-1}</a>
                                                     </li>
                                                 </c:if>
-                                                <li class="active"><a
+                                                <li class="active" style="color:black ;font-weight:bold;"><a
                                                         href="article/queryById/${article.artiId }/detail?pageNo=${commentPage.pageNo}">${commentPage.pageNo}</a>
                                                 </li>
                                                 <c:if test="${commentPage.pageNo+1 le commentPage.totalPage}">

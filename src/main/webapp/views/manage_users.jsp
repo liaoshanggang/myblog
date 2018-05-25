@@ -146,7 +146,7 @@
                                                     <a href="user/queryAll?pageNo=${userPage.pageNo-1}">${userPage.pageNo-1}</a>
                                                 </li>
                                             </c:if>
-                                            <li class="active"><a
+                                            <li class="active" style="color:black ;font-weight:bold;"><a
                                                     href="user/queryAll?pageNo=${userPage.pageNo}">${userPage.pageNo}</a>
                                             </li>
                                             <c:if test="${userPage.pageNo+1 le userPage.totalPage}">

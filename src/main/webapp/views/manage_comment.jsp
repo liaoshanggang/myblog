@@ -156,7 +156,7 @@
                                                             <a href="comment/query?pageNo=${commentPage2.pageNo-1}">${commentPage2.pageNo-1}</a>
                                                         </li>
                                                     </c:if>
-                                                    <li class="active"><a
+                                                    <li class="active" style="color:black ;font-weight:bold;"><a
                                                             href="comment/query?pageNo=${commentPage2.pageNo}">${commentPage2.pageNo}</a>
                                                     </li>
                                                     <c:if test="${commentPage2.pageNo+1 le commentPage2.totalPage}">
@@ -188,7 +188,8 @@
                                 <div class="panel-body">
                                     <!-- 评论 -->
                                     <c:forEach var="comment" items="${commentList2}" varStatus="status">
-                                        <c:if test="${comment.blogUsers.userId==1}">
+                                        <%--<c:if test="${comment.blogUsers.userId==1}">--%>
+                                        <c:if test="${comment.blogUsers.userName==sessionScope.logUser.userName}">
                                             <div class="col-md-12 social-feed-box">
                                                 <div class="social-avatar">
                                                     <div class="btn-group pull-right">
@@ -222,7 +223,8 @@
                                             </div>
 
                                             <c:forEach var="replie" items="${comment.replies}" varStatus="status2">
-                                                <c:if test="${replie.bu.userId==1}">
+                                                <%--<c:if test="${replie.bu.userId==1}">--%>
+                                                <c:if test="${replie.bu.userName==sessionScope.logUser.userName}">
                                                     <div class="col-md-12 social-feed-box">
                                                         <div class="social-avatar">
                                                             <div class="btn-group pull-right">
@@ -282,7 +284,7 @@
                                                             <a href="comment/query?pageNo=${commentPage2.pageNo-1}">${commentPage2.pageNo-1}</a>
                                                         </li>
                                                     </c:if>
-                                                    <li class="active"><a
+                                                    <li class="active" style="color:black ;font-weight:bold;"><a
                                                             href="comment/query?pageNo=${commentPage2.pageNo}">${commentPage2.pageNo}</a>
                                                     </li>
                                                     <c:if test="${commentPage2.pageNo+1 le commentPage2.totalPage}">

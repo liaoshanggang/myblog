@@ -148,7 +148,7 @@
                                                         <a href="search?pageNo=${artiPage.pageNo-1}">${artiPage.pageNo-1}</a>
                                                     </li>
                                                 </c:if>
-                                                <li class="active"><a
+                                                <li class="active" style="color:black ;font-weight:bold;"><a
                                                         href="search?pageNo=${artiPage.pageNo}">${artiPage.pageNo}</a>
                                                 </li>
                                                 <c:if test="${artiPage.pageNo+1 le artiPage.totalPage}">
