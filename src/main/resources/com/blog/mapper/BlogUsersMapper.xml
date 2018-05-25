@@ -40,13 +40,16 @@
                 <bind name="pattern4" value="'%'+ queryObject.userMobile+'%'"/>
                 and USER_MOBILE like #{pattern4}
             </if>
+            <if test="keyWords !=null and keyWords.trim().length>0">
+                and instr(USER_NAME||USER_NICKNAME||USER_EMAIL||USER_MOBILE||EDU_BACKGROUND||USER_PROFILE, #{keyWords})>0
+            </if>
         </where>
     </sql>
 
     <select id="selectSelective" parameterType="page" resultMap="baseResultMap">
         select * from (
         select a.*,rownum rn from (
-        select q.*
+        select USER_NAME||USER_NICKNAME||USER_EMAIL||USER_MOBILE||EDU_BACKGROUND||USER_PROFILE,q.*
         from blog_users q
         <include refid="where_selective"/>
         ) a where <![CDATA[rownum<=#{lastIndex}]]>

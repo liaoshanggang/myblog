@@ -197,11 +197,17 @@ public class BlogUsersController {
     }
 
     @RequestMapping("/queryAll")
-    public String queryArticle(BlogUsers user, Integer pageNo, ModelMap modelMap, HttpSession session) {
+    public String queryArticle(BlogUsers user, Integer pageNo, String userKeyWords, ModelMap modelMap, HttpSession session) {
         logger.info(user);
+        //session.setAttribute("userKeyWords", userKeyWords);//用来显示成功的关键字
+        String whitespace = StringUtils.deleteWhitespace(userKeyWords);
+        userKeyWords = whitespace;
         Page<BlogUsers> page = (Page<BlogUsers>) session.getAttribute("userPage");
         if (page == null || pageNo == null) {
             page = new Page<BlogUsers>(user);
+            if (userKeyWords != null) {
+                page.setKeyWords(userKeyWords);
+            }
             page.setPageNo(1);
             page.setPageSize(10);
             int totalRow = iBlogUsersService.countForSelective(page);

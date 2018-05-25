@@ -64,10 +64,10 @@
                         <div class="panel-body scroll_content">
                             <div class="ibox">
                                 <div class="ibox-content">
-                                    <form id="queryForm" method="get" action="user/query" class="col-lg-4 pull-left">
+                                    <form id="queryForm" method="get" action="user/queryAll" class="col-lg-4 pull-left">
                                         <div class="input-group">
                                             <input type="text" class="form-control col-lg-2"
-                                                   name="key" placeholder="请输入查询条件">
+                                                   name="userKeyWords" placeholder="请输入查询条件">
                                             <div id="search" class="input-group-btn">
                                                 <button type="submit" class="btn btn-outline btn-primary">查询
                                                 </button>
@@ -299,6 +299,7 @@
                         //console.info();
                     }
                 }
+                $("#batchDelBtn").attr("disabled", true);//删除后按钮不可用
                 success("批量删除成功！");
                 //if(window.reload){success("批量删除成功！");}
                 /*setTimeout(function(){
