@@ -90,7 +90,10 @@
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.js</url-pattern>
 	</servlet-mapping>
-
+	<servlet-mapping>
+	<servlet-name>default</servlet-name>
+	<url-pattern>*.ico</url-pattern>
+	</servlet-mapping>
 	<!--核心控制器，将springMVC整合到项目里 -->
 	<servlet>
 		<servlet-name>springmvc</servlet-name>

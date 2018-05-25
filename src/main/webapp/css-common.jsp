@@ -12,3 +12,5 @@
 <link href="css/style.css" rel="stylesheet">
 
 <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>

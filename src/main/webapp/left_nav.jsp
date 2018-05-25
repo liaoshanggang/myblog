@@ -23,17 +23,25 @@
             <!-- 左上导航栏开始  #17181e-->
             <li class="my-nav-header">
                 <div class="dropdown profile-element">
-					<span> <img alt="image" class="img-circle"
-                                src="img/gallery/4s.jpg"/>
+					<span>
+                        <%
+                            BlogUsers user2 = (BlogUsers) session.getAttribute("logUser");
+                            if (user2 != null) {
+                        %>
+                        <img alt="image" class="img-circle" style="width: 100px;height: 100px;"
+                                src="../<%=user2.getUserImageUrl()%>"/>
 					</span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <span class="clear">
                             <span class="block m-t-xs">
-                                <strong class="font-bold">ForwardLiao</strong>
+                                <strong class="font-bold"><%=user2.getUserNickname()%></strong>
 						    </span>
                             <span class="text-muted text-xs block">Software Engineer</span>
 					    </span>
                     </a>
+                    <%
+                        }
+                    %>
                 </div>
             </li>
             <!-- 左上导航栏结束  -->
