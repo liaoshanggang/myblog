@@ -45,6 +45,15 @@ public class ReplyController {
         //如果第二次插入的
         return "success";
     }
+
+    @RequestMapping("/modifyC")
+    public @ResponseBody
+    String updateReplyContentById(Reply reply) {
+        logger.info(reply);
+        iReplyService.updateReplyContentById(reply);
+        //如果第二次插入的
+        return "success";
+    }
 /*
     @RequestMapping("/delete")
     public String delRadio(Reply reply) {

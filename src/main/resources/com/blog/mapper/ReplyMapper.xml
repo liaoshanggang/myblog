@@ -24,6 +24,15 @@
         </trim>
         where REPLY_COMT_ID=#{replyComtId}
     </update>
+    <!--根据id更新回复内容-->
+    <update id="updateReplyContentById" parameterType="reply">
+        update REPLY
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="replyContent != null">REPLY_CONTENT=#{replyContent},</if>
+            <if test="replyTime != null">REPLY_TIME=sysdate,</if>
+        </trim>
+        where REPLY_ID=#{replyId}
+    </update>
     <delete id="deleteReplyById" parameterType="reply">
         delete
         REPLY

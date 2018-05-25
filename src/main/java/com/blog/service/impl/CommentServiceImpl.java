@@ -57,4 +57,9 @@ public class CommentServiceImpl implements ICommentService {
         commentMapper.deleteCommentById(comment.getComtId());
     }
 
+    @Override
+    public void updateCommentById(Comment comment) {
+        commentMapper.updateCommentById(comment);
+    }
+
 }

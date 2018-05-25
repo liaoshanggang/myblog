@@ -27,6 +27,15 @@ public class CommentController {
     @Resource
     IArticleService ias;
 
+    @RequestMapping("/modify")
+    public @ResponseBody
+    String updateCommentById(Comment comment) {
+        logger.info(comment);
+        iCommentService.updateCommentById(comment);
+        //如果第二次插入的
+        return "success";
+    }
+
     @RequestMapping("/add")
     public @ResponseBody
     String saveArticle(Comment comment, HttpSession session) {

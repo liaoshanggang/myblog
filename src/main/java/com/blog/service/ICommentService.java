@@ -22,4 +22,6 @@ public interface ICommentService {
     int countForCommentArticle(Page<Comment> comments);
 
     void deleteCommentById(Comment comment);
+
+    void updateCommentById(Comment comment);
 }

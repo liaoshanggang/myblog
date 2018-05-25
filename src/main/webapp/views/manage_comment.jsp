@@ -16,6 +16,12 @@
     <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
     <!-- Sweet Alert -->
     <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <style>
+        .uptComment {
+        }
+        .uptReply {
+        }
+    </style>
     <script>
     </script>
 </head>
@@ -56,83 +62,89 @@
                     <div class="tabs-container">
                         <ul class="nav nav-tabs">
                             <li class="active"><a class="b" data-toggle="tab" href="#tab-1"
-                                                  aria-expanded="true">我的文章评论</a></li>
-                            <li class=""><a class="b" data-toggle="tab" href="#tab-2"
                                             aria-expanded="false">我发表的评论</a></li>
+                            <li class=""><a class="b" data-toggle="tab" href="#tab-2"
+                                                  aria-expanded="true">我的文章评论</a></li>
                         </ul>
                         <div class="tab-content">
-                            <div id="tab-1" class="tab-pane active">
+
+                            <div id="tab-1" class="tab-pane">
                                 <div class="panel-body">
                                     <!-- 评论 -->
                                     <c:forEach var="comment" items="${commentList2}" varStatus="status">
-                                        <div class="col-md-12 social-feed-box">
-                                            <div class="social-avatar">
-                                                <div class="btn-group pull-right">
-                                                    <button class="btn btn-success btn-outline btn-xs "
-                                                            type="button">回复
-                                                    </button>
-                                                    <button class="btn btn-danger btn-outline btn-xs delComment"
-                                                            type="button" value="${comment.comtId}" name="${comment.article.artiId}">删除
-                                                    </button>
-                                                </div>
-                                                <a href="" class="pull-left"> <img alt="图片"
-                                                                                   src="../${comment.blogUsers.userImageUrl}">
-                                                </a>
-                                                <div class="media-body">
-                                                    <a href="#">${comment.blogUsers.userName} </a>
-                                                    <small
-                                                            class="text-muted">
-                                                        <fmt:formatDate value='${comment.comtTime}'
-                                                                        pattern='yyyy-MM-dd HH:mm:ss'/> 回复了你的文章
-                                                        <a href="article/queryById/${comment.article.artiId}/comment"
-                                                           class="btn-link">
-                                                                ${comment.article.artiTitle}</a>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                            <div class="social-body">
-                                                <p>
-                                                        ${comment.comtContent}
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <c:forEach var="replie" items="${comment.replies}" varStatus="status2">
+                                        <%--<c:if test="${comment.blogUsers.userId==1}">--%>
+                                        <c:if test="${comment.blogUsers.userName==sessionScope.logUser.userName}">
                                             <div class="col-md-12 social-feed-box">
                                                 <div class="social-avatar">
                                                     <div class="btn-group pull-right">
-                                                        <button class="btn btn-success btn-outline btn-xs "
-                                                                type="button">回复
+                                                        <button class="btn btn-success btn-outline btn-xs uptComment"
+                                                                type="button" value="${comment.comtId}">更新
                                                         </button>
-                                                        <button class="btn btn-danger btn-outline btn-xs delReply"
-                                                                type="button" value="${replie.replyId}" name="${comment.article.artiId}">删除
+                                                        <button class="btn btn-danger btn-outline btn-xs delComment"
+                                                                type="button" name="${comment.article.artiId}" value="${comment.comtId}">删除
                                                         </button>
                                                     </div>
-                                                    <a href="" class="pull-left"> <img alt="图片"
-                                                                                       src="../${replie.bu.userImageUrl}">
+                                                    <a href="javascript:void(0);" class="pull-left"> <img alt="图片"
+                                                                                                          src="../${comment.blogUsers.userImageUrl}">
                                                     </a>
                                                     <div class="media-body">
-                                                        <a href="#">${status2.count }--->>>>${replie.bu.userName} </a>
+                                                        <a href="javascript:void(0);">${comment.blogUsers.userName} </a>
                                                         <small
                                                                 class="text-muted">
-                                                            <fmt:formatDate value='${replie.replyTime}'
-                                                                            pattern='yyyy-MM-dd HH:mm:ss'/>
-                                                            回复了${comment.blogUsers.userName}
+                                                            <fmt:formatDate value='${comment.comtTime}'
+                                                                            pattern='yyyy-MM-dd HH:mm:ss'/> 回复了你的文章
                                                             <a href="article/queryById/${comment.article.artiId}/comment"
                                                                class="btn-link">
-                                                                文章：${comment.article.artiTitle}</a>
+                                                                    ${comment.article.artiTitle}</a>
                                                         </small>
                                                     </div>
                                                 </div>
                                                 <div class="social-body">
-                                                    <p>
-                                                            ${replie.replyContent}
+                                                    <p value="${comment.comtContent}">
+                                                            ${comment.comtContent}
                                                     </p>
                                                 </div>
                                             </div>
-                                        </c:forEach>
-                                        <!-- 评论 -->
 
+                                            <c:forEach var="replie" items="${comment.replies}" varStatus="status2">
+                                                <%--<c:if test="${replie.bu.userId==1}">--%>
+                                                <c:if test="${replie.bu.userName==sessionScope.logUser.userName}">
+                                                    <div class="col-md-12 social-feed-box">
+                                                        <div class="social-avatar">
+                                                            <div class="btn-group pull-right">
+                                                                <button class="btn btn-success btn-outline btn-xs uptReply"
+                                                                        type="button" value="${replie.replyId}">更新
+                                                                </button>
+                                                                <button class="btn btn-danger btn-outline btn-xs delReply"
+                                                                        type="button" name="${comment.article.artiId}" value="${replie.replyId}">删除
+                                                                </button>
+                                                            </div>
+                                                            <a href="javascript:void(0);" class="pull-left"> <img alt="图片"
+                                                                                                                  src="../${replie.bu.userImageUrl}">
+                                                            </a>
+                                                            <div class="media-body">
+                                                                <a href="javascript:void(0);">${status2.count }--->>>>${replie.bu.userName} </a>
+                                                                <small
+                                                                        class="text-muted">
+                                                                    <fmt:formatDate value='${replie.replyTime}'
+                                                                                    pattern='yyyy-MM-dd HH:mm:ss'/>
+                                                                    回复了${comment.blogUsers.userName}
+                                                                    <a href="article/queryById/${comment.article.artiId}/comment"
+                                                                       class="btn-link">
+                                                                        文章：${comment.article.artiTitle}</a>
+                                                                </small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="social-body">
+                                                            <p  value="${replie.replyContent}">
+                                                                    ${replie.replyContent}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </c:if>
+                                            </c:forEach>
+                                            <!-- 评论 -->
+                                        </c:if>
                                     </c:forEach>
                                     <!-- 分页链拉 -->
                                     <div>
@@ -184,83 +196,79 @@
                                     <!-- 分页链拉 -->
                                 </div>
                             </div>
-                            <div id="tab-2" class="tab-pane">
+
+                            <div id="tab-2" class="tab-pane active">
                                 <div class="panel-body">
                                     <!-- 评论 -->
                                     <c:forEach var="comment" items="${commentList2}" varStatus="status">
-                                        <%--<c:if test="${comment.blogUsers.userId==1}">--%>
-                                        <c:if test="${comment.blogUsers.userName==sessionScope.logUser.userName}">
+                                        <div class="col-md-12 social-feed-box">
+                                            <div class="social-avatar">
+                                                <div class="btn-group pull-right">
+                                                    <%--<button class="btn btn-success btn-outline btn-xs "
+                                                            type="button">回复
+                                                    </button>--%>
+                                                    <button class="btn btn-danger btn-outline btn-xs delComment"
+                                                            type="button" value="${comment.comtId}" name="${comment.article.artiId}">删除
+                                                    </button>
+                                                </div>
+                                                <a href="javascript:void(0);" class="pull-left"> <img alt="图片"
+                                                                                   src="../${comment.blogUsers.userImageUrl}">
+                                                </a>
+                                                <div class="media-body">
+                                                    <a href="javascript:void(0);">${comment.blogUsers.userName} </a>
+                                                    <small
+                                                            class="text-muted">
+                                                        <fmt:formatDate value='${comment.comtTime}'
+                                                                        pattern='yyyy-MM-dd HH:mm:ss'/> 回复了你的文章
+                                                        <a href="article/queryById/${comment.article.artiId}/comment"
+                                                           class="btn-link">
+                                                                ${comment.article.artiTitle}</a>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="social-body">
+                                                <p>
+                                                        ${comment.comtContent}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <c:forEach var="replie" items="${comment.replies}" varStatus="status2">
                                             <div class="col-md-12 social-feed-box">
                                                 <div class="social-avatar">
                                                     <div class="btn-group pull-right">
-                                                            <%--<button class="btn btn-success btn-outline btn-xs "
-                                                                    type="button">回复
-                                                            </button>--%>
-                                                        <button class="btn btn-danger btn-outline btn-xs delComment"
-                                                                type="button" name="${comment.article.artiId}" value="${comment.comtId}">删除
+                                                        <%--<button class="btn btn-success btn-outline btn-xs "
+                                                                type="button">回复
+                                                        </button>--%>
+                                                        <button class="btn btn-danger btn-outline btn-xs delReply"
+                                                                type="button" value="${replie.replyId}" name="${comment.article.artiId}">删除
                                                         </button>
                                                     </div>
-                                                    <a href="" class="pull-left"> <img alt="图片"
-                                                                                       src="../${comment.blogUsers.userImageUrl}">
+                                                    <a href="javascript:void(0);" class="pull-left"> <img alt="图片"
+                                                                                       src="../${replie.bu.userImageUrl}">
                                                     </a>
                                                     <div class="media-body">
-                                                        <a href="#">${comment.blogUsers.userName} </a>
+                                                        <a href="javascript:void(0);">${status2.count }--->>>>${replie.bu.userName} </a>
                                                         <small
                                                                 class="text-muted">
-                                                            <fmt:formatDate value='${comment.comtTime}'
-                                                                            pattern='yyyy-MM-dd HH:mm:ss'/> 回复了你的文章
+                                                            <fmt:formatDate value='${replie.replyTime}'
+                                                                            pattern='yyyy-MM-dd HH:mm:ss'/>
+                                                            回复了${comment.blogUsers.userName}
                                                             <a href="article/queryById/${comment.article.artiId}/comment"
                                                                class="btn-link">
-                                                                    ${comment.article.artiTitle}</a>
+                                                                文章：${comment.article.artiTitle}</a>
                                                         </small>
                                                     </div>
                                                 </div>
                                                 <div class="social-body">
                                                     <p>
-                                                            ${comment.comtContent}
+                                                            ${replie.replyContent}
                                                     </p>
                                                 </div>
                                             </div>
+                                        </c:forEach>
+                                        <!-- 评论 -->
 
-                                            <c:forEach var="replie" items="${comment.replies}" varStatus="status2">
-                                                <%--<c:if test="${replie.bu.userId==1}">--%>
-                                                <c:if test="${replie.bu.userName==sessionScope.logUser.userName}">
-                                                    <div class="col-md-12 social-feed-box">
-                                                        <div class="social-avatar">
-                                                            <div class="btn-group pull-right">
-                                                                    <%--<button class="btn btn-success btn-outline btn-xs "
-                                                                            type="button">回复
-                                                                    </button>--%>
-                                                                <button class="btn btn-danger btn-outline btn-xs delReply"
-                                                                        type="button" name="${comment.article.artiId}" value="${replie.replyId}">删除
-                                                                </button>
-                                                            </div>
-                                                            <a href="" class="pull-left"> <img alt="图片"
-                                                                                               src="../${replie.bu.userImageUrl}">
-                                                            </a>
-                                                            <div class="media-body">
-                                                                <a href="#">${status2.count }--->>>>${replie.bu.userName} </a>
-                                                                <small
-                                                                        class="text-muted">
-                                                                    <fmt:formatDate value='${replie.replyTime}'
-                                                                                    pattern='yyyy-MM-dd HH:mm:ss'/>
-                                                                    回复了${comment.blogUsers.userName}
-                                                                    <a href="article/queryById/${comment.article.artiId}/comment"
-                                                                       class="btn-link">
-                                                                        文章：${comment.article.artiTitle}</a>
-                                                                </small>
-                                                            </div>
-                                                        </div>
-                                                        <div class="social-body">
-                                                            <p>
-                                                                    ${replie.replyContent}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </c:if>
-                                            </c:forEach>
-                                            <!-- 评论 -->
-                                        </c:if>
                                     </c:forEach>
                                     <!-- 分页链拉 -->
                                     <div>
@@ -398,6 +406,83 @@
 
     function tab(index) {
         $('.tab-pane').siblings('.tab-pane').hide().end().eq(index).show();
+    }
+    $(".uptComment").click(function () {
+        //console.info($(this).parent());//td
+        var pHtml = $(this).parent().parent().next().find("p");;
+        var comtContent = pHtml.attr("value");//解决第二次输入框不是原数据的问题
+        console.info(typeof (comtContent));
+        var comtId = $(this).attr("value");
+        //console.info(comtId + "==" + comment);
+        pHtml.html("<div><textarea class=\"form-control\" type='text'style=\"border:1px solid #1C84C6;border-radius:5px;\" value='" + comtContent + "'>"+comtContent+"</textarea>" +
+            "<input type='button' class='btn btn-success btn-outline btn-xs' value='保存' onclick='updateComment(this," + comtId + ")'/>" +
+            "<input type='button' class='btn btn-success btn-outline btn-xs'  value='取消' onclick='cancel(this,\"" + comtContent + "\" )'/></div>");
+    })
+    function updateComment(cur, id) {
+        //console.info("我 来了");
+        //console.info($(cur).parent().parent());
+        var pHtml = $(cur).parent().parent();
+        var comtContent = $(cur).prev().val();
+        var json = {comtContent: comtContent, comtId: id};
+        //console.info(json);
+        $.ajax({
+            url: "comment/modify",
+            type: "post",
+            data: json,
+            success: function (result) {
+                //console.info(result);
+                if (result == "success") {
+                    //console.info(firstTD);
+                    pHtml.text(comtContent);
+                    pHtml.attr("value", comtContent);//解决第二次点编辑不是新数据
+                    success("保存成功！");
+                }
+            },
+            error: function () {
+            }
+        });
+    }
+
+    function cancel(cur, comtContent) {
+        //$(cur).parent().remove();
+        //console.info(comment);
+        $(cur).parent().parent().text(comtContent);
+    }
+
+    $(".uptReply").click(function () {
+        //console.info($(this).parent());//td
+        var pHtml = $(this).parent().parent().next().find("p");;
+        var replyContent = pHtml.attr("value");//解决第二次输入框不是原数据的问题
+        console.info(typeof (replyContent));
+        var replyId = $(this).attr("value");
+        //console.info(comtId + "==" + comment);
+        pHtml.html("<div><textarea class=\"form-control\"  type='text'style=\"border:1px solid #1C84C6;border-radius:5px;\" value='" + replyContent + "'>"+replyContent+"</textarea>" +
+            "<input type='button' class='btn btn-success btn-outline btn-xs' value='保存' onclick='updateReply(this," + replyId + ")'/>" +
+            "<input type='button' class='btn btn-success btn-outline btn-xs'  value='取消' onclick='cancel(this,\"" + replyContent + "\" )'/></div>");
+    })
+    function updateReply(cur, id) {
+        //console.info("我 来了");
+        //console.info($(cur).parent().parent());
+        var pHtml = $(cur).parent().parent();
+        var replyContent = $(cur).prev().val();
+        var json = {replyContent: replyContent, replyId: id};
+        //console.info(json);
+        $.ajax({
+            url: "reply/modifyC",
+            type: "post",
+            data: json,
+            success: function (result) {
+                //console.info(result);
+                if (result == "success") {
+                    //console.info(firstTD);
+                    pHtml.text(replyContent);
+                    pHtml.attr("value", replyContent);//解决第二次点编辑不是新数据
+                    success("保存成功！");
+                }
+            },
+            error: function () {
+            }
+        });
     }
 
     $(".delReply").click(function () {

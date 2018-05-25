@@ -25,4 +25,6 @@ public interface CommentMapper {
     int countForCommentArticle(Page<Comment> comments);
 
     void deleteCommentById(Integer comtId);
+
+    void updateCommentById(Comment comment);
 }

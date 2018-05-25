@@ -161,4 +161,14 @@
         comt c
         where c.COMT_ID=#{comtId}
     </delete>
+
+    <!--根据id更新评论内容-->
+    <update id="updateCommentById" parameterType="comment">
+        update COMT
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="comtContent != null">COMT_CONTENT=#{comtContent},</if>
+            <if test="comtTime != null">COMT_TIME=sysdate,</if>
+        </trim>
+        where COMT_ID=#{comtId}
+    </update>
 </mapper>

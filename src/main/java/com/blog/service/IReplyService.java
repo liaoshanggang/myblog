@@ -11,4 +11,6 @@ public interface IReplyService {
     void updateReplyById(Reply reply);
 
     void deleteReplyById(Reply reply);
+
+    void updateReplyContentById(Reply reply);
 }

@@ -33,4 +33,9 @@ public class ReplyServiceImpl implements IReplyService {
     public void deleteReplyById(Reply reply) {
         replyMapper.deleteReplyById(reply);
     }
+
+    @Override
+    public void updateReplyContentById(Reply reply) {
+        replyMapper.updateReplyContentById(reply);
+    }
 }
