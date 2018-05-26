@@ -38,4 +38,17 @@
       #{isFolder,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{fileDescription,jdbcType=VARCHAR}
       )
   </insert>
+  <delete id="batchDelFile" parameterType="java.lang.Integer">
+    delete from FILE_INFO where FILE_ID in
+    <foreach item="delID" index="index" collection="array" open="(" separator="," close=")">
+      #{delID}
+    </foreach>
+  </delete>
+
+  <select id="batchSelFile" parameterType="java.lang.Integer" resultMap="baseResultMap">
+    SELECT * from FILE_INFO where FILE_ID in
+    <foreach item="delID" index="index" collection="array" open="(" separator="," close=")">
+      #{delID}
+    </foreach>
+  </select>
 </mapper>

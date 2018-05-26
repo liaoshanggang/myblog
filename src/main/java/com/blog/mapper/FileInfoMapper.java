@@ -10,4 +10,8 @@ public interface FileInfoMapper {
     List<FileInfo> selectFileInfoByPath(FileInfo fileInfo);
 
     void insertFileInfo(FileInfo fileInfo);
+
+    void batchDelFile(int[] delID);
+
+    List<FileInfo> batchSelFile(int[] delID);
 }

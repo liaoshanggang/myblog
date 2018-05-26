@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -100,6 +101,23 @@ public class FileInfoController {
             return json;
         }
         return "该文件为空";
+    }
+    //	批量删除文件信息
+    @RequestMapping(value = "batchDelFile", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
+    public @ResponseBody String delSelectFile(String delId) {
+        //删除后链接未改变
+        System.out.println(delId);
+//		把得到的字符串id数组转换成数字id数组
+        String[] delIds = delId.split(",");
+        int i = delIds.length;
+        int delID[] = new int[i];
+        for (int j = 0; j < delIds.length; j++) {
+            delID[j] = Integer.parseInt(delIds[j]);
+        }
+        if(iFileInfoService.batchDelFile(delID,realPath)){
+            return "success";
+        }
+        return "error";
     }
 
     /*@RequestMapping(value = "/upload", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")

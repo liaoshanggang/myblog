@@ -68,7 +68,7 @@
                         </ul>
                         <div class="tab-content">
 
-                            <div id="tab-1" class="tab-pane">
+                            <div id="tab-1" class="tab-pane active">
                                 <div class="panel-body">
                                     <!-- 评论 -->
                                     <c:forEach var="comment" items="${commentList2}" varStatus="status">
@@ -197,7 +197,7 @@
                                 </div>
                             </div>
 
-                            <div id="tab-2" class="tab-pane active">
+                            <div id="tab-2" class="tab-pane">
                                 <div class="panel-body">
                                     <!-- 评论 -->
                                     <c:forEach var="comment" items="${commentList2}" varStatus="status">

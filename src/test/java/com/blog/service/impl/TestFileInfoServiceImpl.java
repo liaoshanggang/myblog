@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -19,6 +20,26 @@ public class TestFileInfoServiceImpl {
     static Logger logger = Logger.getLogger(TestFileInfoServiceImpl.class);
     @Resource
     IFileInfoService iFileInfoService;
+    private String realPath = "E:\\";
+
+    @Test
+    public void batchSelFileTest(){
+        int delID[] = {1,2,3};
+        List<FileInfo> fileInfos = iFileInfoService.batchSelFile(delID);
+        for (FileInfo fileInfo : fileInfos) {
+            logger.info(fileInfo);
+        }
+    }
+
+    @Deprecated
+    @Test
+    public void deleteRecursivelyTest(){
+        //realPath = realPath +"user/files/bg003.jpg";
+        realPath = realPath +"user/files/sdf";
+        realPath = realPath.replace("/","\\");
+        File file = new File(realPath);
+        FileSystemUtils.deleteRecursively(file);
+    }
 
     @Test
     public void selectFileInfoByPath(){
