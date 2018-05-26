@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.*;
 import java.util.List;
+import java.util.UUID;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:applicationContext.xml"})
@@ -21,6 +22,14 @@ public class TestFileInfoServiceImpl {
     @Resource
     IFileInfoService iFileInfoService;
     private String realPath = "E:\\";
+
+    @Test
+    public void test() {
+        for(int i=0;i<10;i++){
+            String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+            System.out.println(uuid);
+        }
+    }
 
     @Test
     public void batchSelFileTest(){

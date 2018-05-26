@@ -394,7 +394,7 @@
             var fileObj = $("#batchFile").get(0).files[0]; // js 获取文件对象
             console.info("上传的文件：" + fileObj);
             var path = $("#path").text();
-            var FileController = base + "/fileInfo/upload?path=" + path; // 接收上传文件的后台地址
+            var FileController = base + "/fileInfo/upload?uploadPathDir=" + path; // 接收上传文件的后台地址
             // FormData 对象
             var form = new FormData();
             // form.append("author", "hooyes"); // 可以增加表单数据

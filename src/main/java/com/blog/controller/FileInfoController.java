@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/fileInfo")
@@ -33,7 +34,7 @@ public class FileInfoController {
     IFileInfoService iFileInfoService;
     private final String realPath = "E:\\";
     private final String accessPath = "user/files/";
-
+    private String[] fileIconUrls = {"img/blog/file-text.jpg","img/blog/folder-yellow.jpg"};
     @RequestMapping("/queryByPath")
     public String queryFileInfoByPath(String path , ModelMap modelMap){
         FileInfo fileInfo = new FileInfo();
@@ -44,61 +45,69 @@ public class FileInfoController {
         return "/manage_file";
     }
 
-    public void copyFile(MultipartFile file, String path) throws IOException {
-        InputStream input = file.getInputStream();
-        OutputStream out = new FileOutputStream(path);
-        byte[] b = new byte[1024];
-        while ((input.read(b)) != -1) {
-            out.write(b);
-        }
-        input.close();
-        out.close();
-    }
-
+    /**
+     * HttpServletRequest request, HttpServletResponse response, PrintWriter out; boolean flag = false;
+     * @param file
+     * @param uploadPathDir
+     * @param session
+     * @return
+     * @throws IOException
+     */
     @RequestMapping(value = "/upload", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
     public @ResponseBody
-    String upload(HttpServletRequest request, HttpServletResponse response,
-                  @RequestParam("file") CommonsMultipartFile file, String path,HttpSession session)
+    String upload(@RequestParam("file") CommonsMultipartFile file, String uploadPathDir,HttpSession session)
             throws IOException {
-        PrintWriter out;
-        boolean flag = false;
         BlogUsers user = (BlogUsers) session.getAttribute("logUser");
         if (user == null) {
             return "未登陆，上传失败，请重新登陆！";
         }
         if (file.getSize() > 0&&!file.isEmpty()) {
-            String originalFilename = file.getOriginalFilename();
-            String originalName = originalFilename;//获取原文件名带后缀
-            //把路径插入到数据库user/img/abc.jpg，并存放到服务器硬盘上
-            String pathD = path+"/"+originalFilename;
-            path = path.replace("/","\\");
-            String path1 = realPath + File.separator + path + "\\" + originalName;
+            //把文件上传到服务器硬盘上，并把信息插入到数据库
+            //原文件的基本信息
+            String originalFileNameExt = file.getOriginalFilename();        //原文件名带后缀
+            int fileSize = new Long(file.getSize()).intValue();
+
+            //明确一些数据库访问路径的和硬盘路径等信息，数据库1,2,3为数据库文件信息需要的，硬盘1，2，3为上传文件需要的
+            String fileExt = originalFileNameExt.substring(originalFileNameExt.lastIndexOf("."));//后缀名==数据库1
+            String originalFileName = StringUtils.remove(originalFileNameExt, fileExt);             //原文件名==数据库2
+            String uuid = UUID.randomUUID().toString(); //uuid 如：817ba6c6-38ad-4417-aad5-10c1dda36b30
+            String newFileNameExt = uuid+fileExt;                                   //新文件名 uuid+后缀===硬盘1
+            String filePath = uploadPathDir+"/"+newFileNameExt;                    //存放到数据库的文件相对路径==数据库3
+            uploadPathDir = uploadPathDir.replace("/","\\");//转换到window下的分割符//===硬盘2
+            String path1 = realPath + File.separator + uploadPathDir + "\\" + originalFileNameExt;//文件目录===硬盘3
+
+            //存信息到数据库
             FileInfo fileInfo = new FileInfo();
-            String fileExt = originalFilename.substring(originalFilename.lastIndexOf("."));
-            String name = StringUtils.remove(originalName, fileExt);
-            fileInfo.setFileName(name);
+            fileInfo.setFileName(originalFileName);
             fileInfo.setFileExt(fileExt);
-            fileInfo.setFilePath(pathD);
-            fileInfo.setFileIconUrl("img/blog/file-text.jpg");
+            fileInfo.setFilePath(filePath);
+            fileInfo.setFileSize(fileSize);
+            fileInfo.setFileCreateDate(new Date());
+            fileInfo.setFileIconUrl(fileIconUrls[0]);//设置默认的
+            fileInfo.setIsDelete(0);//设置默认为文件
+            fileInfo.setFileDescription("文件");//设置默认为文件
+
             //根据后缀名设置
             if(".txt".equals(fileExt)){
-                fileInfo.setFileIconUrl("img/blog/folder-yellow.jpg");
+                fileInfo.setFileIconUrl(fileIconUrls[0]);
             }
-            fileInfo.setFileSize(new Long(file.getSize()).intValue());
-            fileInfo.setFileCreateDate(new Date());
-            fileInfo.setIsDelete(0);
+            //判断是否为目录
             File file2 = new File(path1);
             fileInfo.setIsFolder(0);
             if(file2.isDirectory()){
                 fileInfo.setIsFolder(1);
-                fileInfo.setFileIconUrl("img/blog/folder-yellow.jpg");
+                fileInfo.setFileIconUrl(fileIconUrls[1]);
+                fileInfo.setFileDescription("文件夹");
             }
-            fileInfo.setFileDescription("文件");
+
+            //上传文件到服务器硬盘上
+            FileUtils.copyInputStreamToFile(file.getInputStream(),new File("E://"+uploadPathDir+"/",newFileNameExt));
+            //插入文件信息到数据库
             iFileInfoService.insertFileInfo(fileInfo);
+
             ObjectMapper mapper = new ObjectMapper();
-            String json = mapper.writeValueAsString(fileInfo);
-            FileUtils.copyInputStreamToFile(file.getInputStream(),new File("E://"+path+"/",file.getOriginalFilename()));
-            return json;
+            return mapper.writeValueAsString(fileInfo);
+            //return json;
         }
         return "该文件为空";
     }
@@ -119,7 +128,16 @@ public class FileInfoController {
         }
         return "error";
     }
-
+    /*public void copyFile(MultipartFile file, String path) throws IOException {
+            InputStream input = file.getInputStream();
+            OutputStream out = new FileOutputStream(path);
+            byte[] b = new byte[1024];
+            while ((input.read(b)) != -1) {
+                out.write(b);
+            }
+            input.close();
+            out.close();
+        }*/
     /*@RequestMapping(value = "/upload", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
     public @ResponseBody
     String upload(@RequestParam("file") MultipartFile file,String path, HttpSession session)
