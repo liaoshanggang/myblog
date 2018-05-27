@@ -13,8 +13,11 @@ import org.springframework.util.FileSystemUtils;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:applicationContext.xml"})
@@ -25,6 +28,111 @@ public class TestFileInfoServiceImpl {
     private String realPath = "E:\\";
     @Resource
     FileInfoMapper fileInfoMapper;
+
+    @Test
+    public void testFun() {
+        //输入
+        FileInfo fileInfo = new FileInfo();
+        fileInfo.setFileName("新建文件");//新建文件夹 (1)新建文件夹 (2)新建文件夹 (3)新建文件夹  (2)新建文件夹 (1)
+        String fileName = fileInfo.getFileName();
+        String parentDirPath = "user/files";
+        parentDirPath = parentDirPath.replace("/","\\");
+
+        String fileDirPath = realPath + parentDirPath+"\\";
+        String path = fileDirPath+ fileInfo.getFileName();
+        String name = fun(fileDirPath, fileName);//新建文件夹
+        logger.info(name);
+    }
+//java.lang.StackOverflowError
+    public String fun(String fileDirPath,String fileName){
+        File file = new File(fileDirPath+fileName);
+        String outName = "";
+        boolean exists = file.exists();
+        if(exists){
+            String autoRename = autoRename(fileName);
+            outName = autoRename;
+            return fun(fileDirPath,outName);
+        }else {
+            outName = fileName;
+            return outName;
+        }
+    }
+    @Test
+    public void testAutoName() {
+        //java如何解析小括号里面的数字字符串-->java如何获取最后一对小括号
+        //最后一个字符是)，往前匹配都是是数字的话，直到前一个字符是(
+        String str = "新建文件夹1(((sdfs))(sdfsfs1231)";
+        String str2 = "新建文件夹1(((sdfs))(12314rewrwe)(23424)";
+        String str3 = "新建文件夹1(((sdfs))(12314rewrwe)(234sdfs24)";
+        String str4 = "新建文件夹1(((sdfs))(12314rewrwe)(234sdfs24)(1)";
+        String str5 = "新建文件夹1(((sdfs))(12314rewrwe)(234sdfs24)(1ss)";
+        String str6 = "新建文件夹1(((sdfs))(12314rewrwe)(234sdfs24)(1ss)s";
+        String name = autoRename(str6);
+        logger.info(name);
+
+    }
+
+    private static String autoRename(String name) {
+        char[] chars = name.toCharArray();
+        boolean isLeftBracket = false;
+        boolean isDigit = false;
+        boolean isRightBracket = false;
+        int index = 0;
+        String lastChar1 = String.valueOf(chars[chars.length-1]);
+        char lastChar2 = chars[chars.length - 2];
+        if(")".equals(lastChar1)){
+            isRightBracket=true;
+            if("(".equals(lastChar2)){
+                isLeftBracket = false;
+            }else{
+                for (int i = chars.length-2; i >0 ; i--) {
+                    if(Character.isDigit(chars[i])){
+                        isDigit=true;
+                    }else {
+                        isDigit=false;
+                        break;
+                    }
+                    if(Character.isDigit(chars[i-1])){//判断连续两个是否为数字
+                        isDigit=true;
+                        continue;
+                    }else {
+                        if("(".equals(String.valueOf(chars[i-1]))){
+                            index = i-1;
+                            isLeftBracket = true;
+                        }else {
+                            isLeftBracket = false;
+                            break;
+                        }
+                    }
+                    if(isDigit&&isLeftBracket){
+                        break;
+                    }
+                }
+            }
+        }
+
+        if(isLeftBracket&&isDigit&&isRightBracket){
+            int num = Integer.parseInt(name.substring(index + 1, chars.length - 1));
+            name = name.substring(0, index);
+            logger.info(num);
+            num++;
+            name = name +"("+ num +")";
+        }else{
+            name = name + " (1)";
+        }
+        return name;
+    }
+
+    @Test
+    public void main() {
+        String str = "[CR,(1,1),(2,2)]";
+        Pattern p = Pattern.compile("[0-9]+");
+        Matcher m = p.matcher(str);
+        while(m.find()){
+            System.out.println(m.group());
+        }
+
+    }
 
     @Test
     public void isExit() {

@@ -3,8 +3,8 @@ package com.blog.controller;
 import com.blog.service.IFileInfoService;
 import com.blog.vo.BlogUsers;
 import com.blog.vo.FileInfo;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -31,6 +31,59 @@ public class FileInfoController {
     private final String realPath = "E:\\";
     private final String accessPath = "user/files/";
     private String[] fileIconUrls = {"img/blog/file-text.jpg","img/blog/folder-yellow.jpg"};
+
+    //	批量删除文件信息
+    @RequestMapping(value = "createNewDir", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
+    public @ResponseBody String createNewDir(FileInfo fileInfo,String parentDirPath) throws JsonProcessingException {
+        //判断文件夹是否存在
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> map = new HashMap<>();
+
+        String fileName = fileInfo.getFileName();   //文件夹名
+        String reParentDirPath = parentDirPath.replace("/","\\");//相对E://父路径
+        String fileDirPath = realPath + reParentDirPath+"\\";//绝对路径
+
+        //不存在的直接用它的名，存在的以window方式规则自动生成
+        String realName = createDirName(fileDirPath, fileName);
+
+        String path = fileDirPath+ realName;
+
+        //硬盘新建
+        File file = new File(path);
+        file.mkdirs();
+
+        //并在数据库创建记录
+        String filePath = parentDirPath+"/"+realName;
+        fileInfo.setFileName(realName);
+        fileInfo.setFilePath(filePath);
+        fileInfo.setFileCreateDate(new Date());
+        fileInfo.setFileModifyDate(new Date());
+        fileInfo.setFileIconUrl(fileIconUrls[1]);//设置默认的
+        fileInfo.setIsDelete(0);//设置未删除
+        fileInfo.setIsFolder(1);//设置默认为文件
+        fileInfo.setFileDescription("文件夹");//设置默认为文件
+        iFileInfoService.insertFileInfo(fileInfo,parentDirPath);
+
+        map.put("code","success");
+        map.put("msg","文件夹创建成功");
+        map.put("fileInfo",fileInfo);
+        return mapper.writeValueAsString(map);
+    }
+
+    public String createDirName(String fileDirPath,String fileName){
+        File file = new File(fileDirPath+fileName);
+        String outName = "";
+        boolean exists = file.exists();
+        if(exists){
+            String autoRename = autoRename(fileName);
+            outName = autoRename;
+            return createDirName(fileDirPath,outName);
+        }else {
+            outName = fileName;
+            return outName;
+        }
+    }
+
     @RequestMapping("/queryByPath")
     public String queryFileInfoByPath(String path , ModelMap modelMap){
         FileInfo fileInfo = new FileInfo();
@@ -170,6 +223,57 @@ public class FileInfoController {
             return "success";
         }
         return "error";
+    }
+
+    private String autoRename(String name) {
+        char[] chars = name.toCharArray();
+        boolean isLeftBracket = false;
+        boolean isDigit = false;
+        boolean isRightBracket = false;
+        int index = 0;
+        String lastChar1 = String.valueOf(chars[chars.length-1]);
+        char lastChar2 = chars[chars.length - 2];
+        if(")".equals(lastChar1)){
+            isRightBracket=true;
+            if("(".equals(lastChar2)){
+                isLeftBracket = false;
+            }else{
+                for (int i = chars.length-2; i >0 ; i--) {
+                    if(Character.isDigit(chars[i])){
+                        isDigit=true;
+                    }else {
+                        isDigit=false;
+                        break;
+                    }
+                    if(Character.isDigit(chars[i-1])){//判断连续两个是否为数字
+                        isDigit=true;
+                        continue;
+                    }else {
+                        if("(".equals(String.valueOf(chars[i-1]))){
+                            index = i-1;
+                            isLeftBracket = true;
+                        }else {
+                            isLeftBracket = false;
+                            break;
+                        }
+                    }
+                    if(isDigit&&isLeftBracket){
+                        break;
+                    }
+                }
+            }
+        }
+
+        if(isLeftBracket&&isDigit&&isRightBracket){
+            int num = Integer.parseInt(name.substring(index + 1, chars.length - 1));
+            name = name.substring(0, index);
+            logger.info(num);
+            num++;
+            name = name +"("+ num +")";//这个不要空格，因为第一次已经带了
+        }else{
+            name = name + " (1)";//第一次需要空格，匹配系统格式
+        }
+        return name;
     }
     /*public void copyFile(MultipartFile file, String path) throws IOException {
             InputStream input = file.getInputStream();

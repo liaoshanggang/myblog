@@ -38,6 +38,11 @@
             left: 0em;
             top: 0em;
         }
+        .title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     </style>
 </head>
 
@@ -92,7 +97,7 @@
                                         </div>
                                     </form>
                                 </div>
-                                <button class="btn btn-success btn-outline" type="button" value="102">
+                                <button class="btn btn-success btn-outline" id="newDir" type="button">
                                     新建文件夹
                                 </button>
                                 <button class="btn btn-success btn-outline" type="button" value="102">
@@ -149,8 +154,9 @@
                                             <a href="#"> <img alt="image" class="img-responsive"
                                                               src="${fileInfo.fileIconUrl}"> </a>
                                         </div>
-                                        <div class="file-name">
-                                            <a href="fileInfo/queryByPath?path=${fileInfo.filePath}">
+                                        <div class="file-name title">
+                                            <a href="fileInfo/queryByPath?path=${fileInfo.filePath}"
+                                               title="${fileInfo.fileName}${fileInfo.fileExt}">
                                                     ${fileInfo.fileName}${fileInfo.fileExt}
                                                 <br/>
                                                 <small><fmt:formatDate value='${fileInfo.fileCreateDate}'
@@ -204,25 +210,81 @@
 
 
 <script>
+    var oneClick = true;
+    $("#newDir").click(function () {
+        if(oneClick){
+            oneClick = false;
+            var files = $("#files");
+            var content = "<div class=\"file-box\">\n" +
+                "<div class=\"file\"name=\"true\">\n" +
+                "<span class=\"top-corner\" style=\"display: none;\">" +
+                "<div class=\"icheckbox_square-green\" style=\"position: relative;\">" +
+                "<input type=\"checkbox\" value=\"\" name=\"CheckBox\" style=\"position: absolute; opacity: 0;\">" +
+                "<ins class=\"iCheck-helper\" style=\"position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;\"></ins>" +
+                "</div>" +
+                "</span>"  +
+                "<div class=\"image\">\n" +
+                "<a href=\"#\"> <img alt=\"image\" class=\"img-responsive\" src=\'img/blog/folder-yellow.jpg\'> </a>\n" +
+                "</div>\n" +
+                "<div class=\"file-name title\">\n" +
+                    "<div>" +
+                        "<input type=\"text\" style=\"border:1px solid #1C84C6;border-radius:5px;width:60%\" value=\"新建文件夹\">" +
+                        "<input type=\"button\" class=\"btn btn-success btn-outline btn-xs\" value=\"创建\" onclick=\"saveNewDir(this)\">" +
+                        "<input type=\"button\" class=\"btn btn-success btn-outline btn-xs\" value=\"取消\" onclick=\"cancelNewDir(this)\"></div>"+
+                "</div>\n" +
+                "</div>\n" +
+                "</div>";
+            files.prepend(content);
+        }
+    })
+    function saveNewDir(it){
+        oneClick = true;
+        if(oneClick){
+            var name = $(it).prev().val();
+            var path = $("#path").text();
+            var json = {fileName: name,parentDirPath:path};
+            console.info(json);
+            $.ajax({
+                url: "fileInfo/createNewDir",
+                type: "post",
+                data: json,
+                success: function (result) {
+                    var obj = JSON.parse(result);
+                    console.info(obj);
+                    console.info(obj.code);
+                    if (obj.code == "success") {
+                        var itsPP= $(it).parent().parent();
+                        $(it).parent().remove();
+                        console.info(obj.fileInfo);
+                        var date = new Date(obj.fileInfo.fileCreateDate);
+                        var content = "<a href=\"fileInfo/queryByPath?path=" + obj.fileInfo.filePath + "\">\n" + obj.fileInfo.fileName +
+                            "<br/><small>\n" + date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() +
+                            "</small></a>\n";
+                        itsPP.append(content);
+                        success(obj.msg);
+                        setTimeout(function(){
+                            location = location;
+                        },1500);
+                    }
+                    if (obj.code == "error") {
+                        success("创建失败！"+obj.msg);
+                        $(it).parent().parent().parent().parent().empty();
+                    }
+                },
+                error: function () {
+                }
+            });
+        }
+    }
+    function cancelNewDir(it){
+        oneClick = true;
+        $(it).parent().parent().parent().parent().empty();
+    }
+    /**/
+
     $(function () {
         $('.file').find("span:first").hide();
     })
-    //var boolean=true;//定义一个全局变量
-    /*$(".file").on("mouseover mouseout",function(event){
-        var $target = $(event.target);
-        if(event.type == "mouseover"){
-            console.info($target.attr("name"));
-            if ($target.attr("name") == "true") {
-                $target.addClass("selStyle");
-                $target.find("span:first").show();
-            }
-        }else if(event.type == "mouseout"){   //鼠标离开
-            if ($target.attr("name") == "true") {
-                $target.removeClass("selStyle");
-                $target.find("span:first").hide();
-            }
-        }
-    })*/
     $(".file").hover(
         function () {
             if ($(this).attr("name") == "true") {
@@ -432,7 +494,7 @@
                     "<div class=\"image\">\n" +
                     "<a href=\"#\"> <img alt=\"image\" class=\"img-responsive\" src=\'" + obj.fileInfo.fileIconUrl + "\'> </a>\n" +
                     "</div>\n" +
-                    "<div class=\"file-name\">\n" +
+                    "<div class=\"file-name title\">\n" +
                     "<a href=\"fileInfo/queryByPath?path=" + obj.fileInfo.filePath + "\">\n" + obj.fileInfo.fileName + obj.fileInfo.fileExt +
                     "<br/><small>\n" + date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() +
                     "</small></a>\n" +
@@ -469,7 +531,22 @@
             animationHover(this, 'pulse');
         });
     });
-
+    //var boolean=true;//定义一个全局变量
+    /*$(".file").on("mouseover mouseout",function(event){
+        var $target = $(event.target);
+        if(event.type == "mouseover"){
+            console.info($target.attr("name"));
+            if ($target.attr("name") == "true") {
+                $target.addClass("selStyle");
+                $target.find("span:first").show();
+            }
+        }else if(event.type == "mouseout"){   //鼠标离开
+            if ($target.attr("name") == "true") {
+                $target.removeClass("selStyle");
+                $target.find("span:first").hide();
+            }
+        }
+    })*/
     /*var filefile;
     var $uploadFile = $("#uploadFile");
     if (window.FileReader) {
