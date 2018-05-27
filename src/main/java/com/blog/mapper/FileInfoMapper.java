@@ -14,4 +14,8 @@ public interface FileInfoMapper {
     void batchDelFile(int[] delID);
 
     List<FileInfo> batchSelFile(int[] delID);
+
+    FileInfo selDirByPathAndType(FileInfo fileInfo);
+
+    List<FileInfo> selFileByFileName(FileInfo fileInfo);
 }

@@ -61,7 +61,7 @@
                     <li class="active" id="mgr_file"><strong>文件管理</strong></li>
                 </ol>
                 <ol class="breadcrumb">
-                    <li id="path">${path}</li>
+                    <li id="path" name="${file.fileId}">${path}</li>
                 </ol>
             </div>
             <div class="col-sm-8">
@@ -392,57 +392,66 @@
 
         function UpladFile() {
             var fileObj = $("#batchFile").get(0).files[0]; // js 获取文件对象
-            console.info("上传的文件：" + fileObj);
+            //console.info("上传的文件：" + fileObj);
             var path = $("#path").text();
-            var FileController = base + "/fileInfo/upload?uploadPathDir=" + path; // 接收上传文件的后台地址
-            // FormData 对象
-            var form = new FormData();
+            var url = base + "/fileInfo/upload?uploadPathDir=" + path; // 接收上传文件的后台地址
+            var form = new FormData();// FormData 对象
             // form.append("author", "hooyes"); // 可以增加表单数据
             form.append("file", fileObj); // 文件对象
-            // XMLHttpRequest 对象
-            var xhr = new XMLHttpRequest();
-            xhr.open("post", FileController, true);
+            var xhr = new XMLHttpRequest();// XMLHttpRequest 对象
+            xhr.open("post", url, true);
             xhr.onload = function (result) {
-                // ShowSuccess("上传完成");
-                $("#batchUploadBtn").attr('disabled', false);
-                $("#batchUploadBtn").val("上传");
-                $("#progressBar").parent().removeClass("active");
-                $("#progressBar").parent().hide();
-                //$('#myModal').modal('hide');
                 console.info(result);
-                var files = $("#files");
+                //上传进度条操作显示
+                setTimeout(function(){
+                    //$('#batchImportModal').modal('hide');
+                     $("#batchUploadBtn").attr('disabled', false);
+                     $("#batchUploadBtn").val("上传");
+                     $("#progressBar").parent().removeClass("active");
+                     $("#progressBar").parent().hide();
+                },1500);
+                //$('#myModal').modal('hide');
+
                 var obj = JSON.parse(xhr.responseText);
-                console.info(obj.fileIconUrl);
-                var date = new Date(obj.fileCreateDate);
+                //console.info(obj);
+                if(obj.code=="error"){//错误时提示
+                    success(obj.msg);
+                    return false;
+                }
+
+                var files = $("#files");
+                var date = new Date(obj.fileInfo.fileCreateDate);
                 var content = "<div class=\"file-box\">\n" +
-                                    "<div class=\"file\"name=\"true\">\n" +
-                                        "<span class=\"top-corner\" style=\"display: none;\">" +
-                                            "<div class=\"icheckbox_square-green\" style=\"position: relative;\">" +
-                                                "<input type=\"checkbox\" value=\""+obj.fileId+"\" name=\"CheckBox\" style=\"position: absolute; opacity: 0;\">" +
-                                                "<ins class=\"iCheck-helper\" style=\"position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;\"></ins>" +
-                                            "</div>" +
-                                        "</span>"  +
-                                        "<div class=\"image\">\n" +
-                                            "<a href=\"#\"> <img alt=\"image\" class=\"img-responsive\" src=\'" + obj.fileIconUrl + "\'> </a>\n" +
-                                        "</div>\n" +
-                                        "<div class=\"file-name\">\n" +
-                                            "<a href=\"fileInfo/queryByPath?path=" + obj.filePath + "\">\n" + obj.fileName + obj.fileExt +
-                                                "<br/><small>\n" + date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() +
-                                            "</small></a>\n" +
-                                        "</div>\n" +
-                                    "</div>\n" +
-                                "</div>";
-                //console.info(content);
+                    "<div class=\"file\"name=\"true\">\n" +
+                    "<span class=\"top-corner\" style=\"display: none;\">" +
+                    "<div class=\"icheckbox_square-green\" style=\"position: relative;\">" +
+                    "<input type=\"checkbox\" value=\""+obj.fileInfo.fileId+"\" name=\"CheckBox\" style=\"position: absolute; opacity: 0;\">" +
+                    "<ins class=\"iCheck-helper\" style=\"position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;\"></ins>" +
+                    "</div>" +
+                    "</span>"  +
+                    "<div class=\"image\">\n" +
+                    "<a href=\"#\"> <img alt=\"image\" class=\"img-responsive\" src=\'" + obj.fileInfo.fileIconUrl + "\'> </a>\n" +
+                    "</div>\n" +
+                    "<div class=\"file-name\">\n" +
+                    "<a href=\"fileInfo/queryByPath?path=" + obj.fileInfo.filePath + "\">\n" + obj.fileInfo.fileName + obj.fileInfo.fileExt +
+                    "<br/><small>\n" + date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() +
+                    "</small></a>\n" +
+                    "</div>\n" +
+                    "</div>\n" +
+                    "</div>";
                 files.append(content);
                 success("上传完成");
-                setTimeout(function(){//用来解决删除未来元素问题
+               /* setTimeout(function(){//用来解决删除未来元素问题
                     $('#batchImportModal').modal('hide');
-                    location = location;
-                },1500)
+                },1500)*/
             };
             xhr.upload.addEventListener("progress", progressFunction, false);
             xhr.send(form);
         }
+
+        $('#batchImportModal').on('hide.bs.modal', function () {
+            location = location;//用来解决删除未来元素问题
+        })
 
         function progressFunction(evt) {
             var progressBar = $("#progressBar");

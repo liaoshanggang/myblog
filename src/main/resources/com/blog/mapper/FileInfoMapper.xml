@@ -51,4 +51,17 @@
       #{delID}
     </foreach>
   </select>
+
+  <!--查询文件夹信息根据类型和路径匹配-->
+  <select id="selDirByPathAndType" parameterType="fileInfo" resultMap="baseResultMap">
+    select *
+    from FILE_INFO
+    where FILE_INFO.FILE_PATH = #{filePath} and IS_FOLDER = 1
+  </select>
+  <!--判断同一目录下文件是否重复,根据文件名找到文件路径，解析出上传的文件目录-->
+  <select id="selFileByFileName" parameterType="fileInfo" resultMap="baseResultMap">
+    select *
+    from FILE_INFO
+    where FILE_INFO.FILE_NAME = #{fileName} and IS_FOLDER = 0
+  </select>
 </mapper>

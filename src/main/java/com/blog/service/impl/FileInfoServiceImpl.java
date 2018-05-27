@@ -36,8 +36,24 @@ public class FileInfoServiceImpl implements IFileInfoService {
         return files;
     }
 
+
     @Override
-    public void insertFileInfo(FileInfo fileInfo) {
+    public FileInfo selDirByPathAndType(FileInfo fileInfo) {
+        return fileInfoMapper.selDirByPathAndType(fileInfo);
+    }
+
+    @Override
+    public List<FileInfo> selFileByFileName(FileInfo fileInfo) {
+        return fileInfoMapper.selFileByFileName(fileInfo);
+    }
+
+    @Override
+    public void insertFileInfo(FileInfo fileInfo,String uploadPathDir) {
+        //设置父目录id
+        FileInfo fi = new FileInfo();
+        fi.setFilePath(uploadPathDir);
+        FileInfo fi2 = this.selDirByPathAndType(fi);
+        fileInfo.setParentId(fi2.getFileId());
         fileInfoMapper.insertFileInfo(fileInfo);
     }
 

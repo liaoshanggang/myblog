@@ -6,9 +6,13 @@ import java.util.List;
 
 public interface IFileInfoService {
     List<FileInfo> selectFileInfoByPath(FileInfo fileInfo);
-    void insertFileInfo(FileInfo fileInfo);
+    void insertFileInfo(FileInfo fileInfo,String uploadPathDir);
 
     boolean batchDelFile(int[] delID,String path);
 
     List<FileInfo> batchSelFile(int[] delID);
+
+    FileInfo selDirByPathAndType(FileInfo fileInfo);
+
+    List<FileInfo> selFileByFileName(FileInfo fileInfo);
 }
