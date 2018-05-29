@@ -16,6 +16,13 @@
         <result column="FILE_DESCRIPTION" property="fileDescription" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <select id="selectFileByPath" parameterType="fileInfo" resultMap="baseResultMap">
+        select *
+        from FILE_INFO
+        where
+            FILE_INFO.FILE_PATH like #{filePath}
+    </select>
+
     <select id="selectFileInfoByPath" parameterType="fileInfo" resultMap="baseResultMap">
         select *
         from FILE_INFO

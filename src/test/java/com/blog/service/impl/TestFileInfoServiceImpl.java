@@ -242,4 +242,28 @@ public class TestFileInfoServiceImpl {
         }
     }
 
+    @Test
+    public void selectFileInfoByPath2(){
+        //String path = "E:\\user\\files";
+        //String path = "E:/user/files";
+        /*
+        File file = new File(path);
+        if(file.isDirectory()){
+            File[] files = file.listFiles();
+            for (int i = 0; i < files.length; i++) {
+                //logger.info(i+"name=="+files[i].getName());
+                logger.info(i+"absolutePath=="+files[i].getAbsolutePath());
+                //logger.info(i+"path=="+files[i].getPath());
+            }
+        }*/
+        String path = "/user/files";
+        FileInfo fileInfo = new FileInfo();
+        fileInfo.setFilePath(path);
+        List<FileInfo> fileInfoList = iFileInfoService.selectFileByPath(fileInfo);
+        for (FileInfo f: fileInfoList) {
+            logger.info("====="+f);
+        }
+
+    }
+
 }

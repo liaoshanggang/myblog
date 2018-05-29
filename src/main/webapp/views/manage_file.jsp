@@ -17,6 +17,8 @@
     <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
     <%--<!-- Toastr script -->
     <script src="js/plugins/toastr/toastr.min.js"></script>--%>
+    <!-- Sweet Alert -->
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <style>
         .selStyle {
             background-color: #f1f5fa;
@@ -66,7 +68,7 @@
                     <li class="active" id="mgr_file"><strong>文件管理</strong></li>
                 </ol>
                 <ol class="breadcrumb">
-                    <li id="path" name="${file.fileId}">${path}</li>
+                    <li id="path">${path}</li><%--name="${file.fileId}"--%>
                 </ol>
             </div>
             <div class="col-sm-8">
@@ -208,7 +210,8 @@
 </div>
 <!-- /.modal -->
 
-
+<!-- Sweet alert -->
+<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
 <script>
     var oneClick = true;
     $("#newDir").click(function () {
@@ -371,6 +374,19 @@
         }
         var delId = ids.join(",");
         console.info("de==" + delId);
+        swal({
+            title: "你确定要删除吗？",
+            text: "",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ED5565",//DD6B55
+            confirmButtonText: "是的，删除它！",
+            cancelButtonText: "不，取消！",
+            allowOutsideClick: true,
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function (isConfirm) {
+            if (isConfirm) {
         $.ajax({
             url: "fileInfo/batchDelFile",
             type: "post",
@@ -391,6 +407,9 @@
             },
             error: function () {
 
+            }
+        });} else {
+                //swal("取消", "该类别未删除！:):):)", "error");
             }
         });
         // }

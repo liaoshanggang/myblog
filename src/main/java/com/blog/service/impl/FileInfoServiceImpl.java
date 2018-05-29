@@ -17,7 +17,7 @@ import java.util.List;
 public class FileInfoServiceImpl implements IFileInfoService {
     @Resource
     FileInfoMapper fileInfoMapper;
-
+    private String realPath = "E:/";
     @Override
     public List<FileInfo> selectFileInfoByPath(FileInfo fileInfo) {
         List<FileInfo> files = new ArrayList<>();
@@ -34,6 +34,26 @@ public class FileInfoServiceImpl implements IFileInfoService {
             }
         }
         return files;
+    }
+
+    @Override
+    public List<FileInfo> selectFileByPath(FileInfo fileInfo) {
+        File file = new File(realPath+fileInfo.getFilePath());
+        List<FileInfo> fileInfoList = new ArrayList<>();
+        if(file.isDirectory()){
+            File[] files = file.listFiles();
+            for (int i = 0; i < files.length; i++) {
+                String path = files[i].getAbsolutePath();
+                System.out.println("path1"+path);
+                path = path.replace("\\","/");
+                path = StringUtils.remove(path, realPath);
+                System.out.println("path2"+path);
+                fileInfo.setFilePath(path);
+                FileInfo fileInfo1 = fileInfoMapper.selectFileByPath(fileInfo);
+                fileInfoList.add(fileInfo1);
+            }
+        }
+        return fileInfoList;
     }
 
 

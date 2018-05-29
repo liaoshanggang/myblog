@@ -32,7 +32,11 @@ public class FileInfoController implements ServletContextAware {
     IFileInfoService iFileInfoService;
     private final String realPath = "E:\\";
     private final String accessPath = "user/files/";
-    private String[] fileIconUrls = {"img/blog/file-text.jpg","img/blog/folder-yellow.jpg"};
+    private String[] fileIconUrls =
+            {"img/blog/file-text.jpg","img/blog/folder-yellow.jpg", "img/blog/zip.jpg","img/blog/pdf.jpg",
+            "img/blog/music-blue.jpg","img/blog/video.jpg"};
+    private String[] audioFileExts = {".wav",".mp3",".aif",".ram"};
+    private String[] videoFileExts = {".avi",".rmvb",".rm",".asf",".divx",".mpg",".mpeg",".mpe",".wmv",".mp4",".mkv",".vob"};
     private ServletContext servletContext;
 
     //	批量删除文件信息
@@ -87,7 +91,7 @@ public class FileInfoController implements ServletContextAware {
         }
     }
 
-    @RequestMapping("/queryByPath")
+    @RequestMapping("/queryByPath1")
     public String queryFileInfoByPath(String path , ModelMap modelMap){
         FileInfo fileInfo = new FileInfo();
         fileInfo.setFilePath(path);
@@ -99,6 +103,23 @@ public class FileInfoController implements ServletContextAware {
                 break;
             }
         }
+        modelMap.addAttribute("path",path);
+        modelMap.addAttribute("fileInfos",fileInfos);
+        return "/manage_file";
+    }
+
+    @RequestMapping("/queryByPath")
+    public String queryFileByPath(String path , ModelMap modelMap){
+        FileInfo fileInfo = new FileInfo();
+        fileInfo.setFilePath(path);
+        List<FileInfo> fileInfos = iFileInfoService.selectFileByPath(fileInfo);
+        //查询所有的文件夹出来
+        /*for (FileInfo file:fileInfos) {
+            if(file.getFilePath().equals(path)){
+                modelMap.addAttribute("file",file);
+                break;
+            }
+        }*/
         modelMap.addAttribute("path",path);
         modelMap.addAttribute("fileInfos",fileInfos);
         return "/manage_file";
@@ -158,9 +179,7 @@ public class FileInfoController implements ServletContextAware {
             fileInfo.setFileDescription("文件");//设置默认为文件
 
             //根据后缀名设置
-            if(".txt".equals(fileExt)){
-                fileInfo.setFileIconUrl(fileIconUrls[0]);
-            }
+            fileInfo = setFileIconUrl(fileExt, fileInfo);
             //判断是否为目录
             /*String path1 = realPath + File.separator + uploadPathDir + "\\" + originalFileNameExt;//文件目录===硬盘3
             File file2 = new File(path1);
@@ -187,6 +206,30 @@ public class FileInfoController implements ServletContextAware {
         return mapper.writeValueAsString(map);
         //return mapper.writeValueAsString("error,该文件为空");
     }
+
+    private FileInfo setFileIconUrl(String fileExt, FileInfo fileInfo) {
+        if(".txt".equals(fileExt)){
+            fileInfo.setFileIconUrl(fileIconUrls[0]);
+        }
+        if(".zip".equals(fileExt)){
+            fileInfo.setFileIconUrl(fileIconUrls[2]);
+        }
+        if(".pdf".equals(fileExt)){
+            fileInfo.setFileIconUrl(fileIconUrls[3]);
+        }
+        for (int i = 0; i < audioFileExts.length; i++) {
+            if(audioFileExts[i].equals(fileExt)){
+                fileInfo.setFileIconUrl(fileIconUrls[4]);
+            }
+        }
+        for (int i = 0; i < videoFileExts.length; i++) {
+            if(videoFileExts[i].equals(fileExt)){
+                fileInfo.setFileIconUrl(fileIconUrls[5]);
+            }
+        }
+        return fileInfo;
+    }
+
     private boolean JudFileIsExits(String uploadPathDir,String originalFileName) {
         FileInfo fileInfo = new FileInfo();
         fileInfo.setFileName(originalFileName);

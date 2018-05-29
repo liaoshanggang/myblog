@@ -20,4 +20,6 @@ public interface FileInfoMapper {
     List<FileInfo> selFileByFileName(FileInfo fileInfo);
 
     FileInfo selFileIById(FileInfo fileInfo);
+
+    FileInfo selectFileByPath(FileInfo fileInfo);
 }
