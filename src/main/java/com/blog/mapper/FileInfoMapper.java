@@ -18,4 +18,6 @@ public interface FileInfoMapper {
     FileInfo selDirByPathAndType(FileInfo fileInfo);
 
     List<FileInfo> selFileByFileName(FileInfo fileInfo);
+
+    FileInfo selFileIById(FileInfo fileInfo);
 }

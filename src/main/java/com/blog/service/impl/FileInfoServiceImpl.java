@@ -48,6 +48,11 @@ public class FileInfoServiceImpl implements IFileInfoService {
     }
 
     @Override
+    public FileInfo selFileIById(FileInfo fileInfo) {
+        return fileInfoMapper.selFileIById(fileInfo);
+    }
+
+    @Override
     public void insertFileInfo(FileInfo fileInfo,String uploadPathDir) {
         //设置父目录id
         FileInfo fi2 = getFileInfo(uploadPathDir);

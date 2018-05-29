@@ -2,6 +2,7 @@ package com.blog.service.impl;
 
 import com.blog.mapper.FileInfoMapper;
 import com.blog.service.IFileInfoService;
+import com.blog.util.ZIPUtil;
 import com.blog.vo.FileInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -28,6 +29,31 @@ public class TestFileInfoServiceImpl {
     private String realPath = "E:\\";
     @Resource
     FileInfoMapper fileInfoMapper;
+
+    @Test
+    public void testZIPUtil() {
+        String parentDirPath = "user/files";
+        String reParentDirPath = parentDirPath.replace("/","\\");//相对E://父路径
+        String fileDirPath = "E:\\" + reParentDirPath+"\\";//绝对路径
+        //String fileDirPath = "E:/" + parentDirPath+"/";//绝对路径
+        //2个源文件
+//        String filePath1 = fileDirPath + "文件夹1/";
+//        String filePath2 = fileDirPath + "文件夹2/";
+        String filePath1 = fileDirPath + "30d15870-ab1f-48d9-b2f0-b5f3ef72012d.zip";
+        String filePath2 = fileDirPath + "3840eff4-5891-4ee4-a3b5-e4cc3f1896db.zip";
+        String fileZipPath = fileDirPath + "a.zip";
+        File f1=new File(filePath1);
+        File f2=new File(filePath2);
+        File[] srcfile={f1,f2};
+        //压缩后的文件
+        File zipfile=new File(fileZipPath);
+        ZIPUtil.zipFiles(srcfile, zipfile);
+        //需要解压缩的文件
+        //File file=new File(fileZipPath);
+        //解压后的目标目录
+        //String dir=fileDirPath;
+        //ZIPUtil.unZipFiles(file, dir);
+    }
 
     @Test
     public void testFun() {

@@ -1,67 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.blog.mapper.FileInfoMapper" >
-  <resultMap id="baseResultMap" type="com.blog.vo.FileInfo" >
-    <id column="FILE_ID" property="fileId" jdbcType="INTEGER" />
-    <result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
-    <result column="FILE_EXT" property="fileExt" jdbcType="VARCHAR" />
-    <result column="FILE_PATH" property="filePath" jdbcType="VARCHAR" />
-    <result column="FILE_ICON_URL" property="fileIconUrl" jdbcType="VARCHAR" />
-    <result column="FILE_SIZE" property="fileSize" jdbcType="INTEGER" />
-    <result column="FILE_MODIFY_DATE" property="fileModifyDate" jdbcType="TIMESTAMP" />
-    <result column="FILE_CREATE_DATE" property="fileCreateDate" jdbcType="TIMESTAMP" />
-    <result column="IS_DELETE" property="isDelete" jdbcType="INTEGER" />
-    <result column="IS_FOLDER" property="isFolder" jdbcType="INTEGER" />
-    <result column="PARENT_ID" property="parentId" jdbcType="INTEGER" />
-    <result column="FILE_DESCRIPTION" property="fileDescription" jdbcType="VARCHAR" />
-  </resultMap>
+<mapper namespace="com.blog.mapper.FileInfoMapper">
+    <resultMap id="baseResultMap" type="com.blog.vo.FileInfo">
+        <id column="FILE_ID" property="fileId" jdbcType="INTEGER"/>
+        <result column="FILE_NAME" property="fileName" jdbcType="VARCHAR"/>
+        <result column="FILE_EXT" property="fileExt" jdbcType="VARCHAR"/>
+        <result column="FILE_PATH" property="filePath" jdbcType="VARCHAR"/>
+        <result column="FILE_ICON_URL" property="fileIconUrl" jdbcType="VARCHAR"/>
+        <result column="FILE_SIZE" property="fileSize" jdbcType="INTEGER"/>
+        <result column="FILE_MODIFY_DATE" property="fileModifyDate" jdbcType="TIMESTAMP"/>
+        <result column="FILE_CREATE_DATE" property="fileCreateDate" jdbcType="TIMESTAMP"/>
+        <result column="IS_DELETE" property="isDelete" jdbcType="INTEGER"/>
+        <result column="IS_FOLDER" property="isFolder" jdbcType="INTEGER"/>
+        <result column="PARENT_ID" property="parentId" jdbcType="INTEGER"/>
+        <result column="FILE_DESCRIPTION" property="fileDescription" jdbcType="VARCHAR"/>
+    </resultMap>
 
-  <select id="selectFileInfoByPath" parameterType="fileInfo" resultMap="baseResultMap">
-    select *
-    from FILE_INFO
-    where
-    <if test="filePath !=null">
-      <bind name="path" value="filePath+'%'"/>
-      FILE_INFO.FILE_PATH like #{path}
-    </if>
-  </select>
+    <select id="selectFileInfoByPath" parameterType="fileInfo" resultMap="baseResultMap">
+        select *
+        from FILE_INFO
+        where
+        <if test="filePath !=null">
+            <bind name="path" value="filePath+'%'"/>
+            FILE_INFO.FILE_PATH like #{path}
+        </if>
+    </select>
 
-  <insert id="insertFileInfo" parameterType="fileInfo" >
-    insert into FILE_INFO (FILE_ID, FILE_NAME, FILE_EXT,
-      FILE_PATH, FILE_ICON_URL, FILE_SIZE,
-      FILE_MODIFY_DATE, FILE_CREATE_DATE, IS_DELETE,
-      IS_FOLDER, PARENT_ID, FILE_DESCRIPTION
-      )
-    values (FILE_INFO_SEQ.nextval, #{fileName,jdbcType=VARCHAR}, #{fileExt,jdbcType=VARCHAR},
-      #{filePath,jdbcType=VARCHAR}, #{fileIconUrl,jdbcType=VARCHAR}, #{fileSize,jdbcType=INTEGER},
-      sysdate, #{fileCreateDate,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER},
-      #{isFolder,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{fileDescription,jdbcType=VARCHAR}
-      )
-  </insert>
-  <delete id="batchDelFile" parameterType="java.lang.Integer">
-    delete from FILE_INFO where FILE_ID in
-    <foreach item="delID" index="index" collection="array" open="(" separator="," close=")">
-      #{delID}
-    </foreach>
-  </delete>
+    <insert id="insertFileInfo" parameterType="fileInfo">
+        insert into FILE_INFO (FILE_ID, FILE_NAME, FILE_EXT,
+          FILE_PATH, FILE_ICON_URL, FILE_SIZE,
+          FILE_MODIFY_DATE, FILE_CREATE_DATE, IS_DELETE,
+          IS_FOLDER, PARENT_ID, FILE_DESCRIPTION
+          )
+        values (FILE_INFO_SEQ.nextval, #{fileName,jdbcType=VARCHAR}, #{fileExt,jdbcType=VARCHAR},
+          #{filePath,jdbcType=VARCHAR}, #{fileIconUrl,jdbcType=VARCHAR}, #{fileSize,jdbcType=INTEGER},
+          sysdate, #{fileCreateDate,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER},
+          #{isFolder,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{fileDescription,jdbcType=VARCHAR}
+          )
+    </insert>
+    <delete id="batchDelFile" parameterType="java.lang.Integer">
+        delete from FILE_INFO where FILE_ID in
+        <foreach item="delID" index="index" collection="array" open="(" separator="," close=")">
+            #{delID}
+        </foreach>
+    </delete>
 
-  <select id="batchSelFile" parameterType="java.lang.Integer" resultMap="baseResultMap">
-    SELECT * from FILE_INFO where FILE_ID in
-    <foreach item="delID" index="index" collection="array" open="(" separator="," close=")">
-      #{delID}
-    </foreach>
-  </select>
+    <select id="batchSelFile" parameterType="java.lang.Integer" resultMap="baseResultMap">
+        SELECT * from FILE_INFO where FILE_ID in
+        <foreach item="delID" index="index" collection="array" open="(" separator="," close=")">
+            #{delID}
+        </foreach>
+    </select>
 
-  <!--查询文件夹信息根据类型和路径匹配-->
-  <select id="selDirByPathAndType" parameterType="fileInfo" resultMap="baseResultMap">
-    select *
-    from FILE_INFO
-    where FILE_INFO.FILE_PATH = #{filePath} and IS_FOLDER = 1
-  </select>
-  <!--判断同一目录下文件是否重复,根据文件名找到文件路径，解析出上传的文件目录-->
-  <select id="selFileByFileName" parameterType="fileInfo" resultMap="baseResultMap">
-    select *
-    from FILE_INFO
-    where FILE_INFO.FILE_NAME = #{fileName} and IS_FOLDER = 0
-  </select>
+    <!--查询文件夹信息根据类型和路径匹配-->
+    <select id="selDirByPathAndType" parameterType="fileInfo" resultMap="baseResultMap">
+        select *
+        from FILE_INFO
+        where FILE_INFO.FILE_PATH = #{filePath} and IS_FOLDER = 1
+    </select>
+    <!--判断同一目录下文件是否重复,根据文件名找到文件路径，解析出上传的文件目录-->
+    <select id="selFileByFileName" parameterType="fileInfo" resultMap="baseResultMap">
+        select *
+        from FILE_INFO
+        where FILE_INFO.FILE_NAME = #{fileName} and IS_FOLDER = 0
+    </select>
+
+    <select id="selFileIById" parameterType="fileInfo" resultMap="baseResultMap">
+        select *
+        from FILE_INFO
+        where FILE_INFO.FILE_ID = #{fileId}
+    </select>
 </mapper>

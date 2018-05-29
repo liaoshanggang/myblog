@@ -100,7 +100,7 @@
                                 <button class="btn btn-success btn-outline" id="newDir" type="button">
                                     新建文件夹
                                 </button>
-                                <button class="btn btn-success btn-outline" type="button" value="102">
+                                <button class="btn btn-success btn-outline" type="button" value="102" onclick="downloadSelectFile()">
                                     离线下载
                                 </button>
                                 <%--<label title="上传新文件" for="uploadFile" class="btn btn-md btn-success">
@@ -114,7 +114,7 @@
                                 <div class="hr-line-dashed"></div>
                                 <strong>全选：</strong><input type="checkbox" id="selectAll">
                                 <button id="batchDelBtn" class="btn btn-danger btn-sm" style="margin-left:10px"
-                                        onclick="delSelectUser();">批量删除
+                                        onclick="delSelectFile();">批量删除
                                 </button>
                                 <div class="hr-line-dashed"></div>
                                 <h5>文件夹</h5>
@@ -347,7 +347,7 @@
             $("#batchDelBtn").attr("disabled", false);
         }
     }
-    function delSelectUser() {
+    function delSelectFile() {
         //if(id==undefined){//防止table之外全选那个
         var len = 0;//计选中的个数
         var cks = $("input[name='CheckBox']");
@@ -394,6 +394,39 @@
             }
         });
         // }
+    }
+
+    function downloadSelectFile() {
+        //if(id==undefined){//防止table之外全选那个
+        var len = 0;//计选中的个数
+        var cks = $("input[name='CheckBox']");
+        for (var i = 0; i < cks.length; i++) {
+            if (cks[i].checked) {
+                ++len;
+                console.info("len==" + len);
+            }
+        }
+        if (len == 0) {
+            success("请选择要下载的文件！");
+            return;
+        }
+        var ids = [];//存所有选中id的值
+        for (var i = 0; i < cks.length; i++) {
+            if (cks[i].checked) {
+                var id = $(cks[i]).val();
+                ids.push(id);
+                console.info("id==" + id);
+            }
+        }
+        var downloadIds = ids.join(",");
+        console.info("downloadIds==" + downloadIds +"ids.length="+ids.length);
+        window.open("fileInfo/download?downloadIds="+downloadIds);
+        /*if(ids.length<=1){
+            console.info(downloadIds);
+            window.open("fileInfo/download?downloadIds="+downloadIds);
+        }else{
+            console.info(">>>"+downloadIds);
+        }*/
     }
 
     function success(msg) {

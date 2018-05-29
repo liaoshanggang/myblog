@@ -1,6 +1,7 @@
 package com.blog.controller;
 
 import com.blog.service.IFileInfoService;
+import com.blog.util.ZIPUtil;
 import com.blog.vo.BlogUsers;
 import com.blog.vo.FileInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -10,13 +11,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
@@ -24,13 +26,14 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/fileInfo")
-public class FileInfoController {
+public class FileInfoController implements ServletContextAware {
     static Logger logger = Logger.getLogger(FileInfoController.class);
     @Resource
     IFileInfoService iFileInfoService;
     private final String realPath = "E:\\";
     private final String accessPath = "user/files/";
     private String[] fileIconUrls = {"img/blog/file-text.jpg","img/blog/folder-yellow.jpg"};
+    private ServletContext servletContext;
 
     //	批量删除文件信息
     @RequestMapping(value = "createNewDir", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
@@ -275,6 +278,109 @@ public class FileInfoController {
         }
         return name;
     }
+
+    /**
+     * 下载
+     *http://localhost:8901/myblog/fileInfo/download?filename=""
+     */
+    @RequestMapping("/download")
+    public void download(HttpServletResponse servletResponse, String downloadIds,String parentDirPath) {
+        String[] downIds = downloadIds.split(",");
+        int length = downIds.length;
+        int IDs[] = new int[length];
+        for (int j = 0; j < downIds.length; j++) {
+            IDs[j] = Integer.parseInt(downIds[j]);
+        }
+        String downloadFile = "";
+        String fileNameExt = "";
+        if(length>1){
+            String[] fileNameExts = new String[downIds.length];
+            List<FileInfo> list = new ArrayList<>();
+            parentDirPath = "";
+            String[] fileNames = new String[downIds.length];
+            for (int j = 0; j < downIds.length; j++) {
+                FileInfo fileInfo = new FileInfo();
+                fileInfo.setFileId(IDs[j]);
+                fileInfo = iFileInfoService.selFileIById(fileInfo);
+                String filePath = fileInfo.getFilePath();
+                String[] splits = StringUtils.split(filePath, "/");
+                for (int i = 0; i < splits.length; i++) {
+                    System.out.println(splits[i]);
+                }
+                fileNameExts[j] = splits[splits.length-1];    //硬盘文件名带后缀
+                parentDirPath = StringUtils.remove(filePath,fileNameExts[j]);
+                if(fileInfo.getFileExt()!=null){
+                    fileNames[j] = StringUtils.remove(fileNameExts[j],fileInfo.getFileExt());
+                }
+                list.add(fileInfo);
+            }
+            fileNameExt = generalZip(parentDirPath,fileNameExts);
+            downloadFile = realPath+parentDirPath+"\\"+fileNameExt;
+            downloadFile = downloadFile.replace("/","\\");
+        }else {
+            //根据文件id获取该文件信息
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.setFileId(IDs[0]);
+            fileInfo = iFileInfoService.selFileIById(fileInfo);
+            String filePath = fileInfo.getFilePath();
+            String[] splits = StringUtils.split(filePath, "/");
+            for (int i = 0; i < splits.length; i++) {
+                System.out.println(splits[i]);
+            }
+            fileNameExt = splits[splits.length-1];    //硬盘文件名带后缀
+            downloadFile = realPath+fileInfo.getFilePath();
+            downloadFile = downloadFile.replace("/","\\");
+        }
+        ServletOutputStream sos = null;
+        try {
+            servletResponse.reset();
+            //设置下载文件的头部信息， 以附件的形式下载filename为客户端弹出的下载框中的默认文件名
+            servletResponse.setHeader("Content-Disposition", "attachment; filename=" + fileNameExt);
+            servletResponse.setContentType("application/octet-stream; charset=utf-8"); //application/octet-stream表示*.rar文件
+            //把下载的文件夹读成二进制
+            byte[] buf = FileUtils.readFileToByteArray(new File(downloadFile));
+            //将数据写回servlet的输出流
+            sos = servletResponse.getOutputStream();
+            sos.write(buf);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                sos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private String generalZip(String parentDirPath,String[] fileNameExts) {
+        String reParentDirPath = parentDirPath.replace("/","\\");//相对E://父路径
+        String fileDirPath = realPath + reParentDirPath;//绝对路径
+        //多个源文件
+        String[] filePaths = new String[fileNameExts.length];
+        String fileZipPath = "";
+        File[] srcfile = new File[fileNameExts.length];
+        for (int i = 0; i < fileNameExts.length; i++) {
+            filePaths[i] = fileDirPath + fileNameExts[i];
+            //需要设置上传文件名不能小于2
+            fileNameExts[i] = fileNameExts[i].substring(0,2);//ava.lang.StringIndexOutOfBoundsException: String index out of range: 5
+            fileZipPath = fileZipPath + fileNameExts[i] +",";
+            srcfile[i] = new File(filePaths[i]);
+        }
+        String uuid = UUID.randomUUID().toString(); //uuid 如：817ba6c6-38ad-4417-aad5-10c1dda36b30
+        String fileZipName  = fileZipPath +"多个文件"+ uuid + ".zip";
+        fileZipPath = fileDirPath + fileZipName;
+        //压缩后的文件
+        File zipfile=new File(fileZipPath);
+        ZIPUtil.zipFiles(srcfile, zipfile);
+        return fileZipName;
+    }
+
+    @Override
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
+
     /*public void copyFile(MultipartFile file, String path) throws IOException {
             InputStream input = file.getInputStream();
             OutputStream out = new FileOutputStream(path);
