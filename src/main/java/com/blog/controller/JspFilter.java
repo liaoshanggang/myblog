@@ -18,30 +18,38 @@ public class JspFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response,
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
                          FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        String url = httpServletRequest.getRequestURI();
-        logger.info("==================" + url);
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+
+        String uri = request.getRequestURI();
+        //http://localhost:8901/myblog/login.jsp
+        String url = request.getHeader("Referer");
+        //http://localhost:8901
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+        String contextPath = request.getContextPath();///myblog
+        String uri2 = request.getServletPath();///user/login/head
+        logger.info("uri================"+uri);
+        logger.info("url================"+url);
+        logger.info("basePath==========="+basePath);
+        logger.info("contextPath========"+contextPath);
+        logger.info("uri2==============="+uri2);
+
         /*if (url != null && url.endsWith(".jsp")) {
             httpServletResponse.sendRedirect(httpServletRequest
                     .getContextPath());
             return;
         }*/
-        chain.doFilter(request, response);
+        chain.doFilter(servletRequest, servletResponse);
 
     }
 
     @Override
     public void destroy() {
-        // TODO Auto-generated method stub
-
     }
 
 }

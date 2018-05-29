@@ -102,7 +102,7 @@
                                 <c:forEach var="category" items="${categoryList}" varStatus="status">
                                     <tr>
                                         <td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"
-                                            value="${category.catgName}">${category.catgName}</td>
+                                            value="${category.catgName}" title="${category.catgName}">${category.catgName}</td>
                                         <td class="">
                                             <fmt:formatDate value='${category.catgTime}'
                                                             pattern='yyyy-MM-dd HH:mm:ss'/>

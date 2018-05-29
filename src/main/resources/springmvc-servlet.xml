@@ -88,6 +88,7 @@
         <property name="maxUploadSize" value="-1"/>&lt;!&ndash;默认是-1，表示无限制。&ndash;&gt;
         <property name="maxInMemorySize" value="10240"/>
     </bean>-->
+    <bean class="com.blog.exception.MyHandlerExceptionResolver"/>
     <bean id="multipartResolver"
           class="com.blog.controller.CustomMultipartResolver">
         <property name="defaultEncoding" value="UTF-8"/>
