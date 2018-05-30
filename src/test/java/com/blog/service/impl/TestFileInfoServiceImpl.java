@@ -4,6 +4,7 @@ import com.blog.mapper.FileInfoMapper;
 import com.blog.service.IFileInfoService;
 import com.blog.util.ZIPUtil;
 import com.blog.vo.FileInfo;
+import com.blog.vo.MyMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -14,9 +15,7 @@ import org.springframework.util.FileSystemUtils;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -256,14 +255,42 @@ public class TestFileInfoServiceImpl {
                 //logger.info(i+"path=="+files[i].getPath());
             }
         }*/
-        String path = "/user/files";
+        /*String path = "/user/files";
         FileInfo fileInfo = new FileInfo();
         fileInfo.setFilePath(path);
         List<FileInfo> fileInfoList = iFileInfoService.selectFileByPath(fileInfo);
         for (FileInfo f: fileInfoList) {
             logger.info("====="+f);
+        }*/
+       /* String path = "user/files/file/file/file";
+        String[] splits = path.split("/");
+        String[] key = new String[splits.length];
+        String[] value = new String[splits.length];
+        for (int i = 0; i < splits.length; i++) {
+            String path2 = "";
+            for (int j = 0; j <= i; j++) {
+                path2 = path2 +splits[j]+"/";
+            }
+            key[i] = splits[i];
+            value[i] = path2;
         }
-
+        for (int i = 0; i < splits.length; i++) {
+            logger.info(key[i]+"==="+value[i]);
+        }*/
+       List<MyMap> list = new ArrayList<>();
+        String path = "user/files/file/file/file";
+        String[] splits = path.split("/");
+        for (int i = 0; i < splits.length; i++) {
+            String path2 = "";
+            for (int j = 0; j <= i; j++) {
+                path2 = path2 +splits[j]+"/";
+            }
+           MyMap myMap = new MyMap(splits[i],path2);
+            list.add(myMap);
+        }
+        for (MyMap my:list) {
+            logger.info(my);
+        }
     }
 
 }

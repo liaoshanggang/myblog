@@ -40,6 +40,7 @@
             left: 0em;
             top: 0em;
         }
+
         .title {
             overflow: hidden;
             text-overflow: ellipsis;
@@ -67,8 +68,12 @@
                     <li><a href="index.jsp">前台展示页</a></li>
                     <li class="active" id="mgr_file"><strong>文件管理</strong></li>
                 </ol>
+                <li id="path" hidden>${path}</li>
+                <%--name="${file.fileId}"--%>
                 <ol class="breadcrumb">
-                    <li id="path">${path}</li><%--name="${file.fileId}"--%>
+                    <c:forEach var="myMapList" items="${myMapList}" varStatus="status">
+                        <li><a href="fileInfo/queryByPath?path=${myMapList.value}">${myMapList.key}</a></li>
+                    </c:forEach>
                 </ol>
             </div>
             <div class="col-sm-8">
@@ -102,7 +107,8 @@
                                 <button class="btn btn-success btn-outline" id="newDir" type="button">
                                     新建文件夹
                                 </button>
-                                <button class="btn btn-success btn-outline" type="button" value="102" onclick="downloadSelectFile()">
+                                <button class="btn btn-success btn-outline" type="button" value="102"
+                                        onclick="downloadSelectFile()">
                                     离线下载
                                 </button>
                                 <%--<label title="上传新文件" for="uploadFile" class="btn btn-md btn-success">
@@ -150,15 +156,31 @@
                             <c:forEach var="fileInfo" items="${fileInfos}" varStatus="status">
                                 <div class="file-box">
                                     <div class="file" name="true">
-                                        <span class="top-corner"><input type="checkbox" value="${fileInfo.fileId}" name="CheckBox"></span>
+                                        <span class="top-corner"><input type="checkbox" value="${fileInfo.fileId}"
+                                                                        name="CheckBox"></span>
                                         <span class="corner"></span>
                                         <div class="image">
-                                            <a href="#"> <img alt="image" class="img-responsive"
-                                                              src="${fileInfo.fileIconUrl}"> </a>
+                                            <c:choose>
+                                            <c:when test="${fileInfo.isFolder==0}">
+                                            <a href="${fileInfo.filePath}">
+                                                </c:when>
+                                                <c:otherwise>
+                                                <a href="fileInfo/queryByPath?path=${fileInfo.filePath}"
+                                                   title="${fileInfo.fileName}${fileInfo.fileExt}">
+                                                    </c:otherwise>
+                                                    </c:choose>
+                                                    <img alt="image" class="img-responsive"
+                                                         src="${fileInfo.fileIconUrl}"> </a>
                                         </div>
                                         <div class="file-name title">
+                                            <c:choose>
+                                            <c:when test="${fileInfo.isFolder==1}">
                                             <a href="fileInfo/queryByPath?path=${fileInfo.filePath}"
                                                title="${fileInfo.fileName}${fileInfo.fileExt}">
+                                                </c:when>
+                                                <c:otherwise>
+                                                </c:otherwise>
+                                                </c:choose>
                                                     ${fileInfo.fileName}${fileInfo.fileExt}
                                                 <br/>
                                                 <small><fmt:formatDate value='${fileInfo.fileCreateDate}'
@@ -215,7 +237,7 @@
 <script>
     var oneClick = true;
     $("#newDir").click(function () {
-        if(oneClick){
+        if (oneClick) {
             oneClick = false;
             var files = $("#files");
             var content = "<div class=\"file-box\">\n" +
@@ -225,27 +247,28 @@
                 "<input type=\"checkbox\" value=\"\" name=\"CheckBox\" style=\"position: absolute; opacity: 0;\">" +
                 "<ins class=\"iCheck-helper\" style=\"position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;\"></ins>" +
                 "</div>" +
-                "</span>"  +
+                "</span>" +
                 "<div class=\"image\">\n" +
                 "<a href=\"#\"> <img alt=\"image\" class=\"img-responsive\" src=\'img/blog/folder-yellow.jpg\'> </a>\n" +
                 "</div>\n" +
                 "<div class=\"file-name title\">\n" +
-                    "<div>" +
-                        "<input type=\"text\" style=\"border:1px solid #1C84C6;border-radius:5px;width:60%\" value=\"新建文件夹\">" +
-                        "<input type=\"button\" class=\"btn btn-success btn-outline btn-xs\" value=\"创建\" onclick=\"saveNewDir(this)\">" +
-                        "<input type=\"button\" class=\"btn btn-success btn-outline btn-xs\" value=\"取消\" onclick=\"cancelNewDir(this)\"></div>"+
+                "<div>" +
+                "<input type=\"text\" style=\"border:1px solid #1C84C6;border-radius:5px;width:60%\" value=\"新建文件夹\">" +
+                "<input type=\"button\" class=\"btn btn-success btn-outline btn-xs\" value=\"创建\" onclick=\"saveNewDir(this)\">" +
+                "<input type=\"button\" class=\"btn btn-success btn-outline btn-xs\" value=\"取消\" onclick=\"cancelNewDir(this)\"></div>" +
                 "</div>\n" +
                 "</div>\n" +
                 "</div>";
             files.prepend(content);
         }
     })
-    function saveNewDir(it){
+
+    function saveNewDir(it) {
         oneClick = true;
-        if(oneClick){
+        if (oneClick) {
             var name = $(it).prev().val();
             var path = $("#path").text();
-            var json = {fileName: name,parentDirPath:path};
+            var json = {fileName: name, parentDirPath: path};
             console.info(json);
             $.ajax({
                 url: "fileInfo/createNewDir",
@@ -256,7 +279,7 @@
                     console.info(obj);
                     console.info(obj.code);
                     if (obj.code == "success") {
-                        var itsPP= $(it).parent().parent();
+                        var itsPP = $(it).parent().parent();
                         $(it).parent().remove();
                         console.info(obj.fileInfo);
                         var date = new Date(obj.fileInfo.fileCreateDate);
@@ -265,12 +288,12 @@
                             "</small></a>\n";
                         itsPP.append(content);
                         success(obj.msg);
-                        setTimeout(function(){
+                        setTimeout(function () {
                             location = location;
-                        },1500);
+                        }, 1500);
                     }
                     if (obj.code == "error") {
-                        success("创建失败！"+obj.msg);
+                        success("创建失败！" + obj.msg);
                         $(it).parent().parent().parent().parent().empty();
                     }
                 },
@@ -279,10 +302,12 @@
             });
         }
     }
-    function cancelNewDir(it){
+
+    function cancelNewDir(it) {
         oneClick = true;
         $(it).parent().parent().parent().parent().empty();
     }
+
     /**/
 
     $(function () {
@@ -350,6 +375,7 @@
             $("#batchDelBtn").attr("disabled", false);
         }
     }
+
     function delSelectFile() {
         //if(id==undefined){//防止table之外全选那个
         var len = 0;//计选中的个数
@@ -387,28 +413,29 @@
             closeOnCancel: true
         }, function (isConfirm) {
             if (isConfirm) {
-        $.ajax({
-            url: "fileInfo/batchDelFile",
-            type: "post",
-            data: "delId=" + delId,
-            success: function (result) {
-                for (var i = 0; i < cks.length; i++) {
-                    if (cks[i].checked) {
-                        $(cks[i]).parent().parent().parent().parent().remove();
-                        //console.info();
-                    }
-                }
-                $("#batchDelBtn").attr("disabled", true);//删除后按钮不可用
-                success("批量删除成功！");
-                //if(window.reload){success("批量删除成功！");}
-                /*setTimeout(function(){
-                    success("批量删除成功！");
-                },2000);*/
-            },
-            error: function () {
+                $.ajax({
+                    url: "fileInfo/batchDelFile",
+                    type: "post",
+                    data: "delId=" + delId,
+                    success: function (result) {
+                        for (var i = 0; i < cks.length; i++) {
+                            if (cks[i].checked) {
+                                $(cks[i]).parent().parent().parent().parent().remove();
+                                //console.info();
+                            }
+                        }
+                        $("#batchDelBtn").attr("disabled", true);//删除后按钮不可用
+                        success("批量删除成功！");
+                        //if(window.reload){success("批量删除成功！");}
+                        /*setTimeout(function(){
+                            success("批量删除成功！");
+                        },2000);*/
+                    },
+                    error: function () {
 
-            }
-        });} else {
+                    }
+                });
+            } else {
                 //swal("取消", "该类别未删除！:):):)", "error");
             }
         });
@@ -438,8 +465,8 @@
             }
         }
         var downloadIds = ids.join(",");
-        console.info("downloadIds==" + downloadIds +"ids.length="+ids.length);
-        window.open("fileInfo/download?downloadIds="+downloadIds);
+        console.info("downloadIds==" + downloadIds + "ids.length=" + ids.length);
+        window.open("fileInfo/download?downloadIds=" + downloadIds);
         /*if(ids.length<=1){
             console.info(downloadIds);
             window.open("fileInfo/download?downloadIds="+downloadIds);
@@ -472,6 +499,7 @@
         }
         toastr.info(msg);
     }
+
     $(function () {
         // 批量导入按钮
         $("#batchImportBtn").click(function () {
@@ -517,18 +545,18 @@
             xhr.onload = function (result) {
                 console.info(result);
                 //上传进度条操作显示
-                setTimeout(function(){
+                setTimeout(function () {
                     //$('#batchImportModal').modal('hide');
-                     $("#batchUploadBtn").attr('disabled', false);
-                     $("#batchUploadBtn").val("上传");
-                     $("#progressBar").parent().removeClass("active");
-                     $("#progressBar").parent().hide();
-                },1500);
+                    $("#batchUploadBtn").attr('disabled', false);
+                    $("#batchUploadBtn").val("上传");
+                    $("#progressBar").parent().removeClass("active");
+                    $("#progressBar").parent().hide();
+                }, 1500);
                 //$('#myModal').modal('hide');
 
                 var obj = JSON.parse(xhr.responseText);
                 //console.info(obj);
-                if(obj.code=="error"){//错误时提示
+                if (obj.code == "error") {//错误时提示
                     success(obj.msg);
                     return false;
                 }
@@ -539,10 +567,10 @@
                     "<div class=\"file\"name=\"true\">\n" +
                     "<span class=\"top-corner\" style=\"display: none;\">" +
                     "<div class=\"icheckbox_square-green\" style=\"position: relative;\">" +
-                    "<input type=\"checkbox\" value=\""+obj.fileInfo.fileId+"\" name=\"CheckBox\" style=\"position: absolute; opacity: 0;\">" +
+                    "<input type=\"checkbox\" value=\"" + obj.fileInfo.fileId + "\" name=\"CheckBox\" style=\"position: absolute; opacity: 0;\">" +
                     "<ins class=\"iCheck-helper\" style=\"position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;\"></ins>" +
                     "</div>" +
-                    "</span>"  +
+                    "</span>" +
                     "<div class=\"image\">\n" +
                     "<a href=\"#\"> <img alt=\"image\" class=\"img-responsive\" src=\'" + obj.fileInfo.fileIconUrl + "\'> </a>\n" +
                     "</div>\n" +
@@ -555,9 +583,9 @@
                     "</div>";
                 files.append(content);
                 success("上传完成");
-               /* setTimeout(function(){//用来解决删除未来元素问题
-                    $('#batchImportModal').modal('hide');
-                },1500)*/
+                /* setTimeout(function(){//用来解决删除未来元素问题
+                     $('#batchImportModal').modal('hide');
+                 },1500)*/
             };
             xhr.upload.addEventListener("progress", progressFunction, false);
             xhr.send(form);

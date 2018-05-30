@@ -4,6 +4,7 @@ import com.blog.service.IFileInfoService;
 import com.blog.util.ZIPUtil;
 import com.blog.vo.BlogUsers;
 import com.blog.vo.FileInfo;
+import com.blog.vo.MyMap;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
@@ -120,6 +121,24 @@ public class FileInfoController implements ServletContextAware {
                 break;
             }
         }*/
+        List<MyMap> myMapList = new ArrayList<>();
+        String[] splits = path.split("/");
+        for (int i = 0; i < splits.length; i++) {
+            String path2 = "";
+            for (int j = 0; j <= i; j++) {
+                if(j==i){
+                    path2 = path2 +splits[j];
+                    continue;
+                }
+                path2 = path2 +splits[j]+"/";
+            }
+            MyMap myMap = new MyMap(splits[i],path2);
+            myMapList.add(myMap);
+        }
+        for (MyMap my:myMapList) {
+            logger.info(my);
+        }
+        modelMap.addAttribute("myMapList",myMapList);
         modelMap.addAttribute("path",path);
         modelMap.addAttribute("fileInfos",fileInfos);
         return "/manage_file";

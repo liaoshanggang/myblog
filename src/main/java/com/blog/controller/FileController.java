@@ -1,8 +1,11 @@
 package com.blog.controller;
 
 import com.blog.service.IBlogUsersService;
+import com.blog.service.IFileInfoService;
 import com.blog.vo.BlogUsers;
+import com.blog.vo.FileInfo;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +34,8 @@ public class FileController implements ServletContextAware {//1、
     static Logger logger = Logger.getLogger(BlogUsersController.class);
     @Resource
     IBlogUsersService iBlogUsersService;
+    @Resource
+    IFileInfoService iFileInfoService;
     //2、
     @Autowired
     private HttpServletRequest request;
@@ -109,12 +114,29 @@ public class FileController implements ServletContextAware {//1、
             if (user == null) {
                 return "未登陆，上传失败，请重新登陆！";
             }
-            user.setUserImageUrl(accessPath + newFileName);
+            String userImageUrl = accessPath + newFileName;
+            user.setUserImageUrl(userImageUrl);
             session.setAttribute("logUser", user);
             BlogUsers user2 = new BlogUsers();
             user2.setUserId(user.getUserId());
             user2.setUserImageUrl(accessPath + newFileName);
             iBlogUsersService.updateUser(user2);
+
+            String fileExt = originalName.substring(originalName.lastIndexOf("."));//后缀名==数据库1
+            String originalFileName = StringUtils.remove(originalName, fileExt);     //原文件名==数据库2
+            int fileSize = new Long(file.getSize()).intValue();
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.setFileName(originalFileName);
+            fileInfo.setFileExt(fileExt);
+            fileInfo.setFilePath(userImageUrl);
+            fileInfo.setFileSize(fileSize);
+            fileInfo.setFileCreateDate(new Date());
+            fileInfo.setFileIconUrl(userImageUrl);//设置默认的
+            fileInfo.setIsDelete(0);//设置未删除
+            fileInfo.setIsFolder(0);//设置默认为文件
+            fileInfo.setFileDescription("文件");//设置默认为文件
+            String parentDirPath="user/img";
+            iFileInfoService.insertFileInfo(fileInfo,parentDirPath);
 
             //临时存放
             String path = getContextPath() + File.separator + newFileName;
