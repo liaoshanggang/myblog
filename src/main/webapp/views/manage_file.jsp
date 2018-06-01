@@ -19,6 +19,7 @@
     <script src="js/plugins/toastr/toastr.min.js"></script>--%>
     <!-- Sweet Alert -->
     <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="css/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
     <style>
         .selStyle {
             background-color: #f1f5fa;
@@ -127,12 +128,12 @@
                                 <div class="hr-line-dashed"></div>
                                 <h5>文件夹</h5>
                                 <ul class="folder-list" style="padding: 0">
-                                    <li><a href=""><i class="fa fa-folder"></i> 档</a></li>
-                                    <li><a href="views/album.jsp"><i class="fa fa-folder"></i> 图片</a></li>
-                                    <li><a href=""><i class="fa fa-folder"></i> 网页</a></li>
-                                    <li><a href=""><i class="fa fa-folder"></i> 插图</a></li>
-                                    <li><a href=""><i class="fa fa-folder"></i> 电影</a></li>
-                                    <li><a href=""><i class="fa fa-folder"></i> 图书</a></li>
+                                    <li><a href="javascript:void(0);"><i class="fa fa-folder"></i> 档</a></li>
+                                    <li><a href="fileInfo/queryByPath?path=user/img"><i class="fa fa-folder"></i> 图片</a></li>
+                                    <li><a href="javascript:void(0);"><i class="fa fa-folder"></i> 网页</a></li>
+                                    <li><a href="javascript:void(0);"><i class="fa fa-folder"></i> 插图</a></li>
+                                    <li><a href="javascript:void(0);"><i class="fa fa-folder"></i> 电影</a></li>
+                                    <li><a href="javascript:void(0);"><i class="fa fa-folder"></i> 图书</a></li>
                                 </ul>
                                 <%--<h5 class="tag-title">Tags</h5>
                                 <ul class="tag-list" style="padding: 0">
@@ -153,6 +154,7 @@
                 <div class="col-lg-9 animated fadeInRight">
                     <div class="row">
                         <div class="col-lg-12" id="files">
+                            <c:if test="${path != 'user/img'}">
                             <c:forEach var="fileInfo" items="${fileInfos}" varStatus="status">
                                 <div class="file-box">
                                     <div class="file" name="true">
@@ -190,6 +192,71 @@
                                     </div>
                                 </div>
                             </c:forEach>
+                            </c:if>
+
+                            <c:if test="${path == 'user/img'}">
+                                <c:forEach var="fileInfo" items="${fileInfos}" varStatus="status">
+                                    <div class="file-box">
+                                        <div class="file" name="true">
+                                        <span class="top-corner"><input type="checkbox" value="${fileInfo.fileId}"
+                                                                        name="CheckBox"></span>
+                                            <span class="corner"></span>
+                                            <div class="image" align="center">
+                                                <c:choose>
+                                                <c:when test="${fileInfo.isFolder==0}">
+                                                <a href="${fileInfo.filePath}" style="width: 100px;height: 100px;">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                    <a href="fileInfo/queryByPath?path=${fileInfo.filePath}"
+                                                       title="${fileInfo.fileName}${fileInfo.fileExt}">
+                                                        </c:otherwise>
+                                                        </c:choose>
+                                                        <img alt="image" class="img-responsive"
+                                                             src="${fileInfo.fileIconUrl}" style="width: 100px;height: 100px;"> </a>
+                                            </div>
+                                            <div class="file-name title">
+                                                <c:choose>
+                                                <c:when test="${fileInfo.isFolder==1}">
+                                                <a href="fileInfo/queryByPath?path=${fileInfo.filePath}"
+                                                   title="${fileInfo.fileName}${fileInfo.fileExt}">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                    </c:otherwise>
+                                                    </c:choose>
+                                                        ${fileInfo.fileName}${fileInfo.fileExt}
+                                                    <br/>
+                                                    <small><fmt:formatDate value='${fileInfo.fileCreateDate}'
+                                                                           pattern='yyyy-MM-dd HH:mm:ss'/></small>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+                            </c:if>
+
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-content">
+                                    <div class="lightBoxGallery">
+                                        <c:if test="${path == 'user/img'}">
+                                            <c:forEach var="fileInfo" items="${fileInfos}" varStatus="status">
+                                                <a href="${fileInfo.filePath}" title="${fileInfo.fileName}" data-gallery="">
+                                                    <img style="width: 35px;height: 35px;" src="${fileInfo.fileIconUrl}">
+                                                </a>
+                                            </c:forEach>
+                                        </c:if>
+                                        <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+                                        <div id="blueimp-gallery" class="blueimp-gallery">
+                                            <div class="slides"></div>
+                                            <h3 class="title"></h3>
+                                            <a class="prev">‹</a>
+                                            <a class="next">›</a>
+                                            <a class="close">×</a>
+                                            <a class="play-pause"></a>
+                                            <ol class="indicator"></ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -231,7 +298,8 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-
+<!-- blueimp gallery -->
+<script src="js/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
 <!-- Sweet alert -->
 <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
 <script>

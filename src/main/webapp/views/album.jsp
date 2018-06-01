@@ -11,7 +11,7 @@
 
 <title>后台管理主页</title>
 
-<%@include file="../../css-common.jsp"%>
+<%@include file="../css-common.jsp"%>
 <link href="css/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
 
     <!-- <style>
