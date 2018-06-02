@@ -298,7 +298,7 @@
                 var smsCode = result.split(',');
                 console.info(smsCode[1]);
                 if(smsCode[0]=="success"){
-                    $('#smsCode').attr("value",smsCode[1]);//test
+                    //$('#smsCode').attr("value",smsCode[1]);//test
                     success("获取短信验证码成功！");
                     return ;
                 }
