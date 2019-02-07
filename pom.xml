@@ -7,6 +7,35 @@
 	<packaging>war</packaging>
 	<name>myblog</name>
 	<description />
+
+	<!--负责描述maven deploy上传远程仓库-->
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<name>Nexus Release Repository</name>
+			<url>http://localhost:8081/repository/maven-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<url>http://localhost:8081/repository/maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<!--自定义依赖仓库-->
+	<!--<repositories>
+		<repository>
+			<id>nexus-public</id>
+			<name>Nexus Public</name>
+			<url>http://localhost:8081/repository/maven-public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>-->
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.framework.version>4.3.9.RELEASE</spring.framework.version>

@@ -75,15 +75,23 @@ public class FileInfoServiceImpl implements IFileInfoService {
     @Override
     public void insertFileInfo(FileInfo fileInfo,String uploadPathDir) {
         //设置父目录id
-        FileInfo fi2 = getFileInfo(uploadPathDir);
-        fileInfo.setParentId(fi2.getFileId());
-        fileInfoMapper.insertFileInfo(fileInfo);
-    }
-
-    private FileInfo getFileInfo(String uploadPathDir) {
         FileInfo fi = new FileInfo();
         fi.setFilePath(uploadPathDir);
-        return this.selDirByPathAndType(fi);
+        FileInfo fi2 = this.selDirByPathAndType(fi);
+
+
+        if(fi2!=null){
+            fileInfo.setParentId(fi2.getFileId());
+        }else{
+            //查不到就设置默认父目录
+            fileInfo.setParentId(3);
+        }
+
+        if(fileInfo!=null){
+            fileInfoMapper.insertFileInfo(fileInfo);
+        }else{
+            //
+        }
     }
 
     @Override
