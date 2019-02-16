@@ -18,7 +18,7 @@ public class TestBlogUsersServiceImpl {
     static Logger logger = Logger.getLogger(TestBlogUsersServiceImpl.class);
     @Resource
     IBlogUsersService ibus;
-
+    @Deprecated
     @Test
     public void testSelectSelective() {
 

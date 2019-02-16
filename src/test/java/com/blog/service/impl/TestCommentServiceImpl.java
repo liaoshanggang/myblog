@@ -35,7 +35,7 @@ public class TestCommentServiceImpl {
 
         ics.deleteCommentById(comment);
     }
-
+    @Deprecated
     @Test
     public void testSelectForCommentArticle() {
         Comment comment = new Comment();
@@ -54,7 +54,7 @@ public class TestCommentServiceImpl {
             logger.info("info" + c + "article" + c.getArticle());
         }
     }
-
+    @Deprecated
     @Test
     public void testSelectSelective2() {
         /******************************************************/
@@ -141,7 +141,7 @@ public class TestCommentServiceImpl {
         list = ics.selectSelective2(rdPage);
         showSel(list);
     }
-
+    @Deprecated
     @Test
     public void testSelectSelective() {
         /*Comment comment =  new Comment();
@@ -183,7 +183,7 @@ public class TestCommentServiceImpl {
             }
         }
     }
-
+    @Deprecated
     @Test
     public void testSelectSelective3() {
         /*未找到要求的 FROM 关键字 前面，问题*/
@@ -208,7 +208,7 @@ public class TestCommentServiceImpl {
             }
         }
     }
-
+    @Deprecated
     @Test
     public void testSelectSelective4() {
         /*未找到要求的 FROM 关键字 前面，问题*/

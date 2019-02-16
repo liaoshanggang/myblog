@@ -1,23 +1,18 @@
 package com.blog.service.impl;
 
-import java.util.List;
-import java.util.Random;
-
-import javax.annotation.Resource;
-
+import com.blog.service.IArticleService;
 import com.blog.service.IVisitorService;
+import com.blog.vo.Article;
+import com.blog.vo.Page;
 import com.blog.vo.Visitor;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.poi.util.SystemOutLogger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.blog.service.IArticleService;
-import com.blog.vo.Article;
-import com.blog.vo.Page;
+import javax.annotation.Resource;
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:applicationContext.xml"})
@@ -27,7 +22,7 @@ public class TestArticleServiceImpl {
     IArticleService ias;
     @Resource
     IVisitorService ivs;
-
+    @Deprecated
     @Test
     public void test(){
         int i = 2;
@@ -78,7 +73,7 @@ public class TestArticleServiceImpl {
         Article article1 = ias.selectArticleById(article);
         logger.info("....." + article1);
     }
-
+    @Deprecated
     @Test
     public void testSelectArticleById() {
         Article article = new Article();
@@ -86,7 +81,7 @@ public class TestArticleServiceImpl {
         Article article2 = ias.selectArticleById(article);
         logger.info(article2.getArtiTitle() + "" + article2.getArtiContent());
     }
-
+    @Deprecated
     @Test
     public void testDeleteArticleById() {
         Article article = new Article();
@@ -106,7 +101,7 @@ public class TestArticleServiceImpl {
         ias.addArticle(article);
     }
 
-
+    @Deprecated
     @Test
     public void testSelectSelective() {
 

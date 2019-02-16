@@ -28,7 +28,7 @@ public class TestFileInfoServiceImpl {
     private String realPath = "E:\\";
     @Resource
     FileInfoMapper fileInfoMapper;
-
+    @Deprecated
     @Test
     public void testZIPUtil() {
         String parentDirPath = "user/files";
@@ -53,7 +53,7 @@ public class TestFileInfoServiceImpl {
         //String dir=fileDirPath;
         //ZIPUtil.unZipFiles(file, dir);
     }
-
+    @Deprecated
     @Test
     public void testFun() {
         //输入
@@ -82,6 +82,7 @@ public class TestFileInfoServiceImpl {
             return outName;
         }
     }
+    @Deprecated
     @Test
     public void testAutoName() {
         //java如何解析小括号里面的数字字符串-->java如何获取最后一对小括号
@@ -147,7 +148,7 @@ public class TestFileInfoServiceImpl {
         }
         return name;
     }
-
+    @Deprecated
     @Test
     public void main() {
         String str = "[CR,(1,1),(2,2)]";
@@ -158,7 +159,7 @@ public class TestFileInfoServiceImpl {
         }
 
     }
-
+    @Deprecated
     @Test
     public void isExit() {
         //user/files/文件夹1/b71fd869-b711-4aa5-b67d-8a0f133966fe.zip
@@ -196,14 +197,14 @@ public class TestFileInfoServiceImpl {
         }
         return flag;
     }
-
+    @Deprecated
     @Test
     public void selDirByPathAndType() {
         FileInfo fileInfo = new FileInfo();
         fileInfo.setFilePath("user/files");
         logger.info(fileInfoMapper.selDirByPathAndType(fileInfo));
     }
-
+    @Deprecated
     @Test
     public void test() {
         for(int i=0;i<10;i++){
@@ -211,7 +212,7 @@ public class TestFileInfoServiceImpl {
             System.out.println(uuid);
         }
     }
-
+    @Deprecated
     @Test
     public void batchSelFileTest(){
         int delID[] = {1,2,3};
@@ -230,7 +231,7 @@ public class TestFileInfoServiceImpl {
         File file = new File(realPath);
         FileSystemUtils.deleteRecursively(file);
     }
-
+    @Deprecated
     @Test
     public void selectFileInfoByPath(){
         FileInfo info = new FileInfo();
@@ -240,7 +241,7 @@ public class TestFileInfoServiceImpl {
             logger.info(file);
         }
     }
-
+    @Deprecated
     @Test
     public void selectFileInfoByPath2(){
         //String path = "E:\\user\\files";

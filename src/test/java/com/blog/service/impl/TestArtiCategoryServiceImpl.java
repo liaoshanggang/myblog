@@ -26,7 +26,7 @@ public class TestArtiCategoryServiceImpl {
     IArticleService iac;
     @Resource
     ArtiCategoryMapper artiCategoryMapper;
-
+    @Deprecated
     @Test
     public void testCountArticleNum(){
         ArtiCategory category = new ArtiCategory();
@@ -55,7 +55,7 @@ public class TestArtiCategoryServiceImpl {
         ArtiCategory category = new ArtiCategory(catgId, catgName, catgTime);
         iacs.updateArtiCategoryById(category);
     }
-
+    @Deprecated
     @Test
     public void testSelectAllCategory() {
         List<ArtiCategory> selectAllCategory = iacs.selectAllCategory();
@@ -72,7 +72,7 @@ public class TestArtiCategoryServiceImpl {
         ArtiCategory category = new ArtiCategory(catgId, catgName, catgTime);
         iacs.addArtiCategory(category);
     }
-
+    @Deprecated
     @Test
     public void testSelectSelective() {
 
